@@ -205,7 +205,10 @@
   }
 
   function initAnimations() {
-    if (reduceMotion || !window.AOS) return;
+    if (reduceMotion || !window.AOS) {
+      document.documentElement.classList.remove('aos-pending');
+      return;
+    }
 
     ANIMATIONS.forEach(function (item) {
       var nodes = document.querySelectorAll(item.selector);

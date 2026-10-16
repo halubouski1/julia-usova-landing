@@ -1,0 +1,102 @@
+{
+  "quality": 90,
+  "widths": {
+    "hero-portrait": [
+      1233
+    ],
+    "about-red-portrait": [
+      220,
+      270,
+      340,
+      430,
+      520,
+      700
+    ],
+    "about-makeup-portrait": [
+      160,
+      190,
+      240,
+      300,
+      390
+    ],
+    "about-moodboard": [
+      260,
+      310,
+      390,
+      460,
+      590
+    ],
+    "about-bw-portrait": [
+      110,
+      130,
+      160,
+      200,
+      240,
+      320,
+      420
+    ],
+    "about-blue": [
+      150,
+      190,
+      230,
+      280,
+      370
+    ],
+    "about-palettes": [
+      250,
+      330,
+      390,
+      520
+    ],
+    "about-lips": [
+      250,
+      300,
+      380,
+      450,
+      600
+    ],
+    "about-backstage": [
+      210,
+      280,
+      350,
+      420,
+      560
+    ],
+    "expertise-portrait": [
+      1469
+    ],
+    "services-case": [
+      1312
+    ],
+    "polaroid-camera": [
+      300,
+      400,
+      510,
+      670
+    ],
+    "polaroid-brush": [
+      390,
+      470,
+      590,
+      710
+    ],
+    "polaroid-mirror": [
+      480,
+      580,
+      710,
+      850
+    ],
+    "polaroid-blonde": [
+      400,
+      530,
+      640,
+      765
+    ],
+    "lessons-palettes": [
+      1585
+    ],
+    "footer-portrait": [
+      1241
+    ]
+  }
+}

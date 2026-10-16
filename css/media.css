@@ -514,7 +514,7 @@
   }
 
   .about__photo--grain::after {
-    background: url("../assets/images/about-grain.png") 0 0 / 768px 768px no-repeat;
+    background: url("../assets/images/about-grain-256.webp") 0 0 / 192px 192px no-repeat;
   }
 
   .about__photo--1 {

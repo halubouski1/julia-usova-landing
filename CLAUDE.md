@@ -16,8 +16,31 @@ assets/fonts  assets/icons  assets/images  assets/images/decor
 tools/scale-laptop.py          (generates the laptop ×0.75 block of media.css)
 tools/lighthouse.sh            (Lighthouse runner)    tools/lh-summary.mjs (report summary / before-after)
 lighthouse/                    (saved reports: lighthouse-<name>.json/.html)
-package.json, node_modules/    (tooling only: lighthouse 13.5.0 devDependency; the site has no build step)
+package.json, node_modules/    (tooling only: lighthouse 13.5.0, sharp 0.35.5, lightningcss 1.33.0, esbuild 0.28.2 devDependencies; esbuild's install script is not approved and not needed)
+tools/optimize-images.mjs, tools/images.config.json   (responsive WebP/AVIF variants from ../julia-usova-originals/images/)
+tools/build-css.mjs            (bundles + minifies CSS into css/site.min.css; `npm run build:css`)
+tools/build-js.mjs             (bundles Lenis + AOS + minified main.js into js/site.min.js; `npm run build:js`)
+tools/images.manifest.json     (generated: widths per image and whether it has AVIF)
 ```
+
+### Images (responsive WebP)
+
+- **Originals** (PNG from Figma) live **outside the project** in `../julia-usova-originals/images/` (override with `IMAGES_SRC=/path`) and are never edited or served. The site uses `assets/images/<name>-<width>.webp`.
+- `node tools/optimize-images.mjs` rebuilds all variants from `tools/images.config.json` (`widths` per image). Lanczos3, never upscaled. Quality is adaptive per variant: WebP q90 → 94 → 97 → 100 until PSNR ≥ 42 dB vs the original at the same width; q100 is accepted at ≥ 40 dB, otherwise near-lossless. The script prints the quality and PSNR of every file. (`sharp.cache(false)` is required, or the PSNR is measured on a cached earlier encode.)
+- **Widths** = the CSS size each `<img>` actually needs (cover crops included) at every breakpoint × 2, plus × 3 on phones, capped at the original width. Large full-bleed photos (hero, expertise, case, lessons palettes, footer) are shown larger than their originals, so they have a single full-resolution variant.
+- **AVIF twins:** for every WebP variant the script also encodes AVIF (4:4:4 chroma) at the lowest quality whose PSNR ≥ the WebP's (capped at 44 dB, because near-lossless WebP only exists where lossy WebP could not reach 40 dB). An image gets AVIF only if all its widths pass and the AVIF set is smaller; the result is written to `tools/images.manifest.json`. 16/17 images have AVIF (about-backstage: WebP only). Hero 595 → 174 KB at 41.4 dB.
+- AVIF images are wrapped as `<picture><source type="image/avif" srcset=… sizes=…><img …webp…></picture>` on one line. `picture { display: contents }`, so the `<img>` lays out exactly as before; rules written as `.x > *` also list `.x > picture > img` (hero media, services inner, lessons media). Verified: identical image geometry at 8 widths.
+- Every `<img>` has `srcset` (all widths, `w` descriptors) and `sizes` with one entry per breakpoint: `(max-width: 359px) …, (max-width: 480px) …, (max-width: 768px) …, (max-width: 1279px) …, (max-width: 1919px) …, <desktop>`. The expertise photo is `100vw` on desktop/laptop. No `<picture>` wrappers (CSS selects the `<img>` directly).
+- **Adding or resizing an image:** measure its CSS box at each breakpoint, add the widths to the config, run the script, write `srcset`/`sizes`. Never put originals into `assets/`.
+- The grain overlay is `about-grain-256.webp`: a lossless 256×256 crop of the 1024 texture, shown at `background-size: 256px` (192px on laptop), so it renders pixel-identical.
+- Verified: rendered page vs the original PNGs at 1920 @2x: hero 44.2 dB, About 45.3 dB, polaroids 48.4 dB (visually identical).
+
+### CSS bundle
+
+- `tools/build-css.mjs` concatenates the five sources in cascade order and minifies them with lightningcss (108.8 KB → 80.9 KB, one request instead of five).
+- It has explicit `targets` (Safari/iOS 16.4, Chrome/Edge 111, Firefox 113: the oldest the site already needs for `color-mix`). Without targets lightningcss drops `-webkit-backdrop-filter`, which Safari < 18 needs. Check after changes: the number of `-webkit-backdrop-filter` in the bundle must equal the sources.
+- AOS/Lenis CSS stays render-blocking (inside the bundle) on purpose: loading AOS CSS late would show hero elements and then hide them for their entrance animation.
+- Verified identical rendering: every computed property of every element (and ::before/::after) at 8 widths, sources vs bundle, scripts off. Only 0.01px rounding and `background-position 0%` → `0px` on buttons without background images differ.
 
 ### Performance testing
 
@@ -25,6 +48,8 @@ package.json, node_modules/    (tooling only: lighthouse 13.5.0 devDependency; t
 - `npm run lh -- <name> [mobile|desktop]` → `lighthouse/lighthouse-<name>.json` + `.html`. Starts/stops `python3 -m http.server 8765` itself if the port is free. Headless Chrome from `/Applications/Google Chrome.app` (override with `CHROME_PATH`).
 - `npm run lh:summary -- lighthouse/lighthouse-before.json [lighthouse/lighthouse-after.json]` → metrics table, failing audits/insights sorted by savings, main-thread breakdown, largest requests, LCP element.
 - Lighthouse mobile uses *simulated* throttling (Lantern): it replays the observed request graph on slow 4G. Requests that start before the observed LCP inflate the simulated LCP.
+- Tried and rejected (median of 3 runs, no gain or worse): `<link rel=preload>` for the hero photo (competes with the CSS), dropping its `fetchpriority="high"`, and deferring below-the-fold images (upper bound −0.8 s, not worth the pop-in and no-JS fallback). What moved LCP was fewer early bytes (AVIF).
+- Simulated LCP varies ±1.5 s between runs here (6.2–7.7 s for identical code). Compare medians of 3 runs, never single runs; A/B a change by toggling only that change.
 - `python3 -m http.server` sends no `Cache-Control`, so `cache-insight` always fails locally; caching is a hosting setting.
 - Chrome DevTools MCP comes from the ECC plugin (`chrome-devtools-mcp@1.10.1`): use it for DOM/Console/Network/traces.
 
@@ -32,6 +57,8 @@ package.json, node_modules/    (tooling only: lighthouse 13.5.0 devDependency; t
 
 Hard rules:
 - Only these CSS files: desktop styles → `style.css`, all responsive overrides → `media.css`. Vendor CSS lives in `css/vendor/`. No per-page CSS files.
+- **The page loads only `js/site.min.js`** (Lenis + AOS + minified main.js, built by `npm run build:js`). Edit `js/main.js`; never edit or hand-link the bundle. `npm run build` = CSS + JS.
+- **The page loads only `css/site.min.css`**, a generated bundle (normalize → vendor → style → media, minified). After editing any CSS source run `npm run build:css` (it regenerates the laptop block, then the bundle). Never edit `site.min.css`; never link the sources from HTML.
 - Only `js/main.js` (vanilla JS, no jQuery). Every feature is an `initX()` that returns early if its elements are missing, so one file serves all pages. Hook into markup with `data-*` attributes, not with styling classes.
 - Vendor libraries are local files in `*/vendor/`, pinned to an exact version, never loaded from a CDN.
 - Header and footer have identical markup on every page. Change one, change them all.
@@ -110,9 +137,18 @@ Inside a section, children are positioned with section-relative px (`top = figma
 
 ## Typography
 
-- Font: **Helvetica Neue** (Light 300 / Regular 400 / Medium 500 / Bold 700). No webfont files: it uses the macOS system font through `local()`.
-- `@font-face "Helvetica Neue Figma"` wraps the local font with `ascent-override: 84.25%; descent-override: 31.75%`. This puts glyphs where Figma does (cap top at the text box top). Without it, Chrome draws text ~0.105em lower. Verified within 1px across 10 text blocks.
-- Safari ignores `ascent-override`, so in Safari text sits ~0.1em lower. Windows/Android have no Helvetica Neue and fall back to Arial. **A licensed webfont is needed** (put it in `assets/fonts/` and keep the overrides).
+- Font: **Helvetica Neue** (Light 300 / Regular 400 / Medium 500 / Bold 700), **self-hosted** in `assets/fonts/` as WOFF2.
+  - Files supplied by the client; originals (WOFF + WOFF2) are kept outside the project in `../julia-usova-originals/fonts/`.
+  - `assets/fonts/` holds Latin subsets made with fontTools (`U+0000-00FF`, Latin Extended bits, General Punctuation, €, ™, arrows, minus; all layout features incl. kerning, hinting kept). 217 KB → 64 KB. Every character on the page is covered (checked incl. `text-transform: uppercase` and the JS messages). Re-subset from the originals if new characters appear.
+  - Subset command (per weight): `python3 -m fontTools.subset <original>.woff2 --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD" --layout-features='*' --name-IDs='*' --name-legacy --name-languages='*' --notdef-outline --glyph-names --symbol-cmap --legacy-cmap --flavor=woff2`.
+- Two @font-face families, both with `ascent-override: 84.25%; descent-override: 31.75%` (puts the cap top at the text-box top like Figma; Chrome's default draws text ~0.105em lower; verified within 1px across 10 text blocks):
+  1. `"Helvetica Neue Figma"`: the webfonts, `font-display: swap`. Only Regular (hero title = LCP) is preloaded in `<head>`.
+  2. `"Helvetica Neue Figma Local"`: the system Helvetica Neue via `local()`, shown while the webfonts load on Apple devices, so the swap moves nothing.
+  - Stack: `"Helvetica Neue Figma", "Helvetica Neue Figma Local", "Helvetica Neue", Helvetica, Arial, sans-serif`.
+- Verified against the system font (Figma reference): Light and Bold identical, Medium within 0.5%, line heights/positions identical everywhere (Δ 0.00px). **The supplied Regular is a different edition (Adobe 1988, 208 glyphs) and is 2–4% wider** (hero title ~2%, small captions up to 4%). No wraps change, but it is not 1:1 with Figma. See "Content flagged to the client".
+- The supplied files come from three different sources (Linotype for Light/Bold, Adobe for Regular, the Cyrillic "HelveticaNeueCyr" for Medium) and contain no licence field.
+- Lighthouse (median of 3): system font 86, full webfonts 74 (217 KB on the critical path), subsets 82. Preloading Regular is neutral in the lab and helps devices without a local Helvetica Neue.
+- Safari ignores `ascent-override`, so in Safari text sits ~0.1em lower.
 - Sizes, line-heights and letter-spacing are Figma px values.
 
 ## Components and patterns
@@ -156,6 +192,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
 - **Scroll-linked effects** (parallax, scrub, fill) are registered with `addScrollEffect({ measure, update })` in `main.js`. They follow the scroll instead of firing once, so they never look abrupt:
   - **Scrub** (`SCRUB` list): "Rio de Janeiro" slides in 260px from the right with smoothstep easing and fades in while its top moves from the viewport bottom to 35% of the viewport height. Position is measured with `offsetTop` (via `layoutPageTop()`), because the element's own `translate` would skew `getBoundingClientRect`.
   - **Fill** (`FILL` list): the About text (`.about__text`) is split into `<span class="fill-word">` per word. Each word's `--fill` (0→1) moves from `--c-wine-35` to `--c-wine` (`color-mix`) while the block goes from its top at 85% of the viewport to its bottom at 50%; `soft: 4` words are mid-transition at once. Both paragraphs end fully wine-coloured. Without JS or with reduced motion, the Figma colours (dark lead + light second paragraph) stay.
+- **Hero title fade-in starts before first paint:** an inline `<head>` script adds `html.aos-pending` (not with reduced motion), and `.aos-pending .hero__title:not(.aos-animate)` holds it at `opacity: 0.01`. That looks the same as 0, avoids the old visible → hidden → fade flash, and lets Chrome count the title as LCP at first paint (opacity 0 text is ignored for LCP). `initAnimations()` removes the class if AOS is unavailable; a CSS fallback animation shows the title after 3 s if no script ever animates it. Don't animate LCP text from `opacity: 0`.
 - **Hero portrait** fades in with a slow scale (`hero-settle`, CSS only, inside `prefers-reduced-motion: no-preference`).
 
 ### Performance rules (keep these when adding effects)
@@ -207,8 +244,8 @@ Inside a section, children are positioned with section-relative px (`top = figma
 - Social links (Instagram, YouTube, WhatsApp, TikTok), "Privacy Terms", "Website development" have no URLs (`href="#"`).
 - Header nav "INDUSTRIES" → currently anchors to the services section. Confirm the label and target.
 - "Product selector" in the booking form: no option list. Where should the form submit?
-- Images are heavy PNGs (≈29 MB total) and several are shown larger than their source size: hero 1233→1372px, expertise 1469→1920px, lessons palettes 1585→2181px, case 1312→1734px. Originals at 2× are needed; then convert to WebP/AVIF.
-- Helvetica Neue webfont licence (see Typography).
+- Images are now responsive WebP (29 MB of PNG → ≈1.4 MB per mobile visit). Several are still shown larger than their source: hero 1233→1372px (desktop) / 940×2–3 (phones), expertise 1469→1920px, lessons palettes 1585→2181px, case 1312→1734px. 2× originals from the photographer would make them sharper on Retina.
+- Fonts: confirm a Neue Helvetica **web** licence (Monotype / MyFonts / Fonts.com) covers self-hosting. The supplied files carry no licence info and come from three different editions; ideally replace them with the official WOFF2 set from the licence account. At minimum the **Regular** should be replaced: the supplied one is 2–4% wider than the Helvetica Neue Regular used in Figma.
 
 ## How to verify (every change)
 

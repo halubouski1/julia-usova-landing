@@ -1,0 +1,150 @@
+{
+  "hero-portrait": {
+    "widths": [
+      1233
+    ],
+    "avif": true
+  },
+  "about-red-portrait": {
+    "widths": [
+      220,
+      270,
+      340,
+      430,
+      520,
+      700
+    ],
+    "avif": true
+  },
+  "about-makeup-portrait": {
+    "widths": [
+      160,
+      190,
+      240,
+      300,
+      390
+    ],
+    "avif": true
+  },
+  "about-moodboard": {
+    "widths": [
+      260,
+      310,
+      390,
+      460,
+      590
+    ],
+    "avif": true
+  },
+  "about-bw-portrait": {
+    "widths": [
+      110,
+      130,
+      160,
+      200,
+      240,
+      320,
+      420
+    ],
+    "avif": true
+  },
+  "about-blue": {
+    "widths": [
+      150,
+      190,
+      230,
+      280,
+      370
+    ],
+    "avif": true
+  },
+  "about-palettes": {
+    "widths": [
+      250,
+      330,
+      390,
+      520
+    ],
+    "avif": true
+  },
+  "about-lips": {
+    "widths": [
+      250,
+      300,
+      380,
+      450,
+      600
+    ],
+    "avif": true
+  },
+  "about-backstage": {
+    "widths": [
+      210,
+      280,
+      350,
+      420,
+      560
+    ],
+    "avif": false
+  },
+  "expertise-portrait": {
+    "widths": [
+      1469
+    ],
+    "avif": true
+  },
+  "services-case": {
+    "widths": [
+      1312
+    ],
+    "avif": true
+  },
+  "polaroid-camera": {
+    "widths": [
+      300,
+      400,
+      510,
+      670
+    ],
+    "avif": true
+  },
+  "polaroid-brush": {
+    "widths": [
+      390,
+      470,
+      590,
+      710
+    ],
+    "avif": true
+  },
+  "polaroid-mirror": {
+    "widths": [
+      480,
+      580,
+      710,
+      850
+    ],
+    "avif": true
+  },
+  "polaroid-blonde": {
+    "widths": [
+      400,
+      530,
+      640,
+      765
+    ],
+    "avif": true
+  },
+  "lessons-palettes": {
+    "widths": [
+      1585
+    ],
+    "avif": true
+  },
+  "footer-portrait": {
+    "widths": [
+      1241
+    ],
+    "avif": true
+  }
+}
