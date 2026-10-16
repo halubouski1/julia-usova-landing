@@ -1,0 +1,13 @@
+{
+  "name": "julia-usova-landing",
+  "private": true,
+  "description": "Static site. Node is used only for local tooling (Lighthouse); the site has no build step.",
+  "scripts": {
+    "serve": "python3 -m http.server 8765",
+    "lh": "sh tools/lighthouse.sh",
+    "lh:summary": "node tools/lh-summary.mjs"
+  },
+  "devDependencies": {
+    "lighthouse": "13.5.0"
+  }
+}

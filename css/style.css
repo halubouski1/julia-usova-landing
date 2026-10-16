@@ -1,0 +1,1751 @@
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: local("HelveticaNeue-Light"), local("Helvetica Neue Light");
+  font-weight: 300;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: local("HelveticaNeue"), local("Helvetica Neue");
+  font-weight: 400;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: local("HelveticaNeue-Medium"), local("Helvetica Neue Medium");
+  font-weight: 500;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: local("HelveticaNeue-Bold"), local("Helvetica Neue Bold");
+  font-weight: 700;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+:root {
+  /* Layout */
+  --container: 1920px;
+  --frame-left: calc(50% - var(--container) / 2); /* left edge of the 1920 design frame inside a full-width layer */
+
+  /* Colours */
+  --c-cream: #fffbf2;
+  --c-white: #fff;
+  --c-black: #000;
+  --c-wine: #4a0b0b;
+  --c-wine-50: rgba(74, 11, 11, 0.5);
+  --c-wine-35: rgba(74, 11, 11, 0.35);
+  --c-red: #930210;
+  --c-red-50: rgba(147, 2, 16, 0.5);
+  --c-red-15: rgba(147, 2, 16, 0.15);
+  --c-red-bright: #e5000d;
+  --c-red-dark: rgb(95, 0, 2);
+  --c-ink: #060708;
+  --c-polaroid: #fcf3fb;
+  --c-gray: #6a6c74;
+  --c-gray-muted: #8a8d96;
+  --c-white-75: rgba(255, 255, 255, 0.75);
+  --c-white-55: rgba(255, 255, 255, 0.55);
+  --c-white-50: rgba(255, 255, 255, 0.5);
+  --c-white-35: rgba(255, 255, 255, 0.35);
+  --c-white-25: rgba(255, 255, 255, 0.25);
+  --c-white-15: rgba(255, 255, 255, 0.15);
+  --c-white-06: rgba(255, 255, 255, 0.06);
+  --c-white-05: rgba(255, 255, 255, 0.05);
+  --c-error: #ff5c64; /* not in Figma: form validation */
+
+  /* Gradients (Figma fills) */
+  --g-hero-shade: linear-gradient(180deg, rgb(60, 1, 5) 0%, rgb(80, 1, 3) 25.226%, rgb(86, 1, 3) 39.065%, rgb(91, 1, 3) 49.038%, rgb(95, 0, 2) 100%);
+  --g-expertise-fade: linear-gradient(180deg, rgba(6, 7, 8, 0) 0%, var(--c-ink) 100%);
+  --g-services-top: linear-gradient(182.92deg, #0c0707 10.824%, #720006 95.566%);
+  --g-services-bottom: linear-gradient(180deg, #720006 0%, #481011 100%);
+  --g-feature-1: linear-gradient(132.68deg, #fff 0.517%, rgb(197, 95, 105) 99.29%);
+  --g-feature-2: linear-gradient(135.3deg, #fff 0.517%, rgb(197, 95, 105) 99.29%);
+  --g-lessons-haze-top: linear-gradient(90deg, rgb(143, 146, 155) 0%, rgb(132, 135, 143) 30.555%, rgb(112, 114, 121) 62.782%, rgb(83, 85, 93) 100%);
+  --g-lessons-haze-bottom: linear-gradient(90deg, rgb(134, 137, 145) 0%, rgb(144, 148, 156) 30.555%, rgb(133, 135, 144) 62.782%, rgb(90, 93, 100) 100%);
+  --g-footer-social: linear-gradient(79.77deg, #6e6e6e 16.918%, #fff 52.031%);
+  --g-footer-pages: linear-gradient(60.14deg, #6e6e6e 31.978%, #fff 76.453%);
+  --g-footer-phone: linear-gradient(15.35deg, #6e6e6e 9.694%, #fff 77.231%);
+  --g-footer-address: linear-gradient(10.98deg, #6e6e6e 9.694%, #fff 77.231%);
+
+  /* Radii */
+  --r-pill: 1000px;
+  --r-card: 5px;
+  --r-panel: 11px;
+  --r-field: 44px;
+  --r-section: 20px;
+
+  /* Type */
+  --font: "Helvetica Neue Figma", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* Motion */
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-weight: var(--fw-regular);
+  color: var(--c-white);
+  background: var(--c-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+}
+
+/* Line breaks that exist only in the compact (≤1279) layout */
+.br-compact {
+  display: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p,
+h1,
+h2,
+h3,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: var(--container);
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* Section label: "{ ABOUT JULIA }" */
+.label {
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+  letter-spacing: -0.48px;
+  text-transform: uppercase;
+}
+
+.label--wine {
+  color: var(--c-wine-50);
+}
+
+.label--light {
+  color: var(--c-white-55);
+}
+
+/* Buttons (Figma 61:30, 61:37, 61:140, 61:147, 61:224)
+   Pill with text; optional ring + arrow on the right.
+   ========================================================================== */
+
+/* Hover: a fill layer (::before) grows as a circle from the ring/arrow,
+   text and icons switch colour. All hover transitions live on the inner
+   parts, never on .btn itself: buttons carry data-aos, and aos.css overrides
+   transition-property/duration/delay of that element. */
+.btn {
+  --btn-color: var(--c-red);
+  --btn-fill: var(--btn-color);   /* hover fill */
+  --btn-hover-fg: var(--c-white); /* text/icon colour on hover */
+  --btn-fill-origin: calc(100% - 35px) 50%;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  height: 65px;
+  padding: 3px 0 0 40px;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  color: var(--btn-color);
+  font-size: 16px;
+  font-weight: var(--fw-bold);
+  line-height: 30px;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-fill);
+  clip-path: circle(0 at var(--btn-fill-origin));
+  transition: clip-path 0.55s var(--ease);
+}
+
+.btn__text {
+  transition: color 0.35s var(--ease);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--btn-hover-fg);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  clip-path: circle(150% at var(--btn-fill-origin));
+}
+
+/* White base is a layer too, faded out once the fill has covered it:
+   otherwise the white shows as a thin anti-aliased rim around the fill */
+.btn--white::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+  background: var(--c-white);
+  transition: opacity 0.2s var(--ease);
+}
+
+.btn--white:hover::after,
+.btn--white:focus-visible::after {
+  opacity: 0;
+  transition: opacity 0.25s var(--ease) 0.3s;
+}
+
+.btn--gray {
+  --btn-color: var(--c-gray);
+}
+
+.btn--muted {
+  --btn-color: var(--c-gray-muted);
+}
+
+/* White outline, text centred in the area left of the arrow */
+.btn--outline {
+  --btn-color: var(--c-white);
+  --btn-fill: var(--c-white);
+  --btn-hover-fg: var(--c-red);
+  --btn-fill-origin: calc(100% - 34px) 50%;
+  justify-content: center;
+  height: 67px;
+  padding: 1px 37px 0 0;
+  border: 1px solid var(--c-white);
+}
+
+/* Ring: Figma ellipse 49.8×51.3 rotated -60° and mirrored */
+.btn__ring {
+  position: absolute;
+  top: 6.73px;
+  right: 10.43px;
+  width: 49.805px;
+  height: 51.314px;
+  background: currentColor;
+  -webkit-mask: url("../assets/icons/ring.svg") center / 100% 100% no-repeat;
+  mask: url("../assets/icons/ring.svg") center / 100% 100% no-repeat;
+  transform: rotate(-60deg) scaleY(-1);
+  transition: background-color 0.35s var(--ease), scale 0.45s var(--ease);
+}
+
+.btn:hover .btn__ring,
+.btn:focus-visible .btn__ring {
+  scale: 1.08;
+}
+
+/* Arrow: Figma "image 1" (14×14 arrow) rotated -45° */
+.btn__arrow {
+  position: absolute;
+  top: 25.69px;
+  right: 27.93px;
+  width: 14.023px;
+  height: 14.023px;
+  background: currentColor;
+  -webkit-mask: url("../assets/icons/arrow.png") center / 100% 100% no-repeat;
+  mask: url("../assets/icons/arrow.png") center / 100% 100% no-repeat;
+  transform: rotate(-45deg);
+  transition: background-color 0.35s var(--ease), translate 0.45s var(--ease);
+}
+
+/* Arrow nudges up-right along its own direction */
+.btn:hover .btn__arrow,
+.btn:focus-visible .btn__arrow {
+  translate: 2px -2px;
+}
+
+/* Offsets measured inside the 1px border */
+.btn--outline .btn__arrow {
+  top: 26.91px;
+  right: 26.07px;
+}
+
+/* Medium: 52px high (form submit) */
+.btn--md {
+  --btn-fill-origin: calc(100% - 26px) 50%;
+  justify-content: center;
+  height: 52px;
+  padding: 2px 0 0;
+  font-size: 14px;
+  letter-spacing: -0.42px;
+}
+
+.btn--md .btn__ring {
+  top: 5.11px;
+  right: 6.51px;
+  width: 40.545px;
+  height: 41.774px;
+  -webkit-mask-image: url("../assets/icons/ring-sm.svg");
+  mask-image: url("../assets/icons/ring-sm.svg");
+}
+
+.btn--md .btn__arrow {
+  top: 20.53px;
+  right: 20.75px;
+  width: 11.416px;
+  height: 11.416px;
+  -webkit-mask-image: url("../assets/icons/arrow-sm.png");
+  mask-image: url("../assets/icons/arrow-sm.png");
+}
+
+/* Header (Figma 2003:2 logo, 61:47 nav, 61:43–61:45 burger)
+   ========================================================================== */
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.header__inner {
+  display: flex;
+  align-items: flex-start;
+  height: auto;
+  padding: 0 34px 0 39px;
+}
+
+.header__logo {
+  margin-top: 54px;
+}
+
+.header__nav {
+  margin-top: 59px;
+  margin-left: auto;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 395px;
+}
+
+/* Hover: underline draws in from the left, leaves to the right */
+.nav__link {
+  position: relative;
+  display: block;
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  line-height: 14px;
+  text-transform: uppercase;
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  scale: 0 1;
+  transform-origin: right center;
+  transition: scale 0.45s var(--ease);
+}
+
+.nav__link:hover::after,
+.nav__link:focus-visible::after {
+  scale: 1 1;
+  transform-origin: left center;
+}
+
+/* 21×9 visual, 41×29 hit area.
+   Hover: lines shorten to a staggered right-aligned stack. */
+.burger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  margin: 50px 0 0 58px;
+  padding: 10px;
+}
+
+.burger__line {
+  display: block;
+  width: 21px;
+  height: 1px;
+  background: var(--c-white);
+  transform-origin: right center;
+  transition: scale 0.4s var(--ease);
+}
+
+.burger__line:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+.burger__line:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+.burger:hover .burger__line:nth-child(1),
+.burger:focus-visible .burger__line:nth-child(1) {
+  scale: 0.55 1;
+}
+
+.burger:hover .burger__line:nth-child(3),
+.burger:focus-visible .burger__line:nth-child(3) {
+  scale: 0.75 1;
+}
+
+/* Hero (Figma 0–1197): exactly one screen high.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  height: var(--fixed-vh, 100vh);
+  overflow: hidden;
+  background: var(--c-red-dark);
+}
+
+/* Figma 61:11 — portrait, blurred side shades, glows */
+.hero__media {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--frame-left);
+  width: var(--container);
+}
+
+.hero__media > * {
+  position: absolute;
+  max-width: none;
+}
+
+.hero__portrait {
+  top: -72.27px;
+  left: 159.26px;
+  width: 1371.867px;
+  height: 1419.71px;
+  object-fit: cover;
+}
+
+.hero__shade {
+  top: -173.07px;
+  width: 977.168px;
+  background: var(--g-hero-shade);
+  filter: blur(30.75px);
+}
+
+.hero__shade--left {
+  left: -743.2px;
+  height: 1610.431px;
+}
+
+.hero__shade--right {
+  left: 1472.03px;
+  height: 1590.27px;
+}
+
+/* Glows 1–2 sit behind the stat cards, so they follow the bottom edge */
+.hero__glow--1 {
+  bottom: -347.7px;
+  left: 47.19px;
+}
+
+.hero__glow--2 {
+  bottom: -188.26px;
+  left: 144.95px;
+}
+
+.hero__glow--3 {
+  top: -244.164px;
+  left: -31.751px;
+  transform: rotate(23.11deg);
+}
+
+.hero__glow--4 {
+  top: 54.667px;
+  left: -146.998px;
+  transform: rotate(23.11deg);
+}
+
+/* 61:24 */
+.hero__title {
+  position: absolute;
+  top: 210px;
+  right: 44px;
+  width: 690px;
+  font-size: 100px;
+  font-weight: var(--fw-regular);
+  line-height: 90px;
+  letter-spacing: -3px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+/* 61:27, 61:46 */
+.hero__tagline {
+  position: absolute;
+  bottom: 428px;
+  left: 72px;
+  width: 260px;
+  font-size: 45px;
+  line-height: 41px;
+  letter-spacing: -1.35px;
+  text-transform: uppercase;
+}
+
+.hero__reg {
+  position: absolute;
+  top: 46px;
+  left: 185px;
+  font-size: 20px;
+  font-weight: var(--fw-light);
+  line-height: 84px;
+  letter-spacing: -0.6px;
+}
+
+.hero__stats {
+  position: absolute;
+  bottom: 83px;
+  left: 72px;
+  display: flex;
+  gap: 15px;
+}
+
+.hero__actions {
+  position: absolute;
+  bottom: 85px;
+  right: 44px;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.hero__btn-portfolio {
+  width: 248px;
+  padding-left: 52px;
+}
+
+.hero__btn-booking {
+  width: 236px;
+}
+
+/* Stat cards (Figma 61:48, 61:49) */
+.stat-card {
+  position: relative;
+  width: 259px;
+  height: 193px;
+  border-radius: var(--r-card);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.42px;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  width: 184px;
+  height: 1px;
+}
+
+.stat-card > * {
+  position: absolute;
+}
+
+.stat-card__num {
+  top: 23px;
+  left: 212px;
+}
+
+.stat-card--light {
+  background: var(--c-white);
+  color: var(--c-red);
+}
+
+.stat-card--light::before {
+  background: var(--c-red-15);
+}
+
+.stat-card--light .stat-card__num {
+  color: var(--c-red-50);
+}
+
+.stat-card--glass {
+  border: 1px solid var(--c-white);
+  background: var(--c-white-05);
+  -webkit-backdrop-filter: blur(17.3px);
+  backdrop-filter: blur(17.3px);
+}
+
+/* Glass card children are offset by its 1px border */
+.stat-card--glass::before {
+  top: 29px;
+  left: 19px;
+  background: var(--c-white-15);
+}
+
+.stat-card--glass .stat-card__num {
+  top: 22px;
+  left: 211px;
+  color: var(--c-white-50);
+}
+
+.stat-card__years {
+  top: 52.75px;
+  left: 12px;
+  white-space: nowrap;
+}
+
+.stat-card__big {
+  font-size: 92.75px;
+  line-height: 132.5px;
+  letter-spacing: -13.9125px;
+}
+
+/* "years": Figma 187, 1028 (card-relative 115, 107) */
+.stat-card__unit {
+  position: absolute;
+  top: 54.25px;
+  left: 103px;
+  font-size: 37.333px;
+  line-height: 53.333px;
+  letter-spacing: -1.12px;
+}
+
+.stat-card__caption {
+  top: 153px;
+  left: 20px;
+}
+
+.stat-card__icon {
+  top: 73px;
+  left: 20px;
+}
+
+.stat-card__place {
+  top: 135px;
+  left: 19px;
+  white-space: nowrap;
+}
+
+.stat-card__time {
+  top: 156px;
+  left: 19px;
+  width: 166px;
+  line-height: 16px;
+  color: var(--c-white-50);
+}
+
+/* About (Figma 1197–2567)
+   ========================================================================== */
+
+.about {
+  position: relative;
+  height: 1370px;
+  overflow-x: clip; /* frame-wide circles layer is wider than narrow viewports */
+  color: var(--c-wine);
+}
+
+/* Figma 61:6 — the circles only show below the cream cover 61:19 (y ≥ 1657) */
+.about__circles {
+  position: absolute;
+  top: 460px;
+  bottom: 0;
+  left: var(--frame-left);
+  width: var(--container);
+  overflow: hidden;
+}
+
+.about__circles img {
+  position: absolute;
+  top: -754px;
+  left: 5px;
+  max-width: none;
+}
+
+.about__content {
+  position: relative;
+  padding-top: 460px;
+  text-align: center;
+}
+
+/* 61:29 */
+.about__text {
+  width: 878px;
+  margin: 40px auto 0;
+  font-size: 40px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+  letter-spacing: -1.2px;
+}
+
+.about__lead,
+.about__muted {
+  display: block;
+}
+
+.about__muted {
+  margin-top: 41px;
+  color: var(--c-wine-35);
+}
+
+.about__photo {
+  position: absolute;
+  overflow: hidden;
+}
+
+.about__photo img {
+  position: absolute;
+  max-width: none;
+}
+
+/* Cover-fit photos */
+.about__photo--1 img,
+.about__photo--2 img,
+.about__photo--4 img,
+.about__photo--5 img,
+.about__photo--6 img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Figma "IMG_2880": grain overlay, lighten blend */
+.about__photo--grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/images/about-grain.png") 0 0 / 1024px 1024px no-repeat;
+  mix-blend-mode: lighten;
+}
+
+/* 61:20 */
+.about__photo--1 { top: 234px; right: 326px; width: 212px; height: 104px; }
+/* 61:59 */
+.about__photo--2 { top: 135px; left: 582px; width: 195px; height: 127px; }
+/* 61:60 */
+.about__photo--3 { top: 634px; left: 0; width: 196px; height: 178px; }
+.about__photo--3 img { top: 0; left: -48px; width: 293px; height: 293px; }
+/* 61:63 */
+.about__photo--4 { top: 207px; left: 378px; width: 127px; height: 179px; }
+/* 61:64 */
+.about__photo--5 { top: 531px; right: 132px; width: 99px; height: 123px; }
+/* 61:65 */
+.about__photo--6 { top: 365px; right: 181px; width: 210px; height: 123px; }
+/* 61:66 */
+.about__photo--7 { top: 960px; left: 202px; width: 228px; height: 128px; }
+.about__photo--7 img { top: -33.63px; left: -15.8px; width: 259.58px; height: 195.25px; }
+/* 61:67 */
+.about__photo--8 { top: 992px; right: 297px; width: 296px; height: 157px; }
+.about__photo--8 img { top: -52px; left: 0; width: 296px; height: 296px; }
+/* 61:70 */
+.about__photo--9 { top: 827px; right: 65px; width: 232px; height: 165px; }
+.about__photo--9 img { top: -101px; left: -22px; width: 276px; height: 276px; }
+/* 61:73 */
+.about__photo--10 { top: 1088px; left: 430px; width: 347px; height: 127px; }
+.about__photo--10 img { top: -25.57px; left: 0; width: 347px; height: 170px; }
+/* 61:74 */
+.about__photo--11 { top: 321px; left: 57px; width: 185px; height: 197px; }
+.about__photo--11 img { top: -17.12px; left: 0; width: 185px; height: 231.26px; }
+
+/* Expertise (Figma 2567–3966)
+   ========================================================================== */
+
+.expertise {
+  position: relative;
+  height: 1399px;
+  overflow: hidden;
+  background: var(--c-ink);
+  font-weight: var(--fw-medium);
+}
+
+/* 61:76, 61:77 */
+.expertise__media,
+.expertise__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.expertise__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.expertise__fade {
+  position: absolute;
+  top: 975px;
+  left: 0;
+  right: 0;
+  height: 424px;
+  background: var(--g-expertise-fade);
+}
+
+.expertise__inner > * {
+  position: absolute;
+}
+
+.expertise__region {
+  top: 55px;
+  right: 60px;
+  width: 161px;
+  font-size: 25px;
+  line-height: 26px;
+  letter-spacing: -0.75px;
+  text-align: right;
+}
+
+.expertise__title,
+.expertise__years {
+  font-size: 40px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+  letter-spacing: -1.2px;
+}
+
+.expertise__title {
+  top: 206px;
+  left: 164px;
+}
+
+.expertise__title-line,
+.expertise__years-line {
+  display: block;
+}
+
+.expertise__title-line--1 {
+  width: 878px;
+}
+
+.expertise__title-line--2 {
+  width: 760px;
+  margin-left: 134px;
+}
+
+.expertise__years {
+  top: 597px;
+  left: 137px;
+  white-space: nowrap;
+}
+
+.expertise__years-line--2 {
+  margin-left: 57px;
+}
+
+.expertise__p {
+  left: 657px;
+  font-size: 21px;
+  line-height: 25px;
+  letter-spacing: -0.63px;
+}
+
+.expertise__p--1 { top: 679px; width: 641px; }
+.expertise__p--2 { top: 796px; width: 543px; }
+.expertise__p--3 { top: 1013px; width: 466px; }
+.expertise__p--4 { top: 1155px; width: 401px; }
+
+/* 61:82 — runs off the right edge, clipped by the section */
+.expertise__city {
+  top: 1128.48px;
+  left: 228px;
+  color: var(--c-red-bright);
+  font-size: 287.01px;
+  font-weight: var(--fw-bold);
+  line-height: 294.185px;
+  letter-spacing: -8.6103px;
+  white-space: nowrap;
+}
+
+.expertise__based {
+  top: 1081px;
+  left: 241px;
+  font-size: 18px;
+  letter-spacing: -0.54px;
+}
+
+/* Services + "Considered for every setting" (Figma 3966–6614)
+   ========================================================================== */
+
+.services {
+  position: relative;
+  z-index: 2;
+  height: 2648px;
+  overflow-x: clip; /* x only: the brush polaroid still pokes up into expertise */
+}
+
+/* 61:89, 61:95, 61:96 */
+.services__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0 0 var(--r-section) var(--r-section);
+}
+
+.services__bg-top,
+.services__bg-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.services__bg-top {
+  top: 0;
+  height: 1238px;
+  background: var(--g-services-top);
+}
+
+.services__bg-bottom {
+  top: 1238px;
+  bottom: 0;
+  background: var(--g-services-bottom);
+}
+
+.services__circles {
+  position: absolute;
+  top: 866px;
+  left: calc(var(--frame-left) + 5px);
+  max-width: none;
+}
+
+.services__inner > * {
+  position: absolute;
+}
+
+/* 61:102 */
+.services__case {
+  top: 1644px;
+  left: calc(50% - 867px); /* Figma x 93, centred */
+  width: 1734px;
+  height: 1004px;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Full-width box: the polaroids are anchored to its right edge, like the
+   service cards, so on narrower screens they keep their Figma distance to
+   the cards and only the empty left side shrinks */
+.services__polaroids {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.services__label {
+  top: 137px;
+  left: 60px;
+}
+
+/* Polaroids (Figma 61:104, 61:109, 61:114, 61:118).
+   Frame, photo window and photo share one rotation; values solved from the
+   Figma masks (see CLAUDE.md → Components → Polaroid). The brush polaroid
+   pokes 76px up into the expertise section, as in Figma. */
+.polaroid {
+  position: absolute;
+  background: var(--c-polaroid);
+  transform: rotate(var(--rot));
+}
+
+.polaroid__photo {
+  position: absolute;
+  overflow: hidden;
+}
+
+.polaroid__photo img {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+}
+
+.polaroid--camera { --rot: 5.24deg; top: 323.9px; right: 720.296px; width: 345.434px; height: 416px; }
+.polaroid--camera .polaroid__photo { top: 15.01px; left: 15.01px; width: 314.43px; height: 320.99px; }
+.polaroid--camera img { top: -6.4px; left: -10.19px; width: 333.365px; height: 333.365px; }
+
+.polaroid--brush { --rot: -16.07deg; top: -34.3px; right: 664.65px; width: 360px; height: 416px; }
+.polaroid--brush .polaroid__photo { top: 15px; left: 15px; width: 329px; height: 321.01px; }
+.polaroid--brush img { top: -12.67px; left: -8.18px; width: 344.772px; height: 344.772px; }
+
+.polaroid--mirror { --rot: -6.18deg; top: 539.94px; right: 1006.812px; width: 305.098px; height: 352.557px; }
+.polaroid--mirror .polaroid__photo { top: 12.71px; left: 12.71px; width: 278.96px; height: 271.91px; }
+.polaroid--mirror img { top: -1.66px; left: -1.84px; width: 287.95px; height: 287.95px; }
+
+.polaroid--blonde { --rot: -13.74deg; top: 963.81px; right: 647.678px; width: 273.682px; height: 316.255px; }
+.polaroid--blonde .polaroid__photo { top: 11.41px; left: 11.4px; width: 250.23px; height: 243.92px; }
+.polaroid--blonde img { top: -8.74px; left: -6.91px; width: 262.555px; height: 351.446px; }
+
+.services__list {
+  top: 137px;
+  right: 83px; /* Figma x 1259, anchored right */
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+/* Service card (Figma 61:125, 61:130, 61:135) */
+.service-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 578px;
+  height: 299px;
+  padding: 44px;
+  border: 1px solid var(--c-white);
+  border-radius: var(--r-panel);
+  background: var(--c-white-15);
+  -webkit-backdrop-filter: blur(15.2px);
+  backdrop-filter: blur(15.2px);
+  font-weight: var(--fw-medium);
+}
+
+/* 4th card exists only in the mobile frame */
+.service-card--compact-only {
+  display: none;
+}
+
+.service-card__num {
+  position: absolute;
+  top: 29px;
+  right: 29px;
+  color: var(--c-white-35);
+  font-size: 13px;
+  line-height: 25px;
+  letter-spacing: -0.39px;
+}
+
+.service-card__title {
+  font-size: 25px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+  letter-spacing: -0.75px;
+}
+
+.service-card__slash {
+  white-space: pre;
+}
+
+.service-card__text {
+  max-width: 393px;
+  margin-top: auto;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: -0.48px;
+}
+
+.service-card__text--narrow {
+  max-width: 365px;
+}
+
+.services__btn {
+  top: 1055px;
+  left: 60px;
+  width: 303px;
+}
+
+/* 61:154 */
+.services__heading {
+  top: 1508px;
+  left: calc(50% - 455px); /* Figma x 505, centred */
+  width: 910px;
+  font-size: 85px;
+  font-weight: var(--fw-regular);
+  line-height: 90px;
+  letter-spacing: -2.55px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Features over the case (Figma 61:162, 61:165) */
+/* Full-width box, so the features can be centre-anchored */
+.services__features {
+  top: 1969px;
+  left: 0;
+  right: 0;
+}
+
+.feature {
+  position: absolute;
+  top: 0;
+}
+
+.feature--1 { left: calc(50% - 476px); }
+.feature--2 { left: calc(50% + 52px); }
+
+.feature__num {
+  display: block;
+  font-size: 92.75px;
+  line-height: 132.5px;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.feature--1 .feature__num {
+  letter-spacing: -9.275px;
+  background-image: var(--g-feature-1);
+}
+
+.feature--2 .feature__num {
+  letter-spacing: -0.9275px;
+  background-image: var(--g-feature-2);
+}
+
+.feature__text {
+  position: absolute;
+  top: 9px;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 25px;
+  letter-spacing: -0.48px;
+}
+
+.feature--1 .feature__text { left: 120px; width: 309px; }
+.feature--2 .feature__text { left: 129px; width: 295px; }
+
+/* Lessons (Figma 6554–8586; starts 60px under the services' rounded bottom)
+   ========================================================================== */
+
+.lessons {
+  position: relative;
+  z-index: 1;
+  height: 2032px;
+  margin-top: -60px;
+}
+
+/* 61:90–61:94, 61:169 */
+.lessons__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.lessons__media > * {
+  position: absolute;
+  max-width: none;
+}
+
+/* Centred on their Figma centre x and never narrower than the viewport,
+   so screens wider than the frame get no gaps (identical at 1920). */
+.lessons__haze--top,
+.lessons__palettes,
+.lessons__haze--bottom {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.lessons__haze--top {
+  top: 37.19px;
+  width: max(2076.515px, calc(100% + 160px)); /* blurred edges stay off-screen */
+  height: 428.62px;
+  background: var(--g-lessons-haze-top);
+  filter: blur(10px);
+}
+
+.lessons__palettes {
+  top: 420.85px;
+  width: max(2181.22px, 100%);
+  height: 1365.155px;
+  margin-left: 0.68px;
+  object-fit: cover;
+}
+
+.lessons__haze--bottom {
+  top: 1745px;
+  width: max(2077px, calc(100% + 160px));
+  height: 280px;
+  margin-left: 19.5px;
+  background: var(--g-lessons-haze-bottom);
+  filter: blur(22.1px);
+}
+
+.lessons__inner > * {
+  position: absolute;
+}
+
+.lessons__head {
+  top: 116px;
+  left: 93px;
+  right: 93px;
+}
+
+.lessons__rule {
+  position: absolute;
+  top: 19px;
+  left: 301px;
+  right: 0;
+  height: 1px;
+  background: var(--c-white-25);
+}
+
+.lessons__title {
+  top: 213px;
+  left: 90px;
+  font-size: 40px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+  letter-spacing: -1.2px;
+  white-space: nowrap;
+}
+
+.lessons__title-line {
+  display: block;
+}
+
+/* Figma lines sit at 6767 / 6807 / 6848 */
+.lessons__title-line--2 {
+  margin-top: -1px;
+  margin-left: 155px;
+}
+
+.lessons__title-line--3 {
+  margin-left: 326px;
+}
+
+.lessons__aside {
+  top: 213px;
+  right: 125px; /* Figma x 1352, anchored right */
+  width: 443px;
+}
+
+.lessons__text {
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 25px;
+  letter-spacing: -0.48px;
+}
+
+.lessons__btn {
+  width: 303px;
+  margin-top: 41px;
+}
+
+/* Footer (Figma 8254–9795; its curved top overlaps the lessons)
+   ========================================================================== */
+
+.footer {
+  position: relative;
+  z-index: 3;
+  height: 1541px;
+  margin-top: -332px;
+  overflow: hidden; /* keeps AOS offsets of the bottom items from extending the page */
+  background: linear-gradient(180deg, transparent 332px, var(--c-black) 332px);
+}
+
+.footer__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* 61:199 — stretched to the full viewport width (SVG has preserveAspectRatio="none") */
+.footer__curve {
+  position: absolute;
+  top: 1.65px;
+  left: 0;
+  width: 100%;
+  height: 331.353px;
+}
+
+.footer__portrait-wrap {
+  position: absolute;
+  top: 332px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+/* 61:174 */
+.footer__portrait {
+  position: absolute;
+  top: -47px;
+  left: calc(var(--frame-left) + 340px);
+  width: 1323px;
+  height: 1352px;
+  max-width: none;
+  object-fit: cover;
+}
+
+.footer__inner > * {
+  position: absolute;
+}
+
+/* 61:202 — Figma box top is 8579, but its glyphs render 11px lower than in
+   the hero title (mixed-leading spans); matched to the rendered position */
+.footer__title {
+  top: 336px;
+  left: 64px;
+  width: 622px;
+  font-size: 100px;
+  line-height: 90px;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+}
+
+/* Booking form (Figma 61:211) */
+.booking-form {
+  top: 697px;
+  left: 64px;
+  display: grid;
+  grid-template-columns: 226px 235px;
+  grid-auto-rows: 51px;
+  gap: 8px;
+  width: 469px;
+}
+
+/* Each field sits in a .field-wrap (the AOS target), so the field's own
+   hover/focus/error transitions are not overridden by aos.css */
+.field-wrap {
+  position: relative;
+}
+
+.field-wrap--wide {
+  grid-column: 1 / -1;
+}
+
+.field {
+  width: 100%;
+  height: 51px;
+  padding: 0 22px;
+  border: 1px solid var(--c-white-15);
+  border-radius: var(--r-field);
+  background: var(--c-white-06);
+  -webkit-backdrop-filter: blur(6.05px);
+  backdrop-filter: blur(6.05px);
+  color: var(--c-white);
+  font-size: 14px;
+  line-height: 12px;
+  text-align: left;
+  outline: none;
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease), padding 0.3s var(--ease);
+}
+
+.field::placeholder {
+  color: var(--c-white-75);
+  opacity: 1;
+  transition: color 0.3s var(--ease);
+}
+
+.field:hover {
+  border-color: var(--c-white-35);
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+.field:focus,
+.field:focus-visible {
+  border-color: var(--c-white-55);
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+.field:focus::placeholder {
+  color: var(--c-white-35);
+}
+
+.field--select {
+  color: var(--c-white-75);
+  cursor: pointer;
+}
+
+/* Validation (initBookingForm in main.js) */
+.field-error {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  color: var(--c-error);
+  font-size: 12px;
+  line-height: 14px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  translate: 6px -50%;
+  transition: opacity 0.3s var(--ease), translate 0.3s var(--ease);
+}
+
+.field-wrap.is-invalid .field {
+  padding-right: 130px;
+  border-color: var(--c-error);
+}
+
+.field-wrap.is-invalid .field-error {
+  opacity: 1;
+  translate: 0 -50%;
+}
+
+.booking-form__submit {
+  grid-column: 1 / -1;
+  width: 468px;
+  margin-top: 14px;
+}
+
+.booking-form__status {
+  grid-column: 1 / -1;
+  align-self: start;
+  color: var(--c-white-75);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+.booking-form__status.is-visible {
+  opacity: 1;
+}
+
+/* Legal row + rule (Figma 61:231, 61:239) */
+.footer__legal {
+  top: 285px;
+  right: 80px; /* Figma x 754–1840, anchored right */
+  display: flex;
+  align-items: center;
+  height: 93px;
+  color: var(--c-white-55);
+  font-size: 18px;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.footer__rule {
+  width: 805px;
+  height: 1px;
+  margin-top: -1px;
+  background: var(--c-white-25);
+}
+
+.footer__year {
+  margin-left: 37px;
+}
+
+.footer__legal-link {
+  margin-left: 55px;
+  transition: color 0.3s var(--ease);
+}
+
+.footer__legal-link:hover,
+.footer__legal-link:focus-visible {
+  color: var(--c-white);
+}
+
+/* Link columns (Figma 61:234) */
+.footer__nav {
+  top: 559px;
+  right: 80px;
+  text-align: right;
+}
+
+/* Figma: social list box ends at 9029, "PAGES" starts at 9121 */
+.footer__group + .footer__group {
+  margin-top: 92px;
+}
+
+.footer__group-title {
+  color: var(--c-white-35);
+  font-size: 14px;
+  font-weight: var(--fw-bold);
+  line-height: 45px;
+  text-transform: uppercase;
+}
+
+.footer__links {
+  height: 157px;
+  margin: 14px 0 0 auto;
+  color: transparent;
+  font-size: 25px;
+  font-weight: var(--fw-medium);
+  line-height: 35px;
+  text-transform: uppercase;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.footer__links--social {
+  width: 151px;
+  background-image: var(--g-footer-social);
+}
+
+.footer__links--pages {
+  width: 200px;
+  background-image: var(--g-footer-pages);
+}
+
+/* Hover: the gradient word turns solid white. No transforms here: a
+   transformed child can drop out of the parent's background-clip: text. */
+.footer__links a {
+  display: block;
+  transition: color 0.35s var(--ease);
+}
+
+.footer__links a:hover,
+.footer__links a:focus-visible {
+  color: var(--c-white);
+}
+
+/* Back to top (Figma 61:182) */
+.to-top {
+  top: 1307px;
+  right: 80px; /* Figma x 1779 */
+  width: 61px;
+  height: 61px;
+  border-radius: 50%;
+}
+
+.to-top__inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 61 61' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(5 6.3236 -8.4532 6.6839 11 -17)'><stop stop-color='rgba(110,110,110,1)' offset='0'/><stop stop-color='rgba(146,146,146,1)' offset='0.25'/><stop stop-color='rgba(182,182,182,1)' offset='0.5'/><stop stop-color='rgba(219,219,219,1)' offset='0.75'/><stop stop-color='rgba(255,255,255,1)' offset='1'/></radialGradient></defs></svg>"),
+    var(--c-white);
+  transform: rotate(90deg) scaleY(-1);
+  transition: translate 0.4s var(--ease), scale 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+/* .to-top carries data-aos, so the hover lives on the inner circle */
+.to-top:hover .to-top__inner,
+.to-top:focus-visible .to-top__inner {
+  translate: 0 -4px;
+  scale: 1.06;
+  box-shadow: 0 0 28px rgba(255, 255, 255, 0.22); /* no offset: the circle is rotated */
+}
+
+.to-top__icon {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 14px;
+  height: 14px;
+  background: url("../assets/icons/arrow-right.svg") center / 100% 100% no-repeat;
+  transform: rotate(180deg) scaleY(-1);
+}
+
+/* 61:181 */
+.footer__divider {
+  top: 1409px;
+  left: 80px;
+  right: 80px;
+  height: 1px;
+  background: var(--c-white-25);
+}
+
+/* Contacts (Figma 61:185, 61:192) */
+.footer__contact {
+  top: 1437px;
+  font-weight: var(--fw-medium);
+}
+
+.footer__contact--phone { left: 80px; }
+.footer__contact--office { left: 507px; }
+
+.footer__contact-label {
+  position: relative;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.footer__contact-label img {
+  position: absolute;
+}
+
+.footer__contact--phone .footer__contact-label img { top: 6.47px; left: 158.47px; }
+.footer__contact--office .footer__contact-label img { top: 5.47px; left: 60px; }
+
+.footer__contact-value {
+  display: inline-block;
+  margin-top: 10px;
+  color: transparent;
+  font-size: 25px;
+  line-height: 29px;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.footer__contact-value--phone { background-image: var(--g-footer-phone); }
+.footer__contact-value--address { background-image: var(--g-footer-address); }
+
+a.footer__contact-value {
+  transition: color 0.35s var(--ease);
+}
+
+a.footer__contact-value:hover,
+a.footer__contact-value:focus-visible {
+  color: var(--c-white);
+}
+
+/* 61:175 */
+.footer__dev {
+  top: 1458px;
+  right: 80px; /* Figma x 1680, anchored right */
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  line-height: 15px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.footer__dev span {
+  margin-top: 3px;
+}
+
+/* .footer__dev carries data-aos: hover on its children */
+.footer__dev > * {
+  transition: opacity 0.3s var(--ease);
+}
+
+.footer__dev:hover > *,
+.footer__dev:focus-visible > * {
+  opacity: 0.6;
+}
+
+/* Animations
+   AOS attributes are set from the ANIMATIONS list in main.js, never in HTML.
+   Custom effects use the individual translate/scale/rotate properties, so
+   they compose with an element's own transform (e.g. the polaroids' tilt).
+   ========================================================================== */
+
+/* Photo thrown onto the table: drops, untwists and settles */
+[data-aos="polaroid"] {
+  opacity: 0;
+  translate: 0 -70px;
+  scale: 1.12;
+  rotate: 9deg;
+  transition-property: opacity, translate, scale, rotate;
+}
+
+[data-aos="polaroid"].aos-animate {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  rotate: 0deg;
+}
+
+/* Clip reveal from the bottom with the image settling inside */
+[data-aos="reveal"] {
+  clip-path: inset(100% 0 0 0);
+  transition-property: clip-path;
+}
+
+[data-aos="reveal"].aos-animate {
+  clip-path: inset(0 0 0 0);
+}
+
+[data-aos="reveal"] img {
+  scale: 1.25;
+  transition: scale 1.6s var(--ease);
+}
+
+[data-aos="reveal"].aos-animate img {
+  scale: 1;
+}
+
+/* Scroll-linked drift ("Rio de Janeiro"): translate/opacity written by
+   initScrub() in main.js from the element's position in the viewport */
+[data-scrub] {
+  will-change: translate, opacity;
+}
+
+/* Scroll fill (About text): main.js wraps each word in .fill-word and sets
+   --fill 0→1 as the block crosses the viewport; muted grey → wine.
+   Without JS (or with reduced motion) the Figma colours stay as they are. */
+.is-fill .about__lead,
+.is-fill .about__muted {
+  color: var(--c-wine-35);
+}
+
+.fill-word {
+  color: color-mix(in srgb, var(--c-wine) calc(var(--fill, 0) * 100%), var(--c-wine-35));
+}
+
+/* Rule drawing from left to right */
+[data-aos="draw"] {
+  transform-origin: left center;
+  scale: 0 1;
+  transition-property: scale;
+}
+
+[data-aos="draw"].aos-animate {
+  scale: 1 1;
+}
+
+/* Hero portrait: slow settle on page load */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__portrait {
+    animation: hero-settle 2.4s var(--ease) both;
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    opacity: 0;
+    scale: 1.08;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Parallax layers ([data-parallax] in main.js) */
+[data-parallax] {
+  will-change: translate;
+}
