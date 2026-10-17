@@ -53,6 +53,32 @@ tools/images.manifest.json     (generated: widths per image and whether it has A
 - `python3 -m http.server` sends no `Cache-Control`, so `cache-insight` always fails locally; caching is a hosting setting.
 - Chrome DevTools MCP comes from the ECC plugin (`chrome-devtools-mcp@1.10.1`): use it for DOM/Console/Network/traces.
 
+### Browser testing (Chrome → Safari → Firefox if needed)
+
+- **Order:** Chrome first (all of "How to verify", Lighthouse, performance). Then Safari for every change that touches layout, fonts, CSS effects or JS. Firefox **only when needed**: a reported Firefox bug, CSS/JS with patchy Gecko support, Chrome and Safari disagreeing, or the pre-launch check.
+- **Servers** (`local` scope in `~/.claude.json`; don't remove or overwrite them):
+  - `plugin:ecc:chrome-devtools`: `chrome-devtools-mcp@1.10.1`.
+  - `safari-mcp`: `/usr/bin/safaridriver --mcp` (Apple, Safari 27.0.1). Needs Safari ▸ Settings ▸ Developer ▸ "Allow remote automation and external agents".
+  - `firefox-devtools`: `npx -y @mozilla/firefox-devtools-mcp@0.10.6 --tool-preset developer` (Mozilla, Firefox 158). It has no `--profile-path`, so each session uses a fresh temporary profile; no privileged presets.
+- **Safari/Firefox checklist:**
+  - console errors;
+  - failed requests (in Safari, navigate twice: the first navigation of a session records nothing);
+  - `CSS.supports` for what the change uses;
+  - images loaded, and none broken after a full scroll;
+  - `document.fonts` status;
+  - overflow at the sweep widths;
+  - all `[data-aos]` animated after a full scroll, the fill finished, the scrub at 0;
+  - the booking form (empty submit → 3 errors, valid → thank-you);
+  - screenshots.
+- **Limits:**
+  - Safari: real window (page area ~130px shorter than requested, minimum width 336), DPR 2, no touch/throttling/Lighthouse, no network timings; a new session has no tab, so navigate first.
+  - Firefox: minimum width 500; `saveTo` only inside the working folder; `profiler_stop` writes into `~/Downloads` (delete afterwards).
+  - Phone widths below that: Chrome emulation, plus a real iPhone before launch.
+- **Baseline (Oct 2026, unchanged code):**
+  - Both browsers: no console errors; only `favicon.ico` 404s; AVIF is used; 32/32 images load; 68/68 AOS animations run; no overflow at any tested width; the form works.
+  - Safari: ignores `ascent-override` (known, see Typography); scroll p50 17 ms at 60 Hz; its LCP entry is the hero glow (the 0.01-opacity title is skipped).
+  - Firefox: applies `ascent-override`; scroll p50 8.3 ms at 120 Hz with one 42 ms frame (probably an image decode); LCP is the hero portrait.
+
 ### Deploy (Vercel)
 
 - GitHub `halubouski1/julia-usova-landing`, branch `main` → Vercel. **No build on Vercel:** `vercel.json` sets `framework: null`, `installCommand: ""`, `buildCommand: ""`, `outputDirectory: "."`, so the repo root is served as-is. Without it Vercel runs `npm run build` and then fails with `STATIC_BUILD_NO_OUT_DIR` (it expects `public/`).
@@ -138,6 +164,8 @@ Inside a section, children are positioned with section-relative px (`top = figma
 - **Mobile-only assets** via `<picture>` (`media="(max-width: 1279px)"`): `footer-curve-mobile.svg`, `circles-light-mobile.svg`.
 - **Mobile-only markup:** the 4th service card `.service-card--compact-only` (hidden ≥1280); `<br class="br-compact">` breaks (hidden ≥1280), `<br class="br-design">` breaks (hidden ≤1279).
 - **Polaroids** were solved from the mobile masks the same way as on desktop (windows 7.5/8.5/10.4px from the sides, 40/45/56 from the bottom); the blonde one has the desktop geometry.
+- **Lessons backdrop:** `.lessons__media` carries an unblurred copy of the top haze gradient (same size and position) behind the blurred haze. iPhone Safari can fade a blurred layer at the clipped screen edges, which showed the cream page as thin side strips; now grey shows through. Change both together.
+- **To-top:** the circle is 61px (not scaled), so `.to-top__icon` is reset to the desktop 14px at 24/24; the laptop 10.5px icon would sit off-centre.
 - The compact block in `media.css` was hand-written from the Figma values (no generator). Keep the `calc(N * var(--m))` form when editing it.
 - A `<br>` that gets hidden on smaller screens must have a space before it in the HTML (`text <br>more`).
 - Design-only line breaks are `<br class="br-design">` (About paragraph). Hide them below desktop: `.br-design { display: none; }`.
@@ -255,6 +283,8 @@ Inside a section, children are positioned with section-relative px (`top = figma
 - Fonts: confirm a Neue Helvetica **web** licence (Monotype / MyFonts / Fonts.com) covers self-hosting. The supplied files carry no licence info and come from three different editions; ideally replace them with the official WOFF2 set from the licence account. At minimum the **Regular** should be replaced: the supplied one is 2–4% wider than the Helvetica Neue Regular used in Figma.
 
 ## How to verify (every change)
+
+Steps 1–6 run in Chrome; then Safari, and Firefox when needed (see "Browser testing").
 
 1. Run `python3 -m http.server 8765` in the project folder. Stop it afterwards with `pkill -f "http.server 8765"`.
 2. In the browser (chrome-devtools MCP), measure positions with `getBoundingClientRect` and compare them to Figma. Lazy images: set `loading='eager'` before a full-page screenshot.

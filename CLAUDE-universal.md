@@ -20,7 +20,7 @@ package.json  devDependencies only (pinned exact versions); node_modules/ is git
 New project setup:
 - Copy from the previous project: `tools/` (`scale-laptop.py`, `build-css.mjs`, `build-js.mjs`, `optimize-images.mjs`, `lighthouse.sh`, `lh-summary.mjs`), `package.json` (scripts + pinned devDependencies) and `.gitignore`. Then `npm install`.
 - Adjust in the copies: CSS/JS source lists, browser `targets` in `build-css.mjs`, the originals path (`IMAGES_SRC`), and `tools/images.config.json` (starts empty: widths are measured per image).
-- Check that Chrome DevTools MCP is connected (`claude mcp list`) before relying on browser checks.
+- Set up the browser MCP servers (see "Browser testing") and check that they are connected (`claude mcp list`) before relying on browser checks.
 
 Hard rules:
 - Source CSS: desktop styles → `style.css`, all responsive overrides → `media.css`, vendor CSS in `css/vendor/`. No per-page CSS files.
@@ -183,7 +183,47 @@ Document each shared component here when you create it: class names, modifiers, 
 
 - <e.g. "FAQ: 17 of 18 answers are draft copy">
 
+## Browser testing (Chrome → Safari → Firefox if needed)
+
+Order: **Chrome first, then Safari. Firefox only when it is needed.**
+
+1. **Chrome** (`chrome-devtools` MCP + Lighthouse) is the main workbench. Every step of "How to verify" runs here first: positions vs Figma, the overflow sweep, emulation, performance traces, Lighthouse. Fix everything in Chrome before moving on.
+2. **Safari** (`safari-mcp`, Apple's official `safaridriver --mcp`, Safari 27+) comes after Chrome is clean, for every change that touches layout, fonts, CSS effects or JS. Check:
+   - console errors;
+   - failed requests (navigate twice: the first navigation of a session records no requests);
+   - `CSS.supports` for whatever the change uses;
+   - images (`currentSrc`, none broken after a full scroll);
+   - fonts (`document.fonts` status);
+   - overflow at the sweep widths;
+   - animations after a full scroll;
+   - forms;
+   - screenshots at 1440, 1024 and 360.
+3. **Firefox** (`firefox-devtools` MCP, Mozilla's official `@mozilla/firefox-devtools-mcp`) is **only when needed**: a Firefox bug is reported, the change uses CSS/JS with patchy Gecko support, Chrome and Safari disagree, or the pre-launch check. Same checklist as Safari. It adds a debugger (scripts, logpoints) and the Firefox profiler.
+
+Setup (once per machine, `local` scope; never remove or overwrite existing servers):
+- Chrome: from the ECC plugin (`chrome-devtools-mcp@<pinned version>`).
+- Safari: in Safari, turn on Settings ▸ Advanced ▸ "Show features for web developers", then Settings ▸ Developer ▸ "Allow remote automation and external agents". Then run `claude mcp add safari-mcp -- /usr/bin/safaridriver --mcp`.
+- Firefox: `claude mcp add firefox-devtools -- npx -y @mozilla/firefox-devtools-mcp@<pinned version> --tool-preset developer`.
+  - **No `--profile-path`:** every session gets a fresh temporary profile. Never connect it to the personal profile.
+  - **Never** use the `mozilla`/`all` presets (privileged tools).
+- Restart Claude Code after adding a server; until then its tools are not available in the session.
+
+Limits:
+- **Safari:**
+  - The viewport is the real window: the page area is ~130px shorter than requested and the minimum width is 336.
+  - DPR is fixed at 2; no touch, no CPU throttling, no Lighthouse; network timings are empty; no CLS/INP entries.
+  - It ignores `ascent-override` (text sits ~0.1em lower).
+  - Every new session starts without a tab, so navigate first.
+- **Firefox:**
+  - The minimum window width is 500 (no phone widths).
+  - `saveTo` paths must stay inside the working folder.
+  - `profiler_stop` writes the profile into `~/Downloads`; delete it afterwards.
+- **Phones:** none of the three covers real touch, the moving toolbar or a real GPU. Use Chrome emulation for layout, plus a real iPhone (Safari Web Inspector over USB) before launch.
+- Report per browser what was checked and what wasn't.
+
 ## How to verify (every change)
+
+Steps 1–8 run in Chrome; then Safari (and Firefox when needed) as described in "Browser testing".
 
 1. Run `python3 -m http.server 8765` in the project folder (Lighthouse runs stop it; restart before browser checks). Stop it afterwards with `pkill -f "http.server 8765"`.
 2. Rebuild first (`npm run build`), then reload with `ignoreCache`; stale files cause false alarms.

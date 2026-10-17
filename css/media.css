@@ -1287,6 +1287,15 @@
     height: 61px;
   }
 
+  /* The circle is back to 61px, so the icon gets the desktop size again
+     (the laptop 10.5px icon at 18/18 sat off-centre) */
+  .to-top__icon {
+    top: 24px;
+    left: 24px;
+    width: 14px;
+    height: 14px;
+  }
+
   .footer__contact--phone {
     top: calc(1893px * var(--m));
     left: calc(50% - 160px * var(--m));
@@ -1794,6 +1803,14 @@
     width: calc(1009px * var(--m));
     height: calc(207px * var(--m));
     filter: blur(calc(22.1px * var(--m)));
+  }
+
+  /* Unblurred copy of the top haze (same gradient, size and position) behind it.
+     iPhone Safari can fade the blurred haze at the clipped screen edges, which
+     showed the cream page as thin strips; now grey shows through instead.
+     Its bottom edge is covered by the palettes photo. */
+  .lessons__media {
+    background: var(--g-lessons-haze-top) calc(50% - 0.5px * var(--m)) 0 / calc(1719px * var(--m)) calc(601px * var(--m)) no-repeat;
   }
 
   .lessons__head {
