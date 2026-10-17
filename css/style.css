@@ -96,6 +96,13 @@
   --c-red-15: rgba(147, 2, 16, 0.15);
   --c-red-bright: #e5000d;
   --c-red-dark: rgb(95, 0, 2);
+  --c-case-velvet: rgb(103, 3, 27); /* sampled from the case photo */
+  --c-case-velvet-dark: rgb(62, 1, 10);
+  --g-case-velvet: radial-gradient(120% 85% at 50% 35%, rgb(128, 12, 38) 0%, var(--c-case-velvet) 45%, var(--c-case-velvet-dark) 100%);
+  --g-case-gold: linear-gradient(135deg, rgb(240, 207, 134) 0%, rgb(181, 120, 48) 50%, rgb(143, 88, 31) 100%);
+  --g-case-sheen: linear-gradient(170deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 38%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.28) 100%);
+  --c-case-gold-line: rgba(214, 160, 80, 0.55);
+  --c-case-gold-edge: rgba(90, 55, 15, 0.6);
   --c-ink: #060708;
   --c-polaroid: #fcf3fb;
   --c-gray: #6a6c74;
@@ -1030,8 +1037,126 @@ button {
   left: calc(50% - 867px); /* Figma x 93, centred */
   width: 1734px;
   height: 1004px;
+}
+
+.services__case-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: top;
+}
+
+/* Lid that swings open on scroll (initCaseLid() in main.js).
+   main.js clones the case photo into .services__case-lid, cut at the hinge
+   (--case-hinge, measured from the box width), and clips the photo below it.
+   The lid rotates around the hinge with rotateX; its back face is the velvet
+   outside drawn here. When fully open (.is-case-open) the lid is hidden and
+   the photo is whole again, so the open case is the untouched image.
+   Without JS or with reduced motion none of this applies. */
+.services__case.is-case-3d {
+  overflow: hidden; /* the closed lid reaches past the section bottom */
+  perspective: 2400px;
+  perspective-origin: 50% -40%; /* eye above the case, like the photo's camera */
+}
+
+.is-case-3d:not(.is-case-open) > picture > .services__case-photo {
+  clip-path: inset(var(--case-hinge) 0 0 0);
+}
+
+.services__case-lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--case-hinge);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.is-case-open .services__case-lid {
+  visibility: hidden;
+}
+
+.services__case-lid-front {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.services__case-lid-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+/* Outside of the lid: same outline as the lid in the photo (x 14.5–85.4 %,
+   frame top at 21 % of the lid height). rotateX(180deg) puts its local
+   bottom edge at the lid's free edge, so the clasp sits at the front when
+   the lid is closed. */
+.services__case-lid-back {
+  position: absolute;
+  top: 21%;
+  left: 14.5%;
+  right: 14.6%;
+  bottom: 0;
+  border-radius: 3% / 7%;
+  background: var(--g-case-velvet);
+  box-shadow: inset 0 0 0 4px var(--c-case-velvet-dark);
+  transform: rotateX(180deg);
+  backface-visibility: hidden;
+}
+
+/* Gold piping a little inside the edge */
+.services__case-lid-back::before {
+  content: "";
+  position: absolute;
+  inset: 4% 2.2%;
+  border: 1px solid var(--c-case-gold-line);
+  border-radius: 2% / 5%;
+}
+
+/* Soft light from the top, darker towards the hinge */
+.services__case-lid-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--g-case-sheen);
+}
+
+/* Corner guards: a gold square that wraps the corner, rounded like the lid */
+.services__case-corner {
+  position: absolute;
+  z-index: 1;
+  width: 4.5%;
+  aspect-ratio: 1;
+  background: var(--g-case-gold);
+  box-shadow: inset 0 0 0 1px var(--c-case-gold-edge);
+}
+
+.services__case-corner--tl { top: 0; left: 0; border-radius: 45% 10% 10% 10%; }
+.services__case-corner--tr { top: 0; right: 0; border-radius: 10% 45% 10% 10%; }
+.services__case-corner--bl { bottom: 0; left: 0; border-radius: 10% 10% 10% 45%; }
+.services__case-corner--br { bottom: 0; right: 0; border-radius: 10% 10% 45% 10%; }
+
+.services__case-clasp {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 6%;
+  height: 11%;
+  z-index: 1;
+  border-radius: 18% 18% 8% 8%;
+  background: var(--g-case-gold);
+  box-shadow: inset 0 0 0 1px var(--c-case-gold-edge);
+  translate: -50% 0;
 }
 
 /* Full-width box: the polaroids are anchored to its right edge, like the
@@ -1721,7 +1846,6 @@ a.footer__contact-value:focus-visible {
    they compose with an element's own transform (e.g. the polaroids' tilt).
    ========================================================================== */
 
-/* Photo thrown onto the table: drops, untwists and settles */
 /* Hero title before AOS takes over (html.aos-pending is set in <head>).
    1% opacity instead of 0: looks the same, but the text counts as painted
    for LCP. If no script ever animates it, it shows itself after 3s. */
@@ -1734,21 +1858,6 @@ a.footer__contact-value:focus-visible {
   to {
     opacity: 1;
   }
-}
-
-[data-aos="polaroid"] {
-  opacity: 0;
-  translate: 0 -70px;
-  scale: 1.12;
-  rotate: 9deg;
-  transition-property: opacity, translate, scale, rotate;
-}
-
-[data-aos="polaroid"].aos-animate {
-  opacity: 1;
-  translate: 0 0;
-  scale: 1;
-  rotate: 0deg;
 }
 
 /* Clip reveal from the bottom with the image settling inside */
@@ -1770,8 +1879,10 @@ a.footer__contact-value:focus-visible {
   scale: 1;
 }
 
-/* Scroll-linked drift ("Rio de Janeiro"): translate/opacity written by
-   initScrub() in main.js from the element's position in the viewport */
+/* Scroll-linked drift ("Rio de Janeiro" from the right, polaroids from the
+   left): translate/opacity written by initScrub() in main.js from the
+   element's position in the viewport. translate composes with the
+   polaroids' own transform (their tilt). */
 [data-scrub] {
   will-change: translate, opacity;
 }

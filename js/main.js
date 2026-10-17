@@ -4,7 +4,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lenis = null;
 
-  // Scroll animations: selector → AOS effect. Custom effects (polaroid, reveal,
+  // Scroll animations: selector → AOS effect. Custom effects (reveal,
   // slide-in-far, draw) are defined in style.css → "Animations".
   // stagger: delay step per matched element; staggerGroup: restart the stagger every N items.
   var ANIMATIONS = [
@@ -24,11 +24,10 @@
     { selector: '.expertise__based', effect: 'fade-up' },
 
     { selector: '.services__label', effect: 'fade-up' },
-    { selector: '.polaroid', effect: 'polaroid', duration: 1000, stagger: 150 },
     { selector: '.service-card', effect: 'fade-up', stagger: 120 },
     { selector: '.services__btn', effect: 'fade-up' },
     { selector: '.services__heading', effect: 'fade-up', duration: 1200 },
-    { selector: '.services__case', effect: 'fade-up', duration: 1200 },
+    // .services__case is animated by initCaseLid() (which also fades the 01/02 block in on desktop)
     { selector: '.feature', effect: 'fade-up', delay: 300, stagger: 150 },
 
     { selector: '.lessons__head .label', effect: 'fade-right' },
@@ -57,8 +56,10 @@
 
   // Scroll-linked drift: the element slides in by `x` px and fades in while its
   // top moves from `start` to `end` (fractions of the viewport height).
+  // Positive `x` comes in from the right, negative from the left.
   var SCRUB = [
-    { selector: '.expertise__city', x: 260, start: 1, end: 0.35 }
+    { selector: '.expertise__city', x: 260, start: 1, end: 0.35 },
+    { selector: '.polaroid', x: -260, start: 1, end: 0.35 }
   ];
 
   // Scroll fill: words go muted → full colour while the block's top moves from
@@ -67,6 +68,25 @@
   var FILL = [
     { selector: '.about__text', start: 0.85, end: 0.5, soft: 4 }
   ];
+
+  // Makeup case: the lid swings open (rotateX from `angle` to 0) while the
+  // hinge moves from `start` to `end` (viewport fractions). `hinge` = hinge
+  // line / photo width (photo 1312 wide, hinge at y 565). `reveal` fades in
+  // during the last `revealFrom`…1 of the progress (the 01/02 text on the lid).
+  // Desktop/laptop: starts while the hinge is still below the fold, so the lid
+  // is already lifting when "Considered for every setting" comes into view.
+  // `compact` (≤1279): 01/02 sit above the case, not on the lid, so they keep
+  // their own AOS fade and the lid opens once the case itself is in view.
+  var CASE_LID = {
+    selector: '[data-case-lid]',
+    hinge: 565 / 1312,
+    angle: -100,
+    start: 1.8,
+    end: 0.75,
+    reveal: '.services__features',
+    revealFrom: 0.65,
+    compact: { media: '(max-width: 1279px)', start: 0.95, end: 0.45, reveal: false }
+  };
 
   // Shared scroll loop for parallax, scrub and fill.
   // Performance rules (low-end devices):
@@ -302,6 +322,84 @@
     });
   }
 
+  // Builds the lid from a clone of the case photo (same URL, no extra
+  // download) plus its velvet outside, then drives the rotation from scroll.
+  function initCaseLid() {
+    if (reduceMotion) return;
+    var box = document.querySelector(CASE_LID.selector);
+    var picture = box && box.querySelector('picture');
+    if (!picture) return;
+
+    var lid = document.createElement('div');
+    lid.className = 'services__case-lid';
+    lid.setAttribute('aria-hidden', 'true');
+
+    var front = document.createElement('div');
+    front.className = 'services__case-lid-front';
+    var clone = picture.cloneNode(true);
+    var cloneImg = clone.querySelector('img');
+    cloneImg.className = 'services__case-lid-photo';
+    cloneImg.alt = '';
+    front.appendChild(clone);
+
+    var back = document.createElement('div');
+    back.className = 'services__case-lid-back';
+    ['tl', 'tr', 'bl', 'br'].forEach(function (corner) {
+      var span = document.createElement('span');
+      span.className = 'services__case-corner services__case-corner--' + corner;
+      back.appendChild(span);
+    });
+    var clasp = document.createElement('span');
+    clasp.className = 'services__case-clasp';
+    back.appendChild(clasp);
+
+    lid.appendChild(front);
+    lid.appendChild(back);
+    box.appendChild(lid);
+    box.classList.add('is-case-3d');
+
+    var reveal = document.querySelector(CASE_LID.reveal);
+    var compactQuery = window.matchMedia(CASE_LID.compact.media);
+    var compactSettings = Object.assign({}, CASE_LID, CASE_LID.compact);
+    var c = CASE_LID;
+    var boxCache = {};
+    var lidCache = {};
+    var revealCache = {};
+    var hingeTop = 0;
+    var open = null;
+
+    addScrollEffect({
+      measure: function () {
+        c = compactQuery.matches ? compactSettings : CASE_LID;
+        if (!c.reveal && reveal) {
+          // Compact: 01/02 are not on the lid, leave them to their own animation
+          setStyle(reveal, revealCache, 'opacity', '');
+          setStyle(reveal, revealCache, 'translate', '');
+        }
+        var hinge = box.offsetWidth * c.hinge;
+        setStyle(box, boxCache, '--case-hinge', hinge.toFixed(1) + 'px');
+        hingeTop = layoutPageTop(box) + hinge;
+      },
+      update: function (y, vh) {
+        var progress = clamp01((c.start * vh - (hingeTop - y)) / ((c.start - c.end) * vh));
+        var eased = progress * progress * (3 - 2 * progress); // smoothstep
+        setStyle(lid, lidCache, 'transform', 'rotateX(' + (c.angle * (1 - eased)).toFixed(2) + 'deg)');
+
+        var isOpen = progress >= 1;
+        if (isOpen !== open) {
+          open = isOpen;
+          box.classList.toggle('is-case-open', isOpen);
+        }
+
+        if (reveal && c.reveal) {
+          var shown = clamp01((progress - c.revealFrom) / (1 - c.revealFrom));
+          setStyle(reveal, revealCache, 'opacity', shown.toFixed(3));
+          setStyle(reveal, revealCache, 'translate', '0 ' + ((1 - shown) * 30).toFixed(1) + 'px');
+        }
+      }
+    });
+  }
+
   // Wraps every word of the block's text nodes in <span class="fill-word">,
   // keeping spaces and <br>s untouched.
   function splitWords(root) {
@@ -502,6 +600,7 @@
     initAnimations();
     initParallax();
     initScrub();
+    initCaseLid();
     initFill();
     initBookingForm();
     initWorldtime();

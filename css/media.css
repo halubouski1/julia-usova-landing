@@ -745,6 +745,26 @@
     height: 753px;
   }
 
+  .services__case.is-case-3d {
+    perspective: 1800px;
+  }
+
+  .services__case-lid-back {
+    box-shadow: inset 0 0 0 3px var(--c-case-velvet-dark);
+  }
+
+  .services__case-lid-back::before {
+    border: 1px solid var(--c-case-gold-line);
+  }
+
+  .services__case-corner {
+    box-shadow: inset 0 0 0 1px var(--c-case-gold-edge);
+  }
+
+  .services__case-clasp {
+    box-shadow: inset 0 0 0 1px var(--c-case-gold-edge);
+  }
+
   .services__label {
     top: 102.75px;
     left: 45px;
@@ -1002,10 +1022,6 @@
   .lessons__btn {
     width: 227.25px;
     margin-top: 30.75px;
-  }
-
-  [data-aos="polaroid"] {
-    translate: 0 -52.5px;
   }
   /* laptop:generated:end */
 
@@ -1641,6 +1657,11 @@
     height: calc(449px * var(--m));
   }
 
+  /* Same perspective-to-width ratio as desktop (2400 / 1734) */
+  .services__case.is-case-3d {
+    perspective: calc(1071px * var(--m));
+  }
+
   .services__label {
     top: calc(54px * var(--m));
     left: calc(50% - 160px * var(--m));
@@ -1666,10 +1687,6 @@
   .polaroid--blonde { --rot: -13.74deg; top: calc(1230.98px * var(--m)); left: calc(50% - 1.79px * var(--m)); width: calc(273.682px * var(--m)); height: calc(316.255px * var(--m)); }
   .polaroid--blonde .polaroid__photo { top: calc(11.41px * var(--m)); left: calc(11.4px * var(--m)); width: calc(250.23px * var(--m)); height: calc(243.92px * var(--m)); }
   .polaroid--blonde img { top: calc(-8.74px * var(--m)); left: calc(-6.91px * var(--m)); width: calc(262.555px * var(--m)); height: calc(351.446px * var(--m)); }
-
-  [data-aos="polaroid"] {
-    translate: 0 calc(-50px * var(--m));
-  }
 
   .services__list {
     top: calc(375px * var(--m));
