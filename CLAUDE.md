@@ -53,6 +53,13 @@ tools/images.manifest.json     (generated: widths per image and whether it has A
 - `python3 -m http.server` sends no `Cache-Control`, so `cache-insight` always fails locally; caching is a hosting setting.
 - Chrome DevTools MCP comes from the ECC plugin (`chrome-devtools-mcp@1.10.1`): use it for DOM/Console/Network/traces.
 
+### Deploy (Vercel)
+
+- GitHub `halubouski1/julia-usova-landing`, branch `main` → Vercel. **No build on Vercel:** `vercel.json` sets `framework: null`, `installCommand: ""`, `buildCommand: ""`, `outputDirectory: "."`, so the repo root is served as-is. Without it Vercel runs `npm run build` and then fails with `STATIC_BUILD_NO_OUT_DIR` (it expects `public/`).
+- That means **the generated files must be committed**: run `npm run build` (and `npm run build:images` for new images) locally before every push; `css/site.min.css`, `js/site.min.js`, `assets/images/*.webp|avif` and `assets/fonts/*` are in git.
+- `.vercelignore` keeps docs, tooling, reports and CSS/JS sources off the live site (`CLAUDE*.md`, `tools/`, `lighthouse/`, `package*.json`, sources). When adding a file the page loads, check it is not matched there.
+- No custom cache headers yet: CSS/JS filenames are not versioned, so long caching could pair new HTML with old CSS. Add versioned filenames (or `?v=<hash>` written by the build) before long `Cache-Control` for CSS/JS; images and fonts could get long caching once their names change on every content change.
+
 - One inline script is allowed, in `<head>`: it sets `--fixed-vh` before the first paint (the hero height). `main.js` keeps it in sync when the window width changes.
 
 Hard rules:
