@@ -99,7 +99,7 @@
   }
 
   .nav {
-    width: 296.25px;
+    gap: 30px;
   }
 
   .nav__link {
@@ -148,7 +148,7 @@
   .footer__title {
     top: 252px;
     left: 48px;
-    width: 466.5px;
+    min-width: 466.5px;
     font-size: 75px;
     line-height: 67.5px;
     letter-spacing: -2.25px;
@@ -241,7 +241,7 @@
   }
 
   .footer__links--pages {
-    width: 150px;
+    min-width: 150px;
   }
 
   .to-top {
@@ -290,12 +290,12 @@
 
   .footer__contact--phone .footer__contact-label img {
     top: 4.853px;
-    left: 118.852px;
+    margin-left: 10.77px;
   }
 
   .footer__contact--office .footer__contact-label img {
     top: 4.103px;
-    left: 45px;
+    margin-left: 2.46px;
   }
 
   .footer__contact-value {
@@ -317,6 +317,16 @@
   }
 
   /* index.html */
+  .lang {
+    margin: 44.25px 0 0 36px;
+    font-size: 9px;
+    line-height: 10.5px;
+  }
+
+  .lang__link + .lang__link::before {
+    margin: 0 6px;
+  }
+
   .hero__portrait {
     top: -54.203px;
     left: 119.445px;
@@ -363,7 +373,7 @@
   .hero__title {
     top: 157.5px;
     right: 33px;
-    width: 517.5px;
+    min-width: 517.5px;
     font-size: 75px;
     line-height: 67.5px;
     letter-spacing: -2.25px;
@@ -399,12 +409,15 @@
   }
 
   .hero__btn-portfolio {
-    width: 186px;
+    min-width: 186px;
     padding-left: 39px;
+    padding-right: 58.5px;
   }
 
   .hero__btn-booking {
-    width: 177px;
+    min-width: 177px;
+    padding-left: 18px;
+    padding-right: 45.75px;
   }
 
   .stat-card {
@@ -897,7 +910,8 @@
   .services__btn {
     top: 791.25px;
     left: 45px;
-    width: 227.25px;
+    min-width: 227.25px;
+    padding-right: 58.5px;
   }
 
   .services__heading {
@@ -1020,12 +1034,18 @@
   }
 
   .lessons__btn {
-    width: 227.25px;
+    min-width: 227.25px;
     margin-top: 30.75px;
+    padding-right: 58.5px;
   }
   /* laptop:generated:end */
 
   /* Hand-written laptop overrides (not covered by the generator) */
+
+  /* The generated .footer__links height would cap the menu column again */
+  .footer__links--pages {
+    height: auto;
+  }
 
   /* Shared: images sized only by their HTML width/height attributes */
   .header__logo img { width: 165.75px; height: 38.25px; }
@@ -1098,14 +1118,28 @@
     display: none;
   }
 
+  /* Language switcher stays in the header next to the burger (not scaled,
+     like the buttons); centred on the burger lines (top 34 + 15/2) */
+  .lang {
+    margin: calc(calc(41.5px * var(--m)) - 7px) 0 0 auto;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .lang__link + .lang__link::before {
+    margin: 0 6px;
+  }
+
+  /* Smaller than the mobile Figma (25.9 × 15) so the language switcher fits
+     beside it; same centre (41.5m), hit area stays ~40px */
   .burger {
-    gap: calc(5.455px * var(--m));
-    margin: calc(calc(34px * var(--m)) - 10px) 0 0 auto;
+    gap: calc(4.5px * var(--m));
+    margin: calc(calc(34.95px * var(--m)) - 10px) 0 0 4px;
     padding: 10px;
   }
 
   .burger__line {
-    width: calc(25.909px * var(--m));
+    width: calc(20px * var(--m));
     height: calc(1.364px * var(--m));
   }
 
@@ -1194,6 +1228,7 @@
     top: calc(137px * var(--m));
     left: calc(50% - 160px * var(--m));
     width: calc(320px * var(--m));
+    min-width: 0;
     font-size: calc(52px * var(--m));
     line-height: calc(50px * var(--m));
     letter-spacing: calc(-1.56px * var(--m));
@@ -1240,26 +1275,48 @@
     line-height: 20px;
   }
 
+  /* Fixed to the 320m column: the rule shrinks for a longer link, and a
+     very long one (RU) wraps to two lines */
   .footer__legal {
     top: calc(75px * var(--m));
-    right: auto;
+    right: calc(50% - 160px * var(--m));
     left: calc(50% - 160px * var(--m));
-    height: calc(17px * var(--m));
+    height: auto;
+    min-height: calc(17px * var(--m));
+    flex-wrap: wrap;
+    white-space: normal;
     font-size: calc(14px * var(--m));
     line-height: calc(17px * var(--m));
   }
 
+  /* The rule takes what the link leaves (up to its Figma 127m, at least 24m);
+     the link never shrinks, so it stays on one line or moves down whole */
   .footer__rule {
-    width: calc(127px * var(--m));
+    flex: 1 1 0;
+    width: auto;
+    min-width: calc(24px * var(--m));
+    max-width: calc(127px * var(--m));
     margin-top: 0;
   }
 
   .footer__year {
+    flex: none;
     margin-left: calc(18px * var(--m));
   }
 
   .footer__legal-link {
+    flex: none;
     margin-left: calc(23px * var(--m));
+  }
+
+  /* "ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ" doesn't fit beside the rule: own line below */
+  :lang(ru) .footer__legal {
+    row-gap: calc(8px * var(--m));
+  }
+
+  :lang(ru) .footer__legal-link {
+    flex-basis: 100%;
+    margin-left: 0;
   }
 
   .footer__nav {
@@ -1289,9 +1346,15 @@
     width: calc(151px * var(--m));
   }
 
+  /* Wraps before the to-top circle on the right. Six items (Figma had four):
+     tighter lines so the list ends higher above the bright part of the portrait */
   .footer__links--pages {
-    width: calc(200px * var(--m));
-    height: calc(133px * var(--m));
+    min-width: calc(200px * var(--m));
+    width: auto;
+    max-width: calc(255px * var(--m));
+    height: auto;
+    line-height: calc(30px * var(--m));
+    white-space: normal;
     background-image: linear-gradient(55.87deg, #6e6e6e 31.978%, #fff 76.453%);
   }
 
@@ -1334,12 +1397,12 @@
 
   .footer__contact--phone .footer__contact-label img {
     top: calc(5px * var(--m));
-    left: calc(115px * var(--m));
+    margin-left: calc(6.92px * var(--m));
   }
 
   .footer__contact--office .footer__contact-label img {
     top: calc(5px * var(--m));
-    left: calc(48px * var(--m));
+    margin-left: calc(5.46px * var(--m));
   }
 
   .footer__contact-value {
@@ -1429,10 +1492,27 @@
     right: auto;
     left: calc(18px * var(--m));
     width: calc(332px * var(--m));
+    min-width: 0;
     font-size: calc(52px * var(--m));
     line-height: calc(50px * var(--m));
     letter-spacing: calc(-1.56px * var(--m));
     text-align: left;
+  }
+
+  /* "MAQUIADORA" / "MAQUILLADORA" are single words wider than the column at
+     52m: these languages get a smaller title (hero and its footer repeat) */
+  :lang(pt) .hero__title,
+  :lang(pt) .footer__title {
+    font-size: calc(48.5px * var(--m));
+    line-height: calc(46.6px * var(--m));
+    letter-spacing: calc(-1.455px * var(--m));
+  }
+
+  :lang(es) .hero__title,
+  :lang(es) .footer__title {
+    font-size: calc(42px * var(--m));
+    line-height: calc(40.4px * var(--m));
+    letter-spacing: calc(-1.26px * var(--m));
   }
 
   .hero__tagline {
@@ -1461,12 +1541,14 @@
   .hero__actions {
     right: auto;
     bottom: calc(32px * var(--m));
-    left: calc(50% - 138px);
+    left: 50%;
+    translate: -50% 0; /* centred at any button width (longer languages) */
   }
 
   .hero__btn-portfolio {
-    width: 276px;
+    min-width: 276px;
     padding-left: 52px;
+    padding-right: 78px;
   }
 
   /* About (Figma 913–1939) */
@@ -1580,6 +1662,14 @@
     font-size: calc(90px * var(--m));
     line-height: calc(71px * var(--m));
     letter-spacing: calc(-2.7px * var(--m));
+  }
+
+  /* "Рио-де- / Жанейро": Cyrillic is wider; scaled so its long line matches
+     the English "Janeiro" */
+  :lang(ru) .expertise__city {
+    font-size: calc(68px * var(--m));
+    line-height: calc(53.6px * var(--m));
+    letter-spacing: calc(-2.04px * var(--m));
   }
 
   .expertise__title,
@@ -1739,14 +1829,18 @@
 
   .services__btn {
     top: calc(1617px * var(--m));
-    left: calc(50% - 149px);
-    width: 298px;
+    left: 50%;
+    min-width: 298px;
+    padding-right: 78px;
+    translate: -50% 0; /* centred at any width; composes with the AOS transform */
   }
 
+  /* In the 320m text column (Figma's 400m box is wider than the screen;
+     English wraps the same, longer languages no longer run off the edges) */
   .services__heading {
     top: calc(1834px * var(--m));
-    left: calc(50% - 200px * var(--m));
-    width: calc(400px * var(--m));
+    left: calc(50% - 160px * var(--m));
+    width: calc(320px * var(--m));
     font-size: calc(50px * var(--m));
     line-height: calc(50px * var(--m));
     letter-spacing: calc(-1.5px * var(--m));
@@ -1876,8 +1970,9 @@
   }
 
   .lessons__btn {
-    width: 298px;
+    min-width: 298px;
     margin-top: calc(26px * var(--m));
+    padding-right: 78px;
   }
 }
 
@@ -1890,6 +1985,47 @@
   :root {
     --m: 1.2;
     --spread: 1.25;
+  }
+
+  /* Phones: the hero and footer portraits and the makeup case are zoomed out
+     from the Figma crops (client request, Oct 2026); tablets keep them */
+
+  /* ~0.8 of the Figma crop (940 × 972m) so the whole face shows, but never
+     shorter than the hero (+8px), so it always covers it. Width follows the
+     photo's ratio (1233 / 1276); left keeps the face where Figma has it
+     (0.6013 of the width left of centre: 0.6013 × 1233/1276 = 0.5811). */
+  .hero__portrait {
+    --portrait-h: max(calc(778px * var(--m)), calc(var(--fixed-vh, 100vh) + 8px));
+    top: 0;
+    left: calc(50% - var(--portrait-h) * 0.5811);
+    width: auto;
+    height: var(--portrait-h);
+  }
+
+  /* 0.8 of the Figma crop (1083 × 1107m): bottom edge and face centre kept */
+  .footer__portrait {
+    top: calc(1106.4px * var(--m));
+    left: calc(50% - 517.7px * var(--m));
+    width: calc(866.4px * var(--m));
+    height: calc(885.6px * var(--m));
+  }
+
+  /* The whole case (Figma crops a 774m-wide photo to its lid and tray):
+     400m wide, the photo's own ratio (1312 × 1199), so the front wall and
+     handle show and its 84 % wide base fits the screen with a margin.
+     Bottom on the section bottom, as before. */
+  .services__case {
+    top: calc(2462.5px * var(--m));
+    left: calc(50% - 200px * var(--m));
+    width: calc(400px * var(--m));
+    height: calc(365.55px * var(--m));
+  }
+
+  /* Longer perspective and a higher eye than desktop: the closed lid then
+     lies over the tray instead of swelling past the screen */
+  .services__case.is-case-3d {
+    perspective: calc(1250px * var(--m));
+    perspective-origin: 50% -140%;
   }
 }
 
@@ -1920,8 +2056,13 @@
     max-width: calc(285px * var(--m));
   }
 
+  /* Full column width; the label scales with the page here so longer
+     languages still clear the ring */
   .lessons__btn {
+    min-width: 0;
     width: 100%;
     padding-left: 20px;
+    padding-right: 64px;
+    font-size: calc(16px * var(--m));
   }
 }

@@ -16,3 +16,7 @@ css/media.css
 css/vendor/
 js/main.js
 js/vendor/
+
+# HTML template and translations (built into index.html, pt/, es/, ru/ by `npm run build:html`)
+src/
+i18n/

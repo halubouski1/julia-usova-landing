@@ -77,6 +77,17 @@
   // is already lifting when "Considered for every setting" comes into view.
   // `compact` (≤1279): 01/02 sit above the case, not on the lid, so they keep
   // their own AOS fade and the lid opens once the case itself is in view.
+  // Lessons palettes ring: angles at the section's extremes (t = ±1: its centre
+  // a half-viewport-plus-half-height away from the viewport centre); 0 at the
+  // centre. Kept moderate: the photo's background gradient turns with the ring.
+  var PALETTE_SPIN = {
+    selector: '.lessons__palettes',
+    spin: 30,   // rotateZ, degrees
+    turn: 10,   // rotateY
+    tilt: 7,    // rotateX
+    perspective: 1800
+  };
+
   var CASE_LID = {
     selector: '[data-case-lid]',
     hinge: 565 / 1312,
@@ -322,6 +333,48 @@
     });
   }
 
+  // Lessons: clones the palettes photo (same URL, no extra download) into a
+  // circle-masked layer that spins and tilts with the scroll. Runs before
+  // initParallax(), so the copy (same class) gets the same parallax drift.
+  function initPaletteSpin() {
+    if (reduceMotion) return;
+    var base = document.querySelector(PALETTE_SPIN.selector);
+    var picture = base && base.closest('picture');
+    var section = base && base.closest('section');
+    if (!picture || !section) return;
+
+    var clone = picture.cloneNode(true);
+    var img = clone.querySelector('img');
+    img.classList.add('lessons__palettes--spin');
+    img.alt = '';
+    img.setAttribute('aria-hidden', 'true');
+    picture.parentNode.insertBefore(clone, picture.nextSibling);
+
+    var c = PALETTE_SPIN;
+    var cache = {};
+    var top = 0;
+    var height = 0;
+    var placement = ''; // the photo's own transform (desktop centres it with translateX(-50%))
+
+    addScrollEffect({
+      measure: function () {
+        var rect = section.getBoundingClientRect();
+        top = rect.top + window.scrollY;
+        height = rect.height;
+        var own = getComputedStyle(base).transform;
+        placement = own && own !== 'none' ? own + ' ' : '';
+      },
+      update: function (y, vh) {
+        var center = top - y + height / 2;
+        if (center < -height || center > vh + height) return; // off-screen: keep last value
+        var t = Math.max(-1, Math.min(1, (center - vh / 2) / (vh / 2 + height / 2)));
+        setStyle(img, cache, 'transform', placement +
+          'perspective(' + c.perspective + 'px) rotateX(' + (t * c.tilt).toFixed(2) + 'deg) rotateY(' +
+          (-t * c.turn).toFixed(2) + 'deg) rotate(' + (t * c.spin).toFixed(2) + 'deg)');
+      }
+    });
+  }
+
   // Builds the lid from a clone of the case photo (same URL, no extra
   // download) plus its velvet outside, then drives the rotation from scroll.
   function initCaseLid() {
@@ -474,21 +527,33 @@
   // inside the field (.field-error), the field gets aria-invalid.
   // Errors appear on blur (if something was typed) or on submit, and clear
   // live while the user fixes the value.
+  // Rules return a message key; the text comes from the form's data-msg-* attribute
+  // (each language version carries its own, see src/index.html), English as fallback.
   var VALIDATORS = {
     name: function (value) {
-      if (!value) return 'Enter your name';
+      if (!value) return 'name-empty';
       var letters = value.match(/\p{L}/gu) || [];
-      return letters.length < 2 ? 'Name is too short' : '';
+      return letters.length < 2 ? 'name-short' : '';
     },
     phone: function (value) {
-      if (!value) return 'Enter your phone';
+      if (!value) return 'phone-empty';
       var digits = value.replace(/\D/g, '').length;
-      return digits < 7 || digits > 15 ? 'Check the number' : '';
+      return digits < 7 || digits > 15 ? 'phone-invalid' : '';
     },
     email: function (value) {
-      if (!value) return 'Enter your email';
-      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? '' : 'Check the email';
+      if (!value) return 'email-empty';
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? '' : 'email-invalid';
     }
+  };
+
+  var FORM_MESSAGES = {
+    'name-empty': 'Enter your name',
+    'name-short': 'Name is too short',
+    'phone-empty': 'Enter your phone',
+    'phone-invalid': 'Check the number',
+    'email-empty': 'Enter your email',
+    'email-invalid': 'Check the email',
+    sent: 'Thank you! Your enquiry has been sent. Julia will get back to you to confirm the date.'
   };
 
   function initBookingForm() {
@@ -500,9 +565,14 @@
     var submitted = false;
     var statusTimer = null;
 
+    function text(key) {
+      return form.getAttribute('data-msg-' + key) || FORM_MESSAGES[key] || '';
+    }
+
     function validate(field) {
       var rule = VALIDATORS[field.getAttribute('data-validate')];
-      var message = rule ? rule(field.value.trim()) : '';
+      var key = rule ? rule(field.value.trim()) : '';
+      var message = key ? text(key) : '';
       var wrap = field.closest('.field-wrap');
       var error = document.getElementById(field.getAttribute('aria-describedby'));
 
@@ -562,29 +632,64 @@
       form.reset();
       submitted = false;
       fields.forEach(function (field) { field.removeAttribute('aria-invalid'); });
-      setStatus('Thank you! Julia will get back to you shortly.');
+      setStatus(text('sent'));
+    });
+  }
+
+  // Language switcher ([data-lang-link]): remembers the choice (the inline <head>
+  // script reads it on the English home page) and opens the other version at the
+  // section that is on screen now (the last section whose top is above 40 % of the viewport).
+  function initLanguage() {
+    var links = document.querySelectorAll('[data-lang-link]');
+    if (!links.length) return;
+
+    function currentSection() {
+      var line = window.innerHeight * 0.4;
+      var id = '';
+      document.querySelectorAll('section[id], footer[id]').forEach(function (section) {
+        if (section.getBoundingClientRect().top <= line) id = section.id;
+      });
+      return id;
+    }
+
+    links.forEach(function (link) {
+      link.addEventListener('click', function () {
+        try {
+          localStorage.setItem('lang', link.getAttribute('data-lang-link'));
+        } catch (e) {
+          // storage blocked: the switch still works, it just isn't remembered
+        }
+        var section = currentSection();
+        var url = link.getAttribute('href').split('#')[0];
+        link.setAttribute('href', section ? url + '#' + section : url);
+      });
     });
   }
 
   // "Worldtime (12:50 pm)" — live time for the city in data-worldtime (IANA zone).
+  // Label from data-worldtime-label, format from the page language:
+  // English 12-hour "12:50 pm", the other versions 24-hour "12:50".
   function initWorldtime() {
     var nodes = document.querySelectorAll('[data-worldtime]');
     if (!nodes.length) return;
+    var locale = document.documentElement.lang || 'en';
+    var english = /^en\b/i.test(locale);
 
     function render() {
       nodes.forEach(function (node) {
         var time;
         try {
-          time = new Intl.DateTimeFormat('en-US', {
-            hour: 'numeric',
+          time = new Intl.DateTimeFormat(english ? 'en-US' : locale, {
+            hour: english ? 'numeric' : '2-digit',
             minute: '2-digit',
-            hour12: true,
+            hour12: english,
             timeZone: node.getAttribute('data-worldtime')
           }).format(new Date());
         } catch (e) {
           return; // unknown zone: keep the static fallback text
         }
-        node.textContent = 'Worldtime (' + time.toLowerCase() + ')';
+        var label = node.getAttribute('data-worldtime-label') || 'Worldtime';
+        node.textContent = label + ' (' + (english ? time.toLowerCase() : time) + ')';
       });
     }
 
@@ -598,11 +703,13 @@
     initAnchors();
     initScrollTop();
     initAnimations();
+    initPaletteSpin();
     initParallax();
     initScrub();
     initCaseLid();
     initFill();
     initBookingForm();
     initWorldtime();
+    initLanguage();
   });
 })();

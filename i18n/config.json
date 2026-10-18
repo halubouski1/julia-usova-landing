@@ -1,0 +1,11 @@
+{
+  "siteUrl": "",
+  "default": "en",
+  "whatsapp": "5521977773333",
+  "languages": [
+    { "code": "en", "hreflang": "en", "dir": "", "path": "/" },
+    { "code": "pt", "hreflang": "pt-BR", "dir": "pt", "path": "/pt/" },
+    { "code": "es", "hreflang": "es-419", "dir": "es", "path": "/es/" },
+    { "code": "ru", "hreflang": "ru", "dir": "ru", "path": "/ru/" }
+  ]
+}

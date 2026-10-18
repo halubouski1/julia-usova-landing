@@ -9,7 +9,8 @@
     "build:css": "python3 tools/scale-laptop.py && node tools/build-css.mjs",
     "build:images": "node tools/optimize-images.mjs",
     "build:js": "node tools/build-js.mjs",
-    "build": "npm run build:css && npm run build:js"
+    "build:html": "node tools/build-html.mjs",
+    "build": "npm run build:html && npm run build:css && npm run build:js"
   },
   "devDependencies": {
     "esbuild": "0.28.2",

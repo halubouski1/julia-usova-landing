@@ -47,6 +47,65 @@
   descent-override: 31.75%;
 }
 
+/* Extra faces for the language versions. unicode-range keeps a page from
+   downloading them unless it uses those characters (only /ru/ needs Cyrillic).
+   A face declared later wins for the characters in its range, so these fill
+   the gaps of the supplied files above:
+   - Light, Medium, Bold: Cyrillic subsets of the same files.
+   - Regular has no Cyrillic: system Helvetica Neue (Apple), else the Medium.
+   - Medium (the "HelveticaNeueCyr" edition) has no accented Latin, ¡ ¿ ª º €
+     (PT/ES): system Helvetica Neue Medium (Apple), else the Regular file,
+     which every page already loads. */
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: url("../assets/fonts/HelveticaNeue-Light-cyrillic.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491, U+2116;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: local("HelveticaNeue"), local("Helvetica Neue"), url("../assets/fonts/HelveticaNeue-Medium-cyrillic.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491, U+2116;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: url("../assets/fonts/HelveticaNeue-Medium-cyrillic.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491, U+2116;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: local("HelveticaNeue-Medium"), local("Helvetica Neue Medium"), url("../assets/fonts/HelveticaNeue-Regular.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+00A1, U+00AA, U+00BA, U+00BF-00FF, U+0152-0153, U+20AC;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
+@font-face {
+  font-family: "Helvetica Neue Figma";
+  src: url("../assets/fonts/HelveticaNeue-Bold-cyrillic.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491, U+2116;
+  ascent-override: 84.25%;
+  descent-override: 31.75%;
+}
+
 @font-face {
   font-family: "Helvetica Neue Figma Local";
   src: local("HelveticaNeue-Light"), local("Helvetica Neue Light");
@@ -436,10 +495,11 @@ button {
   margin-left: auto;
 }
 
+/* Six items since the menu update (Figma had four in 395px); fixed gap so
+   longer languages simply take more room */
 .nav {
   display: flex;
-  justify-content: space-between;
-  width: 395px;
+  gap: 40px;
 }
 
 /* Hover: underline draws in from the left, leaves to the right */
@@ -469,6 +529,32 @@ button {
 .nav__link:focus-visible::after {
   scale: 1 1;
   transform-origin: left center;
+}
+
+/* Language switcher: PT | EN | ES | RU, the current one white */
+.lang {
+  display: flex;
+  margin: 59px 0 0 48px;
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  line-height: 14px;
+}
+
+.lang__link {
+  color: var(--c-white-50);
+  transition: color 0.3s var(--ease);
+}
+
+.lang__link + .lang__link::before {
+  content: "|";
+  margin: 0 8px;
+  color: var(--c-white-25);
+}
+
+.lang__link:hover,
+.lang__link:focus-visible,
+.lang__link[aria-current="true"] {
+  color: var(--c-white);
 }
 
 /* 21×9 visual, 41×29 hit area.
@@ -583,11 +669,14 @@ button {
 }
 
 /* 61:24 */
+/* min-content + min-width: Figma's 690px box, widened only when one word is
+   longer (the right anchor makes it grow to the left) */
 .hero__title {
   position: absolute;
   top: 210px;
   right: 44px;
-  width: 690px;
+  width: min-content;
+  min-width: 690px;
   font-size: 100px;
   font-weight: var(--fw-regular);
   line-height: 90px;
@@ -635,13 +724,21 @@ button {
   gap: 20px;
 }
 
+/* Buttons: min-width = the Figma width, so a longer label (other languages)
+   widens the pill instead of running under the ring/arrow. padding-right
+   keeps the label clear of the ring (it starts 60px from the right edge; 78px leaves ~10px of air). */
 .hero__btn-portfolio {
-  width: 248px;
+  min-width: 248px;
   padding-left: 52px;
+  padding-right: 78px;
 }
 
+/* Text is centred left of the arrow: 24px on both sides keeps the Figma
+   centre (the base padding-right is 37px) */
 .hero__btn-booking {
-  width: 236px;
+  min-width: 236px;
+  padding-left: 24px;
+  padding-right: 61px;
 }
 
 /* Stat cards (Figma 61:48, 61:49) */
@@ -1275,7 +1372,8 @@ button {
 .services__btn {
   top: 1055px;
   left: 60px;
-  width: 303px;
+  min-width: 303px;
+  padding-right: 78px;
 }
 
 /* 61:154 */
@@ -1387,6 +1485,18 @@ button {
   object-fit: cover;
 }
 
+/* Spinning ring (initPaletteSpin() in main.js): a copy of the palettes photo,
+   cut to a soft circle around the ring (centre 50.2 % / 47 % of the photo,
+   palettes reach ~515 of its 1585 × 992 px; opaque to 525, faded by 600),
+   turns in 3D with the scroll while the original stays as the background.
+   At the section's centre the angle is 0, so the photo is untouched there. */
+.lessons__palettes--spin {
+  -webkit-mask-image: radial-gradient(ellipse 37.85% 60.5% at 50.2% 47%, black 87.5%, transparent 100%);
+  mask-image: radial-gradient(ellipse 37.85% 60.5% at 50.2% 47%, black 87.5%, transparent 100%);
+  transform-origin: 50.2% 47%;
+  will-change: transform;
+}
+
 .lessons__haze--bottom {
   top: 1745px;
   width: max(2077px, calc(100% + 160px));
@@ -1453,8 +1563,9 @@ button {
 }
 
 .lessons__btn {
-  width: 303px;
+  min-width: 303px;
   margin-top: 41px;
+  padding-right: 78px;
 }
 
 /* Footer (Figma 8254–9795; its curved top overlaps the lessons)
@@ -1513,7 +1624,8 @@ button {
 .footer__title {
   top: 336px;
   left: 64px;
-  width: 622px;
+  width: min-content; /* see .hero__title */
+  min-width: 622px;
   font-size: 100px;
   line-height: 90px;
   letter-spacing: -3px;
@@ -1702,8 +1814,14 @@ button {
   background-image: var(--g-footer-social);
 }
 
+/* The main menu (6 items): the column takes its longest item, growing to
+   the left (the group is right-aligned), and its full height, so the
+   background-clip gradient covers every item */
 .footer__links--pages {
-  width: 200px;
+  min-width: 200px;
+  width: max-content;
+  height: auto;
+  white-space: nowrap;
   background-image: var(--g-footer-pages);
 }
 
@@ -1780,14 +1898,19 @@ button {
   position: relative;
   font-size: 20px;
   line-height: 28px;
+  white-space: nowrap; /* keeps the sparkle on the word's line */
 }
 
+/* The sparkle follows the word (inline), so the Figma gap holds for any
+   label length; margin = gap minus the space before the image */
 .footer__contact-label img {
-  position: absolute;
+  position: relative;
+  display: inline-block; /* the base img rule makes it a block */
+  vertical-align: top;
 }
 
-.footer__contact--phone .footer__contact-label img { top: 6.47px; left: 158.47px; }
-.footer__contact--office .footer__contact-label img { top: 5.47px; left: 60px; }
+.footer__contact--phone .footer__contact-label img { top: 6.47px; margin-left: 14.36px; }
+.footer__contact--office .footer__contact-label img { top: 5.47px; margin-left: 3.28px; }
 
 .footer__contact-value {
   display: inline-block;
