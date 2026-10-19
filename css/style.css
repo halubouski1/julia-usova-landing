@@ -150,6 +150,11 @@
   --c-wine: #4a0b0b;
   --c-wine-50: rgba(74, 11, 11, 0.5);
   --c-wine-35: rgba(74, 11, 11, 0.35);
+  --c-wine-75: rgba(74, 11, 11, 0.75);
+  --c-wine-15: rgba(74, 11, 11, 0.15);
+  --c-overlay: rgba(0, 0, 0, 0.55);
+  --c-black-10: rgba(0, 0, 0, 0.1);
+  --c-dropdown: rgba(14, 14, 15, 0.94); /* not in Figma: service dropdown */
   --c-red: #930210;
   --c-red-50: rgba(147, 2, 16, 0.5);
   --c-red-15: rgba(147, 2, 16, 0.15);
@@ -357,9 +362,10 @@ button {
   clip-path: circle(150% at var(--btn-fill-origin));
 }
 
-/* White base is a layer too, faded out once the fill has covered it:
-   otherwise the white shows as a thin anti-aliased rim around the fill */
-.btn--white::after {
+/* The base colour is a layer too, faded out once the fill has covered it:
+   otherwise it shows as a thin anti-aliased rim around the fill */
+.btn--white::after,
+.btn--wine::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -370,9 +376,21 @@ button {
 }
 
 .btn--white:hover::after,
-.btn--white:focus-visible::after {
+.btn--white:focus-visible::after,
+.btn--wine:hover::after,
+.btn--wine:focus-visible::after {
   opacity: 0;
   transition: opacity 0.25s var(--ease) 0.3s;
+}
+
+/* Wine fill, white text (menu "Leave a request", Figma 72:674) */
+.btn--wine {
+  --btn-color: var(--c-white);
+  --btn-fill: var(--c-red);
+}
+
+.btn--wine::after {
+  background: var(--c-wine);
 }
 
 .btn--gray {
@@ -464,6 +482,34 @@ button {
   right: 20.75px;
   width: 11.416px;
   height: 11.416px;
+  -webkit-mask-image: url("../assets/icons/arrow-sm.png");
+  mask-image: url("../assets/icons/arrow-sm.png");
+}
+
+/* Small: 49px high (menu submit, Figma 72:674). The ring is the medium
+   one × 0.927; text starts 25px from the left, the ring keeps its room. */
+.btn--sm {
+  --btn-fill-origin: calc(100% - 24.84px) 50%;
+  height: 49px;
+  padding: 1px 56px 0 25px;
+  font-size: 14px;
+  letter-spacing: -0.42px;
+}
+
+.btn--sm .btn__ring {
+  top: 4.6px;
+  right: 6.04px;
+  width: 37.593px;
+  height: 38.732px;
+  -webkit-mask-image: url("../assets/icons/ring-sm.svg");
+  mask-image: url("../assets/icons/ring-sm.svg");
+}
+
+.btn--sm .btn__arrow {
+  top: 18.89px;
+  right: 19.25px;
+  width: 10.585px;
+  height: 10.585px;
   -webkit-mask-image: url("../assets/icons/arrow-sm.png");
   mask-image: url("../assets/icons/arrow-sm.png");
 }
@@ -593,6 +639,470 @@ button {
 .burger:hover .burger__line:nth-child(3),
 .burger:focus-visible .burger__line:nth-child(3) {
   scale: 0.75 1;
+}
+
+/* Menu (Figma 72:391): opened by the burger (initMenu in main.js).
+   Cream panel 85/45px from the window edges over a dark overlay; the overlay
+   fades in, the panel rises and the links follow one after another.
+   The panel is never shorter than Figma's 1026.74px: on lower windows the
+   menu itself scrolls (data-lenis-prevent lets Lenis pass the wheel).
+   ========================================================================== */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.menu[hidden] {
+  display: none;
+}
+
+.menu__overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--c-overlay);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.menu__panel {
+  position: relative;
+  height: max(100vh - 170px, 1026.74px);
+  margin: 85px 45px;
+  overflow: hidden;
+  background: var(--c-cream);
+  color: var(--c-wine);
+  opacity: 0;
+  translate: 0 40px;
+  transition: opacity 0.5s var(--ease), translate 0.7s var(--ease);
+}
+
+.menu.is-open .menu__overlay,
+.menu.is-open .menu__panel {
+  opacity: 1;
+}
+
+.menu.is-open .menu__panel {
+  translate: 0 0;
+  transition-delay: 0.1s;
+}
+
+/* Figma 72:681: the decor circles, clipped by the panel */
+.menu__circles {
+  position: absolute;
+  top: -442px;
+  left: calc(50% - 955.5px);
+  max-width: none;
+  pointer-events: none;
+}
+
+.menu__logo {
+  position: absolute;
+  top: 68px;
+  left: calc(50% - 110.5px);
+}
+
+/* The logo SVG is white; drawn in wine through it as a mask */
+.menu__logo img {
+  visibility: hidden;
+}
+
+.menu__logo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--c-wine);
+  -webkit-mask: url("../assets/images/logo.svg") center / 100% 100% no-repeat;
+  mask: url("../assets/images/logo.svg") center / 100% 100% no-repeat;
+}
+
+/* 23px cross, 45px from the top and right; 43px hit area */
+.menu__close {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  padding: 10px;
+}
+
+.menu__close img {
+  transition: rotate 0.45s var(--ease), opacity 0.3s var(--ease);
+}
+
+.menu__close:hover img,
+.menu__close:focus-visible img {
+  rotate: 90deg;
+  opacity: 0.7;
+}
+
+/* Six links centred on the Figma centre of the five-item block (panel y 496) */
+.menu__nav {
+  position: absolute;
+  top: calc(50% - 17.37px);
+  left: 0;
+  right: 0;
+  translate: 0 -50%;
+}
+
+.menu__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu__link {
+  display: block;
+  font-size: 65px;
+  font-weight: var(--fw-medium);
+  line-height: 90px;
+  letter-spacing: -1.95px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.35s var(--ease);
+}
+
+/* Wine; the hovered link turns pale */
+.menu__link:hover,
+.menu__link:focus-visible {
+  color: var(--c-wine-35);
+}
+
+/* Entrance: each link rises in after the panel */
+.menu__list li {
+  opacity: 0;
+  translate: 0 30px;
+  transition: opacity 0.3s var(--ease), translate 0.3s var(--ease);
+}
+
+.menu.is-open .menu__list li {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity 0.6s var(--ease), translate 0.8s var(--ease);
+}
+
+.menu.is-open .menu__list li:nth-child(1) { transition-delay: 0.25s; }
+.menu.is-open .menu__list li:nth-child(2) { transition-delay: 0.3s; }
+.menu.is-open .menu__list li:nth-child(3) { transition-delay: 0.35s; }
+.menu.is-open .menu__list li:nth-child(4) { transition-delay: 0.4s; }
+.menu.is-open .menu__list li:nth-child(5) { transition-delay: 0.45s; }
+.menu.is-open .menu__list li:nth-child(6) { transition-delay: 0.5s; }
+
+/* Bottom row (Figma 72:646, 72:653, 72:664): phone | office.
+   The box runs from the divider top (panel y 901) to the values' bottom. */
+.menu__contacts {
+  position: absolute;
+  left: 53px;
+  bottom: 52.74px;
+  display: flex;
+  align-items: stretch;
+  height: 73px;
+  font-weight: var(--fw-medium);
+}
+
+.menu__contact {
+  padding-top: 6px;
+}
+
+/* The divider sits 316px after the phone column's start */
+.menu__contact--phone {
+  min-width: 316px;
+  padding-right: 24px;
+}
+
+.menu__divider {
+  width: 1px;
+  margin-right: 69px;
+  background: var(--c-wine-35);
+}
+
+.menu__contact-label {
+  color: var(--c-wine-35);
+  font-size: 20px;
+  line-height: 28px;
+  white-space: nowrap;
+}
+
+/* Sparkle inline after the word (like the footer), drawn in wine 35 %
+   through the sparkle SVG as a mask; margin = Figma gap minus the space */
+.menu__sparkle {
+  position: relative;
+  top: 2.95px;
+  display: inline-block;
+  width: 18.059px;
+  height: 18.059px;
+  vertical-align: top;
+  background: currentColor;
+  -webkit-mask: url("../assets/icons/sparkle.svg") center / 100% 100% no-repeat;
+  mask: url("../assets/icons/sparkle.svg") center / 100% 100% no-repeat;
+}
+
+.menu__contact--phone .menu__sparkle { margin-left: 2.86px; }
+.menu__contact--office .menu__sparkle { margin-left: 3.28px; }
+
+.menu__contact-value {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 25px;
+  line-height: 29px;
+  white-space: nowrap;
+}
+
+a.menu__contact-value {
+  transition: color 0.35s var(--ease);
+}
+
+a.menu__contact-value:hover,
+a.menu__contact-value:focus-visible {
+  color: var(--c-red);
+}
+
+/* Form (Figma 72:671, 72:665, 72:674): right-aligned, 8px gaps;
+   a longer button label widens the row to the left */
+.menu__form {
+  position: absolute;
+  right: 57px;
+  bottom: 56.74px;
+  display: flex;
+  align-items: flex-end; /* Figma: the 49px button shares the fields' bottom */
+  gap: 8px;
+}
+
+.menu__field--name { width: 209px; }
+.menu__field--phone { width: 295px; }
+
+.menu__submit {
+  min-width: 208px;
+}
+
+.menu__status {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  color: var(--c-wine-75);
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+.menu__status.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu__overlay,
+  .menu__panel,
+  .menu__list li {
+    transition: none !important;
+  }
+}
+
+/* Page behind an open menu or popup does not scroll */
+.is-dialog-open,
+.is-dialog-open body {
+  overflow: hidden;
+}
+
+/* Consultation popup (Figma 72:1674, panel 72:1955 … 72:1984): opened by
+   every [data-popup-open] (initPopup in main.js). 1037px cream panel centred
+   both ways; on a low window the popup scrolls (margin: auto keeps the top
+   reachable). Content in the flow: 108px padding, title, 3 fields, button.
+   ========================================================================== */
+
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  padding: 40px 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.popup[hidden] {
+  display: none;
+}
+
+.popup__overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--c-overlay);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.popup__panel {
+  position: relative;
+  width: 1037px;
+  max-width: 100%;
+  margin: auto;
+  padding: 108px 0;
+  overflow: hidden;
+  background: var(--c-cream);
+  color: var(--c-wine);
+  text-align: center;
+  opacity: 0;
+  translate: 0 40px;
+  scale: 0.98;
+  transition: opacity 0.5s var(--ease), translate 0.7s var(--ease), scale 0.7s var(--ease);
+}
+
+.popup.is-open .popup__overlay,
+.popup.is-open .popup__panel {
+  opacity: 1;
+}
+
+.popup.is-open .popup__panel {
+  translate: 0 0;
+  scale: 1;
+  transition-delay: 0.1s;
+}
+
+/* Figma 72:1991: the decor circles (circles-dark × 0.5416), clipped */
+.popup__circles {
+  position: absolute;
+  top: -197px;
+  left: calc(50% - 517.5px);
+  width: 1035px;
+  height: 1035px;
+  max-width: none;
+  pointer-events: none;
+}
+
+/* 15.5px cross, 32px from the top, 32.5px from the right; 10px hit padding.
+   z-index: stays above the thank-you layer */
+.popup__close {
+  position: absolute;
+  z-index: 1;
+  top: 22px;
+  right: 22.5px;
+  padding: 10px;
+}
+
+.popup__close img {
+  transition: rotate 0.45s var(--ease), opacity 0.3s var(--ease);
+}
+
+.popup__close:hover img,
+.popup__close:focus-visible img {
+  rotate: 90deg;
+  opacity: 0.7;
+}
+
+/* Figma box 633px, 1px right of the panel centre */
+.popup__title {
+  position: relative;
+  width: 633px;
+  max-width: 100%;
+  margin: 0 auto;
+  translate: 1px 0;
+  font-size: 53.904px;
+  font-weight: var(--fw-medium);
+  line-height: 50.053px;
+  letter-spacing: -1.6171px;
+  text-transform: uppercase;
+}
+
+.popup__form {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  width: 508px;
+  max-width: 100%;
+  margin: 32.84px auto 0;
+  translate: 1px 0;
+}
+
+/* Two classes: beats the generic .field rule that comes later */
+.popup__form .popup__field {
+  height: 53px;
+  padding: 0 30px;
+  border-radius: var(--r-pill);
+  font-weight: var(--fw-medium);
+  line-height: 16px;
+  letter-spacing: -0.42px;
+}
+
+/* 507 × 53, label centred; ring 41.3 × 42.5 (ring-sm × 1.018) */
+.popup__submit {
+  --btn-fill-origin: calc(100% - 29.4px) 50%;
+  width: 507px;
+  max-width: 100%;
+  height: 53px;
+  padding: 1px 0 0;
+}
+
+.popup__submit .btn__ring {
+  top: 5.24px;
+  right: 8.76px;
+  width: 41.269px;
+  height: 42.52px;
+}
+
+.popup__submit .btn__arrow {
+  top: 21.63px;
+  right: 24.04px;
+  width: 11.62px;
+  height: 11.62px;
+}
+
+/* Thank-you state (Figma 72:2257): after a successful send the form fades
+   out and this layer fades in over the same panel (the panel keeps its
+   height). Title in Figma's 403px box, the 208 × 49 wine button 46px below,
+   both centred in the panel. "Go back" closes the popup. */
+.popup__body {
+  transition: opacity 0.35s var(--ease), visibility 0s;
+}
+
+.popup.is-sent .popup__body {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s var(--ease), visibility 0s 0.35s;
+}
+
+.popup__done {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s var(--ease), visibility 0s 0.35s;
+}
+
+.popup.is-sent .popup__done {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s var(--ease) 0.2s, visibility 0s;
+}
+
+.popup__title--done {
+  width: 403px;
+  translate: none;
+}
+
+/* Focused by script only, so screen readers announce the new state */
+.popup__title--done:focus,
+.popup__title--done:focus-visible {
+  outline: none;
+}
+
+.popup__back {
+  min-width: 208px;
+  margin-top: 46px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup__overlay,
+  .popup__panel {
+    transition: none !important;
+  }
 }
 
 /* Hero (Figma 0–1197): exactly one screen high.
@@ -1691,9 +2201,141 @@ button {
   color: var(--c-white-35);
 }
 
+.field--light {
+  border-color: var(--c-wine-15);
+  background-color: transparent;
+  color: var(--c-wine);
+}
+
+.field--light::placeholder {
+  color: var(--c-wine-75);
+}
+
+.field--light:hover {
+  border-color: var(--c-wine-35);
+  background-color: transparent;
+}
+
+.field--light:focus,
+.field--light:focus-visible {
+  border-color: var(--c-wine-50);
+  background-color: transparent;
+}
+
+.field--light:focus::placeholder {
+  color: var(--c-wine-35);
+}
+
 .field--select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: var(--c-white-75);
   cursor: pointer;
+}
+
+/* Custom dropdown (initSelect in main.js) — not in Figma: a dark glass list
+   under the field, like the fields themselves.
+   ========================================================================== */
+.field-select__value {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.field-wrap--select.has-value .field--select {
+  color: var(--c-white);
+}
+
+/* Chevron: two 1.5px strokes, flips when open */
+.field-select__chevron {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  rotate: 45deg;
+  transition: rotate 0.3s var(--ease), translate 0.3s var(--ease);
+}
+
+.field-wrap--select.is-open .field-select__chevron {
+  rotate: 225deg;
+  translate: 0 4px;
+}
+
+/* The wraps are AOS targets (transform = own stacking context): the open
+   one is lifted above the fields that follow */
+.field-wrap--select.is-open {
+  z-index: 5;
+}
+
+.field-wrap--select.is-open .field--select {
+  border-color: var(--c-white-55);
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+.field-select__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1;
+  width: max-content;
+  min-width: 100%;
+  max-width: 320px;
+  padding: 6px;
+  border: 1px solid var(--c-white-15);
+  border-radius: 22px;
+  background: var(--c-dropdown);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: var(--c-white-75);
+  font-size: 14px;
+  line-height: 18px;
+  text-align: left;
+  outline: none;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -6px;
+  transition: opacity 0.25s var(--ease), translate 0.25s var(--ease), visibility 0s 0.25s;
+}
+
+.field-wrap--select.is-open .field-select__list {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition: opacity 0.25s var(--ease), translate 0.25s var(--ease), visibility 0s;
+}
+
+.field-select__option {
+  padding: 10px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.field-select__option.is-active {
+  background: var(--c-white-06);
+  color: var(--c-white);
+}
+
+.field-select__option[aria-selected="true"] {
+  color: var(--c-white);
+  font-weight: var(--fw-medium);
+}
+
+/* Focus sits on the list while it is open; the active option shows it
+   (the global :focus-visible outline would frame the whole list) */
+.field-select__list:focus,
+.field-select__list:focus-visible {
+  outline: none;
+}
+
+/* Keyboard focus is on the list: show the active option clearly */
+.field-select__list:focus-visible .field-select__option.is-active {
+  box-shadow: inset 0 0 0 1px var(--c-white-35);
 }
 
 /* Validation (initBookingForm in main.js) */
@@ -1714,6 +2356,20 @@ button {
 .field-wrap.is-invalid .field {
   padding-right: 130px;
   border-color: var(--c-error);
+}
+
+.field-wrap.is-invalid .field--light {
+  border-color: var(--c-red);
+}
+
+.field--light + .field-error {
+  color: var(--c-red);
+}
+
+/* The message takes the placeholder's place (initForm sets the field's
+   padding-right to the message width) */
+.field-wrap.is-invalid .field::placeholder {
+  color: transparent;
 }
 
 .field-wrap.is-invalid .field-error {
@@ -1812,6 +2468,13 @@ button {
 .footer__links--social {
   width: 151px;
   background-image: var(--g-footer-social);
+}
+
+/* Only Instagram now (client, Oct 2026): the list takes its one line instead
+   of Figma's four-line box, so "Pages" follows 92px (18m) below. Two classes
+   beat the fixed .footer__links heights in the laptop and compact blocks. */
+.footer__links.footer__links--social {
+  height: auto;
 }
 
 /* The main menu (6 items): the column takes its longest item, growing to

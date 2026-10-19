@@ -33,7 +33,7 @@ tools/build-html.mjs           (builds the 4 language pages from src/index.html 
 - **Build:** `npm run build:html` (part of `npm run build`). In `src/index.html`:
   - `data-i18n="key"` replaces the inner HTML (`<br class="…">` and `&amp;` allowed);
   - `data-i18n-attr="attr:key;attr:key"` replaces attribute values (alt, aria-label, placeholder, meta content, form messages);
-  - `data-whatsapp-text` becomes the `wa.me/<config.whatsapp>?text=…` link;
+  - `data-whatsapp-text` becomes the `wa.me/<config.whatsapp>?text=…` link (no element uses it since the footer kept only Instagram; the build feature stays);
   - `data-lang-link` of the current page gets `aria-current="true"`;
   - `<!-- i18n:alternates -->` becomes canonical + hreflang (+ x-default = English);
   - in subfolder pages `assets/`, `css/`, `js/` get `../`. The `data-i18n*` attributes are stripped.
@@ -75,7 +75,7 @@ tools/build-html.mjs           (builds the 4 language pages from src/index.html 
 ### Performance testing
 
 - `npm install` once (project-local Lighthouse 13.5.0; Node ≥ 22.19).
-- `npm run lh -- <name> [mobile|desktop]` → `lighthouse/lighthouse-<name>.json` + `.html`. Starts/stops `python3 -m http.server 8765` itself if the port is free. Headless Chrome from `/Applications/Google Chrome.app` (override with `CHROME_PATH`).
+- `npm run lh -- <name> [mobile|desktop]` → `lighthouse/lighthouse-<name>.json` + `.html`. Starts/stops `python3 -m http.server 8765` itself if the port is free. Port 8765 is often held by another project's server here: then run `LH_PORT=8791 npm run lh -- …`, or Lighthouse audits that site. Headless Chrome from `/Applications/Google Chrome.app` (override with `CHROME_PATH`).
 - `npm run lh:summary -- lighthouse/lighthouse-before.json [lighthouse/lighthouse-after.json]` → metrics table, failing audits/insights sorted by savings, main-thread breakdown, largest requests, LCP element.
 - Lighthouse mobile uses *simulated* throttling (Lantern): it replays the observed request graph on slow 4G. Requests that start before the observed LCP inflate the simulated LCP.
 - Tried and rejected (median of 3 runs, no gain or worse): `<link rel=preload>` for the hero photo (competes with the CSS), dropping its `fetchpriority="high"`, and deferring below-the-fold images (upper bound −0.8 s, not worth the pop-in and no-JS fallback). What moved LCP was fewer early bytes (AVIF).
@@ -240,14 +240,51 @@ Inside a section, children are positioned with section-relative px (`top = figma
 - **Polaroid** `.polaroid--{camera|brush|mirror|blonde}` (61:104/61:109/61:114/61:118): one rotated element (`--rot`) with background `--c-polaroid` > `.polaroid__photo` (window, `overflow:hidden`) > `img`. Values were solved from the Figma masks (windows are 15px from the sides/top and 80px from the bottom, or 12.7/68 and 11.4/61 for the smaller ones). The blonde polaroid in Figma also holds two fully covered photos, which were dropped.
 - **About collage** `.about__photo--1…11`: crop boxes (`overflow:hidden`) with the image offset inside. Figma masks there are opaque rectangles, so a crop is equivalent. `--grain` adds the grain overlay (`about-grain.png`, lighten blend).
 - **Gradient text** (feature numbers 01/02, footer links, phone/address): `background-clip: text` + `color: transparent`. Gradients are tokens `--g-*`.
-- **Booking form** `.booking-form` [data-booking-form] `novalidate`: grid 226 + 235, gap 8. Each `.field` sits in a `.field-wrap` (`--wide` spans both columns); `.field--select` is the future custom dropdown (no options, not validated yet).
+- **Booking form** `.booking-form` [data-booking-form] `novalidate`: grid 226 + 235, gap 8. Each `.field` sits in a `.field-wrap` (`--wide` spans both columns).
+  - **Service dropdown** (`initSelect()`, `[data-select]`; not in Figma, Oct 2026): the `.field--select` button (`aria-haspopup="listbox"`, chevron) + `ul.field-select__list[role=listbox]` + hidden `input[name=service]`. Options: the four service card titles (reused keys `services.card1–4.title`), "Private Lessons" (`nav.lessons`), "Other" (`form.other`); values are language-independent (`media`, `private-events`, `bridal`, `photography`, `lessons`, `other`). Optional, not validated.
+    - Behaviour: click toggles; ↓/↑ on the button open; focus moves to the list (`aria-activedescendant`), ↓/↑/Home/End move, Enter/Space choose, Esc closes (focus back on the button), Tab and an outside click close. The chosen name replaces the placeholder (white; ellipsis + `title` when the 226px desktop field is too narrow). `form.reset()` (after sending) restores the placeholder.
+    - Look: dark glass list (`--c-dropdown`, white-15 border, radius 22), options 14/18 with 10/16 padding; active option white-06 + an inset ring when used from the keyboard. `.field-wrap--select.is-open { z-index: 5 }` lifts it above the following field-wraps (AOS transforms make each wrap a stacking context). The list's own focus outline is off (the compact global `:focus-visible` would frame it).
+    - Sizes: desktop list `max-content` (min the field, max 320px); laptop gets the generated ×0.75 (10.5px, like the laptop fields); ≤1279 "Service dropdown ≤1279" block restores 14px and makes the list full field width.
+    - Checked 10 widths × 4 languages: opens on top, nothing clipped by the footer or the screen, options never overflow, keyboard/Esc/outside click/reset work. Safari 390 the same.
   - Validation (`initBookingForm()`, rules in `VALIDATORS`, picked by `data-validate="name|phone|email"`): name ≥ 2 letters, phone 7–15 digits (letters are stripped while typing), email `x@y.zz`. The error appears on blur (if something was typed) or on submit, clears live while fixing, and the first invalid field gets focus.
   - Error UI: `.field-wrap.is-invalid` → red border (`--c-error`, not in Figma) + `.field-error` text inside the field on the right (linked via `aria-describedby`, `aria-invalid`).
   - Success: no backend yet. The form resets and `[data-form-status]` (`role="status"`) shows a thank-you line for 6 s. Replace this branch with a real submit when an endpoint exists.
 - **Hovers** (all ~0.3–0.55s, `--ease`): nav links get an underline drawn from the left; the burger lines shorten to a right-aligned staggered stack; fields brighten their border/background; footer links, the phone and "Privacy Terms" turn white; "Website development" dims; the to-top circle lifts and glows.
   - **Rule:** hover transitions never go on an element with `data-aos` (aos.css overrides its `transition-property/duration/delay`). Put them on children or pseudo-elements (`.btn::before`, `.to-top__inner`, `.footer__dev > *`, `.field` inside `.field-wrap`).
   - No `translate`/transforms on children of `background-clip: text` gradients (footer links): a transformed child can drop out of the clip.
-- **Mobile menu:** `[data-menu-toggle]` burger in the header, `aria-expanded="false"`. **Not built yet.** Planned: drawer + backdrop, Esc to close, scroll lock, `aria-controls`.
+- **Burger menu** (Figma file `lI4FkiFc7rW95fcBofHaAQ`, Frame 44 `72:391`; built for 1920, Oct 2026). `.menu[data-menu]` after the header, `role="dialog" aria-modal="true"`, `hidden` while closed; the burger has `aria-controls="menu"` and toggles `aria-expanded`.
+  - **Layout:** overlay `--c-overlay` (black 55 %, `position: fixed`) + cream panel with `margin: 85px 45px` and `height: max(100vh − 170px, 1026.74px)` (1830 × 1027 at 1920 × 1197), `overflow: hidden`. The panel never gets shorter than Figma: on lower windows `.menu` itself scrolls (`overflow-y: auto`, `overscroll-behavior: contain`, `data-lenis-prevent` so Lenis passes the wheel through while it is stopped). Opening resets the menu scroll to the top. Inside: `circles-dark.svg` (left −40.5, top −442), the logo in wine (`logo.svg` as a mask on `::before`), the close cross (`icons/close.svg`, 45px from top/right), six links (the header nav keys), the phone | office row and a name + phone form with `.btn--wine.btn--sm` "Leave a request". Measured against Figma at 1920 × 1197: every box within 0.3px.
+  - **Links:** always 65px Medium / 90px (client: scroll instead of shrinking), centred on the Figma centre (`top: calc(50% - 17.37px)`). Colour: wine, as in Figma; the hovered/focused link turns wine 35 %. RU "ИНДИВИДУАЛЬНОЕ ОБУЧЕНИЕ" is the longest (961px).
+  - **Bottom row:** sparkles are `.menu__sparkle` spans masked with `sparkle.svg` (wine 35 %), inline after the label like the footer. The form is right-anchored (`right: 57px`), `align-items: flex-end` (the 49px button shares the 51px fields' bottom), so a longer button label grows the row to the left. Status line below the row, right-aligned.
+  - **Motion:** overlay fades (0.5 s), the panel fades and rises 40px (0.7 s, 0.1 s delay), links rise one after another (0.25…0.5 s). Close reverses; `hidden` is set after 500 ms. Hover: the link turns wine 35 %, the cross turns 90°. No transitions with reduced motion.
+  - **Behaviour (`initMenu()` on `createDialog()`):** opens on the burger; closes on the cross, the overlay, Esc or any `#` link (then `initAnchors` scrolls). Focus goes to the first link, Tab is trapped, focus returns to the burger.
+  - **Laptop (1280–1919):** the generated ×0.75 block + hand-written sizes for the `<img>`s sized by HTML attributes (`.menu__logo img`, `.menu__close img`, `.menu__circles`), and `.field--light { border-color: var(--c-wine-15) }`: the generated `.field { border: 1px solid white-15 }` shorthand comes later in the cascade and would hide the menu field borders.
+  - **Lesson:** a modifier that only changes a colour (`.field--light`) loses to the generated laptop copy of the base shorthand. Check modifiers at 1440, not only at 1920.
+  - **≤1279 (Figma Frame 45 `72:689`, 360 × 913; block "Menu ≤1279" in `media.css`):** the mobile frame × `--m`, like the rest of compact.
+    - Panel 13m from the sides, 74m from the top, `height: auto`: content + 79.5m bottom padding (766m in English = Figma), so it never stretches on tall windows (client, Oct 2026); lower windows scroll the menu.
+    - Logo 150m top-left (23m), cross 15.5m top-right. Circles: `circles-dark.svg` at 969.984m (the Figma file is the same drawing × 0.5076).
+    - Links 33m Medium, centred, in the flow from `padding-top: 146m`. The Figma 49.5m line = 36.3m line + 2 × 6.6m padding, so a link that wraps stays one visual block. Wraps on phones: PT "AULAS INDIVIDUAIS" (≤360), ES "CLASES INDIVIDUALES" and RU "ИНДИВИДУАЛЬНОЕ ОБУЧЕНИЕ" (≤390, RU also at 600).
+    - Contacts follow the links (54.5m gap): label + sparkle centred, value 22m, a 292m rule in `--c-black-10` (Figma 72:932), office, address on two lines (`br-compact` after "13516,"). No form (the mobile frame has none).
+    - Measured at 360 × 913: every element on its Figma position (contacts shifted by one link row, 49.5m, for the sixth link).
+    - Checked at 1279×800, 1024×768, 1024×1366, 820×1180, 768×1024, 600×960, 390×844, 360×740 and 320×568 in all languages: nothing outside the panel, no overlaps, no horizontal overflow. Landscape 1024×768 scrolls ~465px to reach the contacts.
+  - Safari: the end state was verified with transitions disabled (a background Safari window runs no transitions); 1920 and 390 match Chrome.
+- **Dialogs (`createDialog(el, { panel, focus, onOpen, onClose })` in `main.js`)** — shared by the menu and the popup: `hidden` while closed, `.is-open` drives the CSS transitions, `hidden` again after 500 ms; `[data-dialog-close]` (overlay, cross) and Esc close; Tab is trapped in the panel; focus returns to the element that opened it. Scroll lock: `html.is-dialog-open { overflow: hidden }` + `lenis.stop()/start()`; the dialog itself scrolls (`overflow-y: auto`, `data-lenis-prevent`).
+- **Consultation popup** (Figma file `lI4FkiFc7rW95fcBofHaAQ`, Frame 47 `72:1674`, panel `72:1955…72:1984`; desktop only so far, Oct 2026). `.popup[data-popup]` after the menu, `role="dialog"`, `aria-labelledby="popup-title"`.
+  - **Opened by** every `[data-popup-open]` (`initPopup()`): "View Portfolio", "Enquire About Availability" (hero), "Enquire About a Service", "Ask About Private Lessons". They keep their `href` (#portfolio / #contact) as the no-JS fallback and have `aria-haspopup="dialog"`; `initAnchors` skips them.
+  - **Layout:** `.popup` is a fixed flex container with 40px/20px padding; the 1037px panel has `margin: auto`, so it is centred both ways and, on a low window, the popup scrolls from the top. Panel: 108px padding, title (53.904px Medium / 50.053, 633px box, 3 lines in EN/ES, 2 in PT/RU), 32.84px gap, three 508 × 53 fields 10px apart, the 507 × 53 `.btn--wine.btn--md.popup__submit` (label centred, ring 41.3 × 42.5). Circles `circles-dark.svg` at 1035px (top −197). Cross `icons/close-dark.svg` (#131312, Figma 72:1970), 32/32.5px from the corner. Content and form are 1px right of centre, as in Figma.
+  - **Measured at 1920 × 1197:** panel 442,278 1037 × 641, fields at 569/632/695, button at 758, ring box 1155.9,756 — all within 0.5px of Figma.
+  - Fields: `.field--light` + `.popup__field` (Medium 14 / 16, 30px padding); the selector is `.popup__form .popup__field` so it beats the later generic `.field` (51px). Validation comes from `initForm`.
+  - **Thank-you state** (Figma Frame 49 `72:2257` desktop, Frame 50 `72:2523` mobile): on success `initForm` dispatches `booking:sent` on the form; `initPopup` adds `.popup.is-sent`. The form (`.popup__body`) fades out (kept in the layout, so the panel keeps its height) and `.popup__done` (absolute, centred) fades in: "THANK YOU FOR YOUR APPLICATION" (`.popup__title--done`, 403px box / 264m on ≤1279) and the wine button 46px (39m) below. Figma's "Main page" is "Go back" (client) and closes the popup (`data-dialog-close`). `aria-labelledby` switches to the thank-you title, which gets focus (no outline). Every opening resets to the form (`onOpen`). The popup has no status line any more.
+    - Measured: 1920 × 1197 title 759,476, button 856,672 (Figma 855); 360 × 913 title 48,379, button 84.5,514 — within 1px. Mobile pair sits 12.5m below the panel centre like Figma (`padding-top: 25m`).
+    - Desktop button = the menu's `.btn--wine.btn--sm` (208 × 49); ≤1279 `.popup__done .popup__back` 191 × 45m, label 27m from the left.
+  - Laptop: the generated ×0.75 block + `.popup__close img` size by hand.
+  - **≤1279 (Figma Group 72:2249 in Frame 48, 360 × 913; block "Popup ≤1279" in `media.css`):** mobile × `--m`. Panel 334m centred (container padding 20px / 13m), padding 125m top / 127m bottom, title 34.813m / 32.326m in a 308m box, fields 238 × 45m 7m apart (20m padding, Medium 14m), button 45m with the label 20m from the left and ring 34.7 × 35.8m. Circles 685m (top −52m). Two-class selectors (`.popup__form .popup__submit`, `.popup__form .popup__field`) beat the compact `.btn` / `.field` resets.
+    - Measured at 360 × 913: panel 13,167 334 × 580, fields 419/471/523, button 575, cross 308,190 — Figma within 0.5px.
+    - Checked 1279×800 … 320×568 in all languages: title always 3 lines and inside the panel, nothing past the screen. Centred wherever it fits; scrolls on 1024×768 (55px), 1279×800 (23px), 360×600 (20px).
+- **Form errors fit any language:** `validate()` in `initForm` sets the field's inline `padding-right` to the message width + its right offset + 10px (the CSS 130px is only the fallback), and `.field-wrap.is-invalid .field::placeholder` is transparent. Before, long messages (ES "Nombre demasiado corto", 142px) ran into the typed text/placeholder. Checked 160 error states (footer, menu, popup × 4 languages × 6 widths).
+- **Buttons `--wine` / `--sm`:** `--wine` = white text, red hover fill, wine base on `::after` (shares the white button's fade-out). `--sm` = 49px, text from 25px, ring 37.6 × 38.7 (`ring-sm.svg` × 0.927), arrow 10.6.
+- **Light field** `.field--light`: transparent, wine-15 border, wine-75 placeholder; error border/text `--c-red` (the pink `--c-error` is too faint on cream).
+- `initBookingForm()` now runs `initForm()` for every `[data-booking-form]` (footer and menu).
 - **JS** (`js/main.js`):
   - `initFixedVh()`: re-sets `--fixed-vh` only when the width changes (ignores mobile toolbar height changes).
   - `initSmoothScroll()`: Lenis 1.1.13 (`lerp: 0.1`, own rAF loop; this version has no `autoRaf`). Not started with `prefers-reduced-motion`.
@@ -326,11 +363,22 @@ Inside a section, children are positioned with section-relative px (`top = figma
 
 ## Content flagged to the client
 
+- Consultation popup (Oct 2026):
+  - "View Portfolio" now opens the consultation popup (client's request), so the hero button no longer scrolls to the polaroids.
+  - Placeholders: Figma's "+1 (000)-000-00-00" became the Brazilian format "+55 (00) 00000-0000"; "example@mail.com" kept. They are the same in every language; the fields' `aria-label`s are translated.
+  - The button reuses the menu's "Leave a request" translations.
+  - Mobile: Figma's button is 247px wide, 9px wider than the fields (238); it takes the fields' width here.
+  - Thank-you state: Figma's button says "Main page"; per the client it is "Go back" (PT "Voltar", ES "Volver", RU "Вернуться") and just closes the popup. Titles: PT "Obrigado pelo seu pedido", ES "Gracias por tu solicitud", RU "Спасибо за вашу заявку" (2 lines in ES/RU, 3 in EN/PT).
+- Burger menu (Oct 2026):
+  - Figma lists five links (HOME, ABOUT US, INDUSTRIES, PORTFOLIO, CONTACT US). The menu uses the site's six (the header list), so the block is 540px instead of 450px, centred on the same point.
+  - Figma shows the old phone "+373 (231)-111-31-31"; the menu uses Julia's number like the footer.
+  - On windows lower than 1197px the menu scrolls (Figma only has the 1197px-tall frame).
+  - Mobile (Frame 45): six links instead of five, so the contacts sit 49.5px lower; the address is Julia's ("Viige 11, 13516 / Rio de Janeiro") instead of Figma's "Tallinn, Estonia Reg". There is no tablet frame: tablets get the mobile design × 1.35 / 1.2.
 - Languages (Oct 2026):
   - PT, ES and RU translations of the whole page were written by Claude from the English copy. A native speaker should proofread PT-BR and ES before launch.
   - "Portfolio" (menu, "View Portfolio") has no section yet. It scrolls to the polaroids (`#portfolio`). A real gallery or page is needed.
   - "Privacy Policy" has no document (`href="#"`).
-  - WhatsApp opens Julia's number (`i18n/config.json` → `whatsapp`) with a prepared message per language.
+  - Socials: only Instagram (client, Oct 2026). YouTube, WhatsApp and TikTok were removed with the `social.whatsappText` translations; the social list takes its one line (`.footer__links.footer__links--social { height: auto }`), so "Pages" moved up and keeps the Figma group gap (92px desktop, 18m compact).
   - `i18n/config.json` → `siteUrl` is empty, so canonical/hreflang are root-relative. Set the production domain for correct hreflang.
   - The logo (SVG) stays "JULIA USOVA / MAKEUP ARTIST" in every language.
   - The footer title is translated like the hero title, as it repeats it.
@@ -344,9 +392,9 @@ Inside a section, children are positioned with section-relative px (`top = figma
 
 - Phone updated to Julia's number `+55 (21) 97777-3333` (`tel:+5521977773333`, also the WhatsApp number in `i18n/config.json`). The address "Viige 11, 13516" still looks like a Tallinn placeholder.
 - Footer "Pages": PRODUCTS / CLASSES / ONLINE / DEVICES look like template leftovers. Real pages and URLs are needed.
-- Social links (Instagram, YouTube, WhatsApp, TikTok), "Privacy Terms", "Website development" have no URLs (`href="#"`).
+- Instagram (the only social link), "Privacy Terms", "Website development" have no URLs (`href="#"`). Julia's Instagram handle is needed.
 - Header nav "INDUSTRIES" → currently anchors to the services section. Confirm the label and target.
-- "Product selector" in the booking form: no option list. Where should the form submit?
+- The "Select a Service" dropdown options (4 services, Private Lessons, Other) are our proposal; confirm the list. Where should the form submit?
 - Images are now responsive WebP (29 MB of PNG → ≈1.4 MB per mobile visit). Several are still shown larger than their source: hero 1233→1372px (desktop) / 940×2–3 (phones), expertise 1469→1920px, lessons palettes 1585→2181px, case 1312→1734px. 2× originals from the photographer would make them sharper on Retina.
 - Fonts: confirm a Neue Helvetica **web** licence (Monotype / MyFonts / Fonts.com) covers self-hosting. The supplied files carry no licence info and come from three different editions; ideally replace them with the official WOFF2 set from the licence account. At minimum the **Regular** should be replaced: the supplied one is 2–4% wider than the Helvetica Neue Regular used in Figma.
 

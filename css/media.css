@@ -86,6 +86,28 @@
     height: 8.562px;
   }
 
+  .btn--sm {
+    --btn-fill-origin: calc(100% - 18.63px) 50%;
+    height: 36.75px;
+    padding: 1px 42px 0 18.75px;
+    font-size: 10.5px;
+    letter-spacing: -0.315px;
+  }
+
+  .btn--sm .btn__ring {
+    top: 3.45px;
+    right: 4.53px;
+    width: 28.195px;
+    height: 29.049px;
+  }
+
+  .btn--sm .btn__arrow {
+    top: 14.168px;
+    right: 14.438px;
+    width: 7.939px;
+    height: 7.939px;
+  }
+
   .header__inner {
     padding: 0 25.5px 0 29.25px;
   }
@@ -171,6 +193,44 @@
     backdrop-filter: blur(4.537px);
     font-size: 10.5px;
     line-height: 9px;
+  }
+
+  .field--select {
+    gap: 7.5px;
+  }
+
+  .field-select__chevron {
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-right: 1.125px solid currentColor;
+    border-bottom: 1.125px solid currentColor;
+  }
+
+  .field-wrap--select.is-open .field-select__chevron {
+    translate: 0 3px;
+  }
+
+  .field-select__list {
+    top: calc(100% + 4.5px);
+    max-width: 240px;
+    padding: 4.5px;
+    border: 1px solid var(--c-white-15);
+    border-radius: 16.5px;
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+    font-size: 10.5px;
+    line-height: 13.5px;
+    translate: 0 -4.5px;
+  }
+
+  .field-select__option {
+    padding: 7.5px 12px;
+    border-radius: 12px;
+  }
+
+  .field-select__list:focus-visible .field-select__option.is-active {
+    box-shadow: inset 0 0 0 1px var(--c-white-35);
   }
 
   .field-error {
@@ -325,6 +385,186 @@
 
   .lang__link + .lang__link::before {
     margin: 0 6px;
+  }
+
+  .menu__panel {
+    height: max(100vh - 127.5px, 770.055px);
+    margin: 63.75px 33.75px;
+    translate: 0 30px;
+  }
+
+  .menu__circles {
+    top: -331.5px;
+    left: calc(50% - 716.625px);
+  }
+
+  .menu__logo {
+    top: 51px;
+    left: calc(50% - 82.875px);
+  }
+
+  .menu__close {
+    top: 26.25px;
+    right: 26.25px;
+    padding: 7.5px;
+  }
+
+  .menu__nav {
+    top: calc(50% - 13.027px);
+  }
+
+  .menu__link {
+    font-size: 48.75px;
+    line-height: 67.5px;
+    letter-spacing: -1.462px;
+  }
+
+  .menu__list li {
+    translate: 0 22.5px;
+  }
+
+  .menu__contacts {
+    left: 39.75px;
+    bottom: 39.555px;
+    height: 54.75px;
+  }
+
+  .menu__contact {
+    padding-top: 4.5px;
+  }
+
+  .menu__contact--phone {
+    min-width: 237px;
+    padding-right: 18px;
+  }
+
+  .menu__divider {
+    width: 1px;
+    margin-right: 51.75px;
+  }
+
+  .menu__contact-label {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .menu__sparkle {
+    top: 2.213px;
+    width: 13.544px;
+    height: 13.544px;
+  }
+
+  .menu__contact--phone .menu__sparkle {
+    margin-left: 2.145px;
+  }
+
+  .menu__contact--office .menu__sparkle {
+    margin-left: 2.46px;
+  }
+
+  .menu__contact-value {
+    margin-top: 7.5px;
+    font-size: 18.75px;
+    line-height: 21.75px;
+  }
+
+  .menu__form {
+    right: 42.75px;
+    bottom: 42.555px;
+    gap: 6px;
+  }
+
+  .menu__field--name {
+    width: 156.75px;
+  }
+
+  .menu__field--phone {
+    width: 221.25px;
+  }
+
+  .menu__submit {
+    min-width: 156px;
+  }
+
+  .menu__status {
+    top: calc(100% + 9px);
+    font-size: 10.5px;
+    line-height: 15px;
+  }
+
+  .popup {
+    padding: 30px 15px;
+  }
+
+  .popup__panel {
+    width: 777.75px;
+    padding: 81px 0;
+    translate: 0 30px;
+  }
+
+  .popup__circles {
+    top: -147.75px;
+    left: calc(50% - 388.125px);
+    width: 776.25px;
+    height: 776.25px;
+  }
+
+  .popup__close {
+    top: 16.5px;
+    right: 16.875px;
+    padding: 7.5px;
+  }
+
+  .popup__title {
+    width: 474.75px;
+    translate: 1px 0;
+    font-size: 40.428px;
+    line-height: 37.54px;
+    letter-spacing: -1.213px;
+  }
+
+  .popup__form {
+    gap: 7.5px;
+    width: 381px;
+    margin: 24.63px auto 0;
+    translate: 1px 0;
+  }
+
+  .popup__form .popup__field {
+    height: 39.75px;
+    padding: 0 22.5px;
+    line-height: 12px;
+    letter-spacing: -0.315px;
+  }
+
+  .popup__submit {
+    --btn-fill-origin: calc(100% - 22.05px) 50%;
+    width: 380.25px;
+    height: 39.75px;
+    padding: 1px 0 0;
+  }
+
+  .popup__submit .btn__ring {
+    top: 3.93px;
+    right: 6.57px;
+    width: 30.952px;
+    height: 31.89px;
+  }
+
+  .popup__submit .btn__arrow {
+    top: 16.223px;
+    right: 18.03px;
+    width: 8.715px;
+    height: 8.715px;
+  }
+
+  .popup__title--done {
+    width: 302.25px;
+  }
+
+  .popup__back {
+    min-width: 156px;
+    margin-top: 34.5px;
   }
 
   .hero__portrait {
@@ -1051,6 +1291,14 @@
   .header__logo img { width: 165.75px; height: 38.25px; }
   .footer__contact-label img { width: 13.544px; height: 13.544px; }
   .footer__dev img { width: 42.75px; height: 26.25px; }
+  .menu__logo img { width: 165.75px; height: 38.25px; }
+  .menu__close img { width: 17.25px; height: 17.25px; }
+  .menu__circles { width: 1433.25px; height: 1433.25px; }
+  .popup__close img { width: 11.625px; height: 11.625px; }
+
+  /* The generated .field border shorthand (white 15 %) comes after
+     .field--light in the cascade; give the menu fields their wine back */
+  .field--light { border-color: var(--c-wine-15); }
 
   /* Shared: keep the 1px burger lines on whole pixels */
   .burger { gap: 3px; }
@@ -1973,6 +2221,300 @@
     min-width: 298px;
     margin-top: calc(26px * var(--m));
     padding-right: 78px;
+  }
+}
+
+/* Menu ≤1279 (Figma 72:689, mobile frame 360 × 913) — Shared.
+   Centred column: logo + cross, six links, phone / divider / office.
+   No form on compact widths (the mobile frame has none). The panel is
+   13m from the sides and 74m from the top, as tall as its content (766m in
+   English, like Figma) on any window height; lower windows scroll the menu. Links and contacts
+   are in the flow (padding-top 146m), so a long link that wraps (RU, ES)
+   pushes the contacts down instead of overlapping them. Panel coordinates
+   below = Figma − (13, 74).
+   ========================================================================== */
+@media (max-width: 1279px) {
+  .menu__panel {
+    height: auto; /* content + 79.5m padding: does not stretch on tall windows */
+    margin: calc(74px * var(--m)) calc(13px * var(--m)) calc(73px * var(--m));
+    padding: calc(146px * var(--m)) calc(20px * var(--m)) calc(79.5px * var(--m));
+    translate: 0 24px;
+  }
+
+  .menu__circles {
+    top: calc(-102px * var(--m));
+    left: calc(50% - calc(484.992px * var(--m)));
+    width: calc(969.984px * var(--m));
+    height: calc(969.984px * var(--m));
+  }
+
+  .menu__logo {
+    top: calc(23px * var(--m));
+    left: calc(23px * var(--m));
+  }
+
+  .menu__logo img {
+    width: calc(150px * var(--m));
+    height: calc(34.61px * var(--m));
+  }
+
+  /* 15.5m cross, 23m from the top, 23.5m from the right; 10px hit padding */
+  .menu__close {
+    top: calc(calc(23px * var(--m)) - 10px);
+    right: calc(calc(23.5px * var(--m)) - 10px);
+    padding: 10px;
+  }
+
+  .menu__close img {
+    width: calc(15.5px * var(--m));
+    height: calc(15.5px * var(--m));
+  }
+
+  /* Figma's five links start at 146m; the sixth adds one line below */
+  .menu__nav {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    translate: none;
+  }
+
+  /* Figma line 49.5m = 36.3m line + 2 × 6.6m padding: same rhythm, but a
+     link that wraps (RU, ES, PT on phones) keeps its two lines together */
+  .menu__link {
+    padding: calc(6.6px * var(--m)) 0;
+    white-space: normal;
+    font-size: calc(33px * var(--m));
+    line-height: calc(36.3px * var(--m));
+    letter-spacing: calc(-0.99px * var(--m));
+  }
+
+  .menu__list li {
+    translate: 0 16px;
+  }
+
+  /* Contacts: Figma gap below the links (522 − 467.5 = 54.5m) */
+  .menu__contacts {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin-top: calc(54.5px * var(--m));
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    text-align: center;
+  }
+
+  .menu__contact,
+  .menu__contact--phone {
+    min-width: 0;
+    padding: 0;
+  }
+
+  .menu__contact-label {
+    font-size: calc(14.375px * var(--m));
+    line-height: calc(20.125px * var(--m));
+  }
+
+  .menu__contact--office .menu__contact-label {
+    font-size: calc(14.298px * var(--m));
+    line-height: calc(20.017px * var(--m));
+  }
+
+  .menu__sparkle {
+    top: calc(4px * var(--m));
+    width: calc(13.656px * var(--m));
+    height: calc(13.656px * var(--m));
+  }
+
+  .menu__contact--office .menu__sparkle {
+    top: calc(3px * var(--m));
+    width: calc(13.583px * var(--m));
+    height: calc(13.583px * var(--m));
+  }
+
+  .menu__contact--phone .menu__sparkle { margin-left: calc(6.4px * var(--m)); }
+  .menu__contact--office .menu__sparkle { margin-left: calc(5.7px * var(--m)); }
+
+  .menu__contact-value {
+    display: block;
+    margin-top: calc(6.875px * var(--m));
+    font-size: calc(22px * var(--m));
+    line-height: calc(27.313px * var(--m));
+  }
+
+  /* Address wraps in Figma's 265m box */
+  .menu__contact--office .menu__contact-value {
+    width: calc(265px * var(--m));
+    margin-top: calc(7.98px * var(--m));
+    line-height: calc(27.166px * var(--m));
+    white-space: normal;
+  }
+
+  /* Horizontal rule 292m (Figma 72:932: black 10 %) */
+  .menu__divider {
+    width: calc(292px * var(--m));
+    height: 1px;
+    margin: calc(30.69px * var(--m)) 0 calc(21px * var(--m));
+    background: var(--c-black-10);
+  }
+
+  .menu__form {
+    display: none;
+  }
+}
+
+/* Popup ≤1279 (Figma 72:2249 in Frame 48, mobile 360 × 913) — Shared.
+   334m panel centred both ways (13m from the sides at 360), title, three
+   238m fields 7m apart, the 45m button with its label on the left.
+   Figma's button is 247 wide (9px wider than the fields); here it takes
+   the fields' width. Two-class selectors beat the compact .btn / .field
+   resets above.
+   ========================================================================== */
+@media (max-width: 1279px) {
+  .popup {
+    padding: 20px calc(13px * var(--m));
+  }
+
+  .popup__panel {
+    width: calc(334px * var(--m));
+    padding: calc(125px * var(--m)) 0 calc(127px * var(--m));
+    translate: 0 24px;
+  }
+
+  .popup__circles {
+    top: calc(-52px * var(--m));
+    left: calc(50% - calc(342px * var(--m)));
+    width: calc(685px * var(--m));
+    height: calc(685px * var(--m));
+  }
+
+  /* 15.5m cross, 23m from the top, 23.5m from the right */
+  .popup__close {
+    top: calc(calc(23px * var(--m)) - 10px);
+    right: calc(calc(23.5px * var(--m)) - 10px);
+    padding: 10px;
+  }
+
+  .popup__close img {
+    width: calc(15.5px * var(--m));
+    height: calc(15.5px * var(--m));
+  }
+
+  .popup__title {
+    width: calc(308px * var(--m));
+    translate: none;
+    font-size: calc(34.813px * var(--m));
+    line-height: calc(32.326px * var(--m));
+    letter-spacing: calc(-1.0444px * var(--m));
+  }
+
+  .popup__form {
+    gap: calc(7px * var(--m));
+    width: calc(238px * var(--m));
+    margin: calc(30px * var(--m)) auto 0;
+    translate: none;
+  }
+
+  .popup__form .popup__field {
+    height: calc(45px * var(--m));
+    padding: 0 calc(20px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(14px * var(--m));
+    letter-spacing: calc(-0.42px * var(--m));
+  }
+
+  /* Label 20m from the left; ring 34.7 × 35.8m (ring-sm × 0.856) */
+  .popup__form .popup__submit {
+    --btn-fill-origin: calc(100% - calc(22.83px * var(--m))) 50%;
+    justify-content: flex-start;
+    width: 100%;
+    height: calc(45px * var(--m));
+    padding: 1px 0 0 calc(20px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(30px * var(--m));
+    letter-spacing: calc(-0.42px * var(--m));
+  }
+
+  .popup__form .popup__submit .btn__ring {
+    top: calc(4.09px * var(--m));
+    right: calc(5.47px * var(--m));
+    width: calc(34.719px * var(--m));
+    height: calc(35.771px * var(--m));
+  }
+
+  .popup__form .popup__submit .btn__arrow {
+    top: calc(17.88px * var(--m));
+    right: calc(18.32px * var(--m));
+    width: calc(9.775px * var(--m));
+    height: calc(9.775px * var(--m));
+  }
+
+  /* Thank-you state (Figma 72:2523): title in a 264m box, the 191 × 45m
+     button 39m below, label 27m from the left; Figma sits the pair 12.5m
+     below the panel centre */
+  .popup__done {
+    padding-top: calc(25px * var(--m));
+  }
+
+  .popup__title--done {
+    width: calc(264px * var(--m));
+  }
+
+  .popup__done .popup__back {
+    --btn-fill-origin: calc(100% - calc(22.83px * var(--m))) 50%;
+    min-width: calc(191px * var(--m));
+    height: calc(45px * var(--m));
+    margin-top: calc(39px * var(--m));
+    padding: 1px calc(52px * var(--m)) 0 calc(27px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(30px * var(--m));
+    letter-spacing: calc(-0.42px * var(--m));
+  }
+
+  .popup__done .popup__back .btn__ring {
+    top: calc(4.09px * var(--m));
+    right: calc(5.47px * var(--m));
+    width: calc(34.719px * var(--m));
+    height: calc(35.771px * var(--m));
+  }
+
+  .popup__done .popup__back .btn__arrow {
+    top: calc(17.88px * var(--m));
+    right: calc(18.32px * var(--m));
+    width: calc(9.775px * var(--m));
+    height: calc(9.775px * var(--m));
+  }
+}
+
+/* Service dropdown ≤1279 — Shared. Form fields keep their desktop size on
+   compact widths (14px), so the list does too (the laptop block would make
+   it ×0.75); it spans the full-width field.
+   ========================================================================== */
+@media (max-width: 1279px) {
+  .field--select {
+    gap: 10px;
+  }
+
+  .field-select__chevron {
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+  }
+
+  .field-select__list {
+    top: calc(100% + 6px);
+    width: 100%;
+    max-width: none;
+    padding: 6px;
+    border-radius: 22px;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .field-select__option {
+    padding: 10px 16px;
+    border-radius: 16px;
   }
 }
 

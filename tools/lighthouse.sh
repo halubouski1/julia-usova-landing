@@ -4,13 +4,13 @@
 #
 #   npm run lh -- <name> [mobile|desktop]     e.g. npm run lh -- before
 #
-# Starts `python3 -m http.server 8765` if nothing is listening on the port,
+# Starts `python3 -m http.server $PORT` (8765, or LH_PORT) if nothing listens there,
 # and stops it again afterwards. Lighthouse is the project-local devDependency.
 set -eu
 
 NAME="${1:-run}"
 FORM="${2:-mobile}"
-PORT=8765
+PORT="${LH_PORT:-8765}" # override when 8765 is busy: LH_PORT=8791 npm run lh -- …
 URL="http://localhost:${PORT}/index.html"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${ROOT}/lighthouse"

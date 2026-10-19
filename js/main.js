@@ -205,7 +205,7 @@
   function initAnchors() {
     document.addEventListener('click', function (event) {
       var link = event.target.closest('a[href^="#"]');
-      if (!link) return;
+      if (!link || link.hasAttribute('data-popup-open')) return;
       var id = link.getAttribute('href');
       if (id.length < 2) return;
       var target = document.querySelector(id);
@@ -556,10 +556,12 @@
     sent: 'Thank you! Your enquiry has been sent. Julia will get back to you to confirm the date.'
   };
 
+  // Every [data-booking-form] (footer, menu) gets the same validation
   function initBookingForm() {
-    var form = document.querySelector('[data-booking-form]');
-    if (!form) return;
+    document.querySelectorAll('[data-booking-form]').forEach(initForm);
+  }
 
+  function initForm(form) {
     var fields = Array.prototype.slice.call(form.querySelectorAll('[data-validate]'));
     var status = form.querySelector('[data-form-status]');
     var submitted = false;
@@ -576,7 +578,14 @@
       var wrap = field.closest('.field-wrap');
       var error = document.getElementById(field.getAttribute('aria-describedby'));
 
-      if (error && message) error.textContent = message;
+      if (error && message) {
+        error.textContent = message;
+        // Reserve exactly the message's width (+ its right offset + 10px),
+        // so typed text never runs under it, whatever the language
+        var right = parseFloat(getComputedStyle(error).right) || 0;
+        field.style.paddingRight = Math.ceil(error.offsetWidth + right + 10) + 'px';
+      }
+      if (!message) field.style.paddingRight = '';
       // Clear stale text after the fade-out, so screen readers don't announce it
       if (error && !message) {
         setTimeout(function () {
@@ -633,6 +642,7 @@
       submitted = false;
       fields.forEach(function (field) { field.removeAttribute('aria-invalid'); });
       setStatus(text('sent'));
+      form.dispatchEvent(new CustomEvent('booking:sent'));
     });
   }
 
@@ -669,6 +679,255 @@
   // "Worldtime (12:50 pm)" — live time for the city in data-worldtime (IANA zone).
   // Label from data-worldtime-label, format from the page language:
   // English 12-hour "12:50 pm", the other versions 24-hour "12:50".
+  // Modal dialogs (menu, popup): [hidden] while closed, CSS animates
+  // .is-open, hidden is set again after the closing transition. Esc and
+  // [data-dialog-close] close; Tab stays inside; the page does not scroll
+  // (Lenis stopped, html.is-dialog-open); focus returns to the opener.
+  var DIALOG_CLOSE_MS = 500;
+
+  function createDialog(dialog, options) {
+    var panel = dialog.querySelector(options.panel);
+    var closeTimer = null;
+    var opener = null;
+
+    function isOpen() {
+      return dialog.classList.contains('is-open');
+    }
+
+    function focusables() {
+      return Array.prototype.filter.call(
+        dialog.querySelectorAll('a[href], button, input'),
+        function (el) { return !el.disabled && el.offsetParent !== null; }
+      );
+    }
+
+    function open(from) {
+      clearTimeout(closeTimer);
+      opener = from || null;
+      dialog.hidden = false;
+      dialog.scrollTop = 0;
+      dialog.offsetWidth; // start the transition from the closed state
+      dialog.classList.add('is-open');
+      document.documentElement.classList.add('is-dialog-open');
+      if (lenis) lenis.stop();
+      if (options.onOpen) options.onOpen();
+      var first = dialog.querySelector(options.focus);
+      if (first) first.focus({ preventScroll: true });
+    }
+
+    function close(restoreFocus) {
+      if (!isOpen()) return;
+      dialog.classList.remove('is-open');
+      document.documentElement.classList.remove('is-dialog-open');
+      if (lenis) lenis.start();
+      if (options.onClose) options.onClose();
+      closeTimer = setTimeout(function () { dialog.hidden = true; }, reduceMotion ? 0 : DIALOG_CLOSE_MS);
+      if (restoreFocus && opener) opener.focus({ preventScroll: true });
+    }
+
+    dialog.addEventListener('click', function (event) {
+      if (event.target.closest('[data-dialog-close]')) close(true);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (!isOpen()) return;
+      if (event.key === 'Escape') {
+        close(true);
+        return;
+      }
+      if (event.key === 'Tab') {
+        var items = focusables();
+        if (!items.length) return;
+        var first = items[0];
+        var last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        } else if (!panel.contains(document.activeElement)) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    return { open: open, close: close, isOpen: isOpen };
+  }
+
+  // Custom dropdown: [data-select] wrap with a [data-select-button], a
+  // role="listbox" [data-select-list] of role="option" items and a hidden
+  // [data-select-input]. Mouse/touch: click to open, click an option.
+  // Keyboard: ↓/↑/Enter/Space open; in the list ↓/↑/Home/End move,
+  // Enter/Space choose, Esc/Tab close. Click outside closes.
+  function initSelect() {
+    document.querySelectorAll('[data-select]').forEach(function (wrap) {
+      var button = wrap.querySelector('[data-select-button]');
+      var list = wrap.querySelector('[data-select-list]');
+      var input = wrap.querySelector('[data-select-input]');
+      var valueEl = wrap.querySelector('[data-select-value]');
+      if (!button || !list || !input || !valueEl) return;
+
+      var options = Array.prototype.slice.call(list.querySelectorAll('[role="option"]'));
+      var placeholder = valueEl.innerHTML;
+      var active = -1;
+
+      function isOpen() {
+        return wrap.classList.contains('is-open');
+      }
+
+      function setActive(index) {
+        active = Math.max(0, Math.min(options.length - 1, index));
+        options.forEach(function (option, i) {
+          option.classList.toggle('is-active', i === active);
+        });
+        list.setAttribute('aria-activedescendant', options[active].id);
+      }
+
+      function selectedIndex() {
+        for (var i = 0; i < options.length; i++) {
+          if (options[i].getAttribute('aria-selected') === 'true') return i;
+        }
+        return -1;
+      }
+
+      function open() {
+        if (isOpen()) return;
+        wrap.classList.add('is-open');
+        button.setAttribute('aria-expanded', 'true');
+        setActive(Math.max(0, selectedIndex()));
+        list.focus({ preventScroll: true });
+      }
+
+      function close(focusButton) {
+        if (!isOpen()) return;
+        wrap.classList.remove('is-open');
+        button.setAttribute('aria-expanded', 'false');
+        if (focusButton) button.focus({ preventScroll: true });
+      }
+
+      function choose(index) {
+        var option = options[index];
+        options.forEach(function (o) { o.setAttribute('aria-selected', o === option ? 'true' : 'false'); });
+        input.value = option.getAttribute('data-value');
+        valueEl.innerHTML = option.innerHTML;
+        button.title = option.textContent; // full name if the field cuts it
+        wrap.classList.add('has-value');
+        close(true);
+      }
+
+      function reset() {
+        options.forEach(function (o) { o.setAttribute('aria-selected', 'false'); });
+        input.value = '';
+        valueEl.innerHTML = placeholder;
+        button.removeAttribute('title');
+        wrap.classList.remove('has-value');
+      }
+
+      button.addEventListener('click', function () {
+        if (isOpen()) close(true);
+        else open();
+      });
+
+      button.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          open();
+        }
+      });
+
+      list.addEventListener('click', function (event) {
+        var option = event.target.closest('[role="option"]');
+        if (option) choose(options.indexOf(option));
+      });
+
+      list.addEventListener('mousemove', function (event) {
+        var option = event.target.closest('[role="option"]');
+        if (option && options.indexOf(option) !== active) setActive(options.indexOf(option));
+      });
+
+      list.addEventListener('keydown', function (event) {
+        switch (event.key) {
+          case 'ArrowDown': event.preventDefault(); setActive(active + 1); break;
+          case 'ArrowUp': event.preventDefault(); setActive(active - 1); break;
+          case 'Home': event.preventDefault(); setActive(0); break;
+          case 'End': event.preventDefault(); setActive(options.length - 1); break;
+          case 'Enter':
+          case ' ': event.preventDefault(); choose(active); break;
+          case 'Escape': event.preventDefault(); event.stopPropagation(); close(true); break;
+          case 'Tab': close(false); break;
+        }
+      });
+
+      document.addEventListener('click', function (event) {
+        if (isOpen() && !wrap.contains(event.target)) close(false);
+      });
+
+      var form = wrap.closest('form');
+      if (form) form.addEventListener('reset', function () { setTimeout(reset, 0); });
+    });
+  }
+
+  // Burger menu: [data-menu], opened by [data-menu-toggle]; a link inside
+  // closes it, then initAnchors (document listener) scrolls
+  function initMenu() {
+    var menu = document.querySelector('[data-menu]');
+    var toggle = document.querySelector('[data-menu-toggle]');
+    if (!menu || !toggle) return;
+
+    var dialog = createDialog(menu, {
+      panel: '.menu__panel',
+      focus: '.menu__link',
+      onOpen: function () { toggle.setAttribute('aria-expanded', 'true'); },
+      onClose: function () { toggle.setAttribute('aria-expanded', 'false'); }
+    });
+
+    toggle.addEventListener('click', function () { dialog.open(toggle); });
+
+    menu.addEventListener('click', function (event) {
+      if (event.target.closest('a[href^="#"]')) dialog.close(false);
+    });
+  }
+
+  // Consultation popup: [data-popup], opened by every [data-popup-open]
+  // (their href="#…" stays as the no-JS fallback)
+  function initPopup() {
+    var popup = document.querySelector('[data-popup]');
+    if (!popup) return;
+
+    var form = popup.querySelector('[data-booking-form]');
+    var done = popup.querySelector('[data-popup-done]');
+
+    // Every opening starts with the form; the thank-you state is reset here
+    // (the popup is still hidden, so nothing visibly jumps)
+    function showForm() {
+      popup.classList.remove('is-sent');
+      popup.setAttribute('aria-labelledby', 'popup-title');
+      if (done) done.setAttribute('aria-hidden', 'true');
+    }
+
+    var dialog = createDialog(popup, { panel: '.popup__panel', focus: '.popup__form .field', onOpen: showForm });
+    showForm();
+
+    if (form && done) {
+      form.addEventListener('booking:sent', function () {
+        popup.classList.add('is-sent');
+        popup.setAttribute('aria-labelledby', 'popup-done-title');
+        done.removeAttribute('aria-hidden');
+        var title = done.querySelector('#popup-done-title');
+        if (title) title.focus({ preventScroll: true });
+      });
+    }
+
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest('[data-popup-open]');
+      if (!trigger) return;
+      event.preventDefault();
+      dialog.open(trigger);
+    });
+  }
+
   function initWorldtime() {
     var nodes = document.querySelectorAll('[data-worldtime]');
     if (!nodes.length) return;
@@ -709,6 +968,9 @@
     initCaseLid();
     initFill();
     initBookingForm();
+    initSelect();
+    initMenu();
+    initPopup();
     initWorldtime();
     initLanguage();
   });

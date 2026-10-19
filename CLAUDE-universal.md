@@ -1,6 +1,6 @@
 # <PROJECT NAME> — how we work
 
-Static HTML/CSS/JS site built from Figma, page by page. No framework. Node is used only for local tooling (generators, image/font/CSS/JS builds, Lighthouse). The browser loads plain files.
+Static HTML/CSS/JS site built from Figma, page by page. No framework. Node is used only for local tooling (generators, image/font/CSS/JS builds, Lighthouse). The browser loads plain files. If the site later moves to WordPress, the static pages stay the reference (see "WordPress port").
 
 > Template. Fill in every `<…>` placeholder, then delete this note. Keep this file current: update the status table, the components list, "Deviations from Figma" and "Content flagged to the client" after each piece of work.
 
@@ -91,6 +91,8 @@ Hard rules:
 - No `transform: scale()`, `zoom` or vw-based layout sizing. Scale factors are CSS custom-property multipliers (`calc(Npx * var(--m))`).
 - In `media.css`, the shared blocks for each breakpoint come first, page-specific blocks after. Label every block with a comment.
 - **Laptop ×0.75 is generated** (`tools/scale-laptop.py`): it copies every declaration with px values from `style.css` × 0.75, keeps 1px hairlines and borders, and replaces only the block between `/* laptop:generated:start */` and `/* laptop:generated:end */`. Hand-written laptop overrides go after the end marker: images sized only by HTML `width`/`height`, and 1px lines that must stay on whole pixels. Never edit inside the markers.
+  - **New components need a laptop check, not only 1920.** The generated block copies base shorthands (e.g. `.field { border: 1px solid white-15 }`) after your modifier, so a modifier that only changes a colour (`.field--light { border-color: wine }`) silently loses on 1280–1919. Add a hand-written override after the end marker. Images sized by HTML attributes in new components (logo, close icon, decor circles) also need laptop sizes there, or a centred logo ends up off-centre.
+  - Compact blocks often reset generic classes (`.btn`, `.field`) after the component rules; give component overrides two classes (`.popup__form .popup__field`) so they win without `!important`.
 - **Horizontal anchors** (so layouts survive viewports narrower than the scaled frame, e.g. 1280 < 1440):
   - Left half → `left: figmaX`.
   - Right half → `right: frameW − figmaX − w`.
@@ -137,9 +139,27 @@ Document each shared component here when you create it: class names, modifiers, 
   - Rules in one `VALIDATORS` map picked by `data-validate`.
   - Error text inside the field (`aria-describedby`, `aria-invalid`), shown on blur when something was typed and on submit; it clears live while fixing. Focus goes to the first invalid field.
   - Success state in a `role="status"` line.
-  - Without a backend, say so in the code and in "Content flagged".
+  - Without a backend, say so in the code and in "Content flagged". With one, see "Lead forms, CRM and ad tracking".
+  - Read the form's endpoint with `form.getAttribute('action')`: a field named `action` (WordPress admin-ajax needs one) shadows `form.action`.
+  - One `initForm(form)` for every `[data-booking-form]` (footer, menu, popup); messages come from `data-msg-*` on each form. On success the form dispatches a custom event (`booking:sent`) so a container (a popup) can switch to its thank-you state.
+  - **Error text inside the field must fit any language:** a fixed `padding-right` (e.g. 130px) is too small for long messages (ES "Nombre demasiado corto" is 142px at 12px). Set the field's inline `padding-right` to the measured message width + its right offset + ~10px when it appears, clear it when it goes, and make the placeholder transparent while the error shows. Test the longest message per language in the narrowest field.
 - **Custom dropdown:** `[data-dropdown]` root, a toggle with `aria-expanded`/`aria-controls`, and a `role="listbox"` menu with `role="option"` items. The value lives in the root's `data-value`, and the component fires `change` on the root. It closes on outside click and on Esc, and supports arrow keys.
+  - Inside a form: the value goes to a hidden `input[name]`. `form.reset()` does not clear a hidden input set from script; listen to the form's `reset` event and restore the placeholder text yourself.
+  - Keyboard: on open, focus the listbox (`tabindex="-1"`) and track the active option with `aria-activedescendant` (↓/↑/Home/End, Enter/Space choose, Esc closes and returns focus to the toggle, Tab closes). Turn off the listbox's own focus outline (a global `:focus-visible` rule frames the whole list) and mark the active option instead.
+  - Option labels: reuse existing translation keys (service names, menu items); keep values language-independent (`bridal`, `other`).
+  - A narrow field cuts long choices: ellipsis on the value plus a `title` with the full name.
+  - The open wrapper needs `z-index` above the following fields when they carry scroll animations (each transformed wrap is its own stacking context).
 - **Mobile menu / drawers:** a toggle with `aria-expanded`, a backdrop, and Esc to close. Lock page scroll while open (and stop smooth scroll, if it's used).
+- **Modals (full-screen menu, popups) share one helper**, `createDialog(el, { panel, focus, onOpen, onClose })`:
+  - Markup: `role="dialog" aria-modal="true"`, `hidden` while closed; a fixed overlay and the cross carry `[data-dialog-close]`. CSS animates `.is-open` (overlay fade, panel fade + rise, staggered links); `hidden` is set again after the closing transition (~500 ms, 0 with reduced motion).
+  - Behaviour: Esc and `[data-dialog-close]` close; Tab is trapped in the panel; focus goes to the first link/field and returns to the element that opened it. Scroll lock: `html.is-dialog-open { overflow: hidden }` + `lenis.stop()/start()`.
+  - **Low windows scroll the dialog, they don't shrink it** (clients prefer it): the dialog is `position: fixed; inset: 0; overflow-y: auto; overscroll-behavior: contain` with `data-lenis-prevent` (Lenis checks it before its stopped state, so the wheel still scrolls the dialog). The overlay is `position: fixed` so it covers the screen while the panel scrolls.
+  - **Centred popups:** the dialog is a flex container with padding and the panel has `margin: auto`: centred both ways when it fits, scrolling from the top when it doesn't (unlike `align-items: center`, which cuts the top off).
+  - **Full-screen menu panels:** on desktop the panel follows the window (`height: max(100vh − margins, <Figma height>)`); on phones give it `height: auto` (content + bottom padding), or it stretches into a tall empty sheet on tall screens.
+  - Links inside a menu close it first, then the normal anchor handler scrolls. Buttons that open a popup keep their `href` as the no-JS fallback (`data-popup-open`, `aria-haspopup="dialog"`) and the anchor handler skips them.
+  - **Success state in the same popup:** fade the form out with `visibility: hidden` (it keeps the panel's height) and fade an absolutely centred thank-you layer in; switch `aria-labelledby`, focus its title (`tabindex="-1"`, no outline); a "Go back" button closes; every opening resets to the form. Keep the cross above that layer (`z-index`).
+  - A Figma menu often has fewer links than the site: use the site's list centred on the same point, and move the blocks below by the extra rows.
+  - **Long translated links in a mobile menu:** allow wrapping (`white-space: normal`) and keep a wrapped link visually one item: a tighter line-height plus vertical padding that adds back up to the Figma line (e.g. 49.5 = 36.3 + 2 × 6.6), so single-line items don't move.
 - **Inner-page banner:** one shared hero class plus a per-page modifier. Per-page differences go through custom properties (e.g. `--hero-overlay`), not duplicated rules.
 - **Page background patterns** (grid, texture):
   - Put them on **one wrapper** around everything between the banner and the footer, never per section. Sections inside stay transparent.
@@ -196,13 +216,84 @@ Document each shared component here when you create it: class names, modifiers, 
 ## Build and performance
 
 - `npm run build` = `build:css` (laptop generator + lightningcss bundle) + `build:js` (vendor + esbuild-minified `main.js`).
-  - lightningcss needs explicit `targets` (the oldest browsers the CSS already needs). Without them it drops `-webkit-backdrop-filter` (Safari < 18). After a build, check that prefix counts in the bundle equal the sources.
+  - lightningcss needs explicit `targets` (the oldest browsers the CSS already needs). Without them it drops `-webkit-backdrop-filter` (Safari < 18). It also drops the unprefixed property when the `-webkit-` one comes after it in the same rule: write the prefixed one first (vendor CSS too). After a build, check that prefix and unprefixed counts in the bundle equal the sources, and make the build script fail if they don't.
+  - Several page bundles (shared `base` + one per template) beat one site bundle once pages differ a lot: each page links `base` + its own. Pick the bundle per template, not per URL, so a CMS can choose it the same way.
   - Scroll-animation CSS stays render-blocking (inside the bundle). Loading it late shows elements, then hides them for their entrance.
 - **Lighthouse:** `npm run lh -- <name> [mobile|desktop]` (headless Chrome, JSON + HTML into `lighthouse/`), `npm run lh:summary -- a.json [b.json]`.
+  - The runner reuses whatever already listens on its port. If another project's server holds it, Lighthouse audits the wrong site: check `lsof -i :<port>` (or the page title) first and use the port override (`LH_PORT=8791 npm run lh -- …`). Never kill a server that isn't yours.
   - Mobile uses simulated throttling (Lantern): every request that starts before the observed LCP counts against the LCP. Fewer early bytes (smaller images, subset fonts) is what moves it; preloads and priority tweaks usually don't.
   - Simulated LCP varies ±1.5 s between identical runs: compare **medians of 3 runs**, and A/B a change by toggling only that change.
   - `python3 -m http.server` sends no `Cache-Control`; caching is a hosting setting (write the rules for the actual host).
 - Keep a "tried and rejected" list here, with numbers, so nobody repeats it.
+- **Images: ask before multiplying files.** A responsive set (widths × formats) can turn 60 images into 600 files; some clients want the originals plus one AVIF each. Agree on the scheme first, and keep a JPEG/WebP fallback only where AVIF support matters.
+
+## WordPress port (if the site moves to WP)
+
+A custom theme built from the finished static site. The static pages are the reference: the WP output must render the same.
+
+- **Local stack:** Docker Compose with `wordpress` + `mariadb` + a `wpcli` service (profile, run on demand), on a fixed port. Mount the theme folder, the static `assets/` into the theme (one source of CSS/JS/images for both sites), plugins, `mu-plugins/`, and root files the static site links (`favicon.ico`, PDFs). Secrets live in a git-ignored `.env`, with a committed `.env.example`.
+- **Templates map one-to-one to page types:** `header.php`/`footer.php` from the shared partials, `front-page.php`, page templates per layout (`template-<name>.php`), a custom post type for repeated items (cases, products) with `archive-<cpt>.php`/`single-<cpt>.php`, `home.php`/`single.php` for the blog, `404.php`. Write the map down before cutting.
+- **Content fields in code:** register ACF field groups with `acf_add_local_field_group` in the theme (versioned, no DB export). Data that repeats in the static HTML (cases, posts, page blocks) becomes fields, not hard-coded markup.
+- **Seeding:** extract content from the static HTML into JSON (`theme/inc/seed/*.json`) and load it with a WP-CLI command (`wp <project> seed [pages|posts|…]`). It must be idempotent (update by slug, never duplicate), so the whole site can be rebuilt from scratch.
+- **URLs match the static site:** set the permalink structure (trailing slash or not) to the static URLs, give the CPT the same base path, and keep slugs. Every old URL must answer 200 or have a 301.
+- **Media:** a static site has no thumbnails. Turn off intermediate sizes (`intermediate_image_sizes_advanced` → `[]`) and the "-scaled" copy (`big_image_size_threshold` → `false`); allow AVIF uploads if the site uses them. Output the same `<picture>` markup as the static pages.
+- **Make WP stop changing the markup:**
+  - `wptexturize` off (`run_wptexturize` → false): it rewrites quotes and dashes, so text stops matching.
+  - Remove emoji scripts, RSD/WLW links, oEmbed discovery, generator tags, global styles / block library CSS, and plugin CSS the theme replaces.
+  - `language_attributes` filter for the right `<html lang>`.
+- **Assets:** enqueue the same bundles with `defer` (`wp_enqueue_script` strategy), version by file mtime, keep the head scripts (`--fixed-vh`, font preload) as they are. Pick the page bundle from the template.
+- **Forms:** keep the static markup and JS validation. Submit via `admin-ajax.php` (`action` + nonce) to a handler that passes the data to the form plugin's API (e.g. `GFAPI::submit_form`), so entries, notifications and add-ons still work. Map plugin fields by admin label, not by numeric ID. Add a honeypot field.
+- **Plugins:** use what the client already runs elsewhere when it fits (fewer things to learn). Keep plugin files out of git; record names and versions in the README.
+- **Verify the port, not just the pages:**
+  - Static vs WP comparison per page: element signatures (tag, classes, text, key attributes) in order, plus computed styles. Expected differences are listed in a script allow-list (hidden form inputs, fixed typos), everything else is a bug.
+  - Run the same UI check and Lighthouse scripts with a `WP=1` switch against the WP URL.
+  - Test the real form flow end to end, then delete the test entries everywhere they landed (form plugin, CRM, chats). Form plugins may reject test domains such as `example.com`: use a real-looking address.
+- **Migration:** a script that exports DB + uploads (or an All-in-One-style archive) and a script that replaces the local domain with the production one (`wp search-replace`, serialized-safe). Never edit the DB by hand.
+
+## Lead forms, CRM and ad tracking (if used)
+
+The chain: **form → form plugin entry → CRM lead → notifications → ad platforms**. Each link must fail without breaking the previous one: a CRM or Telegram outage never loses a lead or the visitor's "thank you".
+
+- **Push to the CRM after the form plugin has saved the entry** (e.g. `gform_after_submission`), inside `try/catch` that only logs. The entry is the backup.
+- **Idempotency:** store the form entry ID on the lead (`wpGfEntryId`-style field) and check it before creating, so double submits and retries make one lead. Turn off the CRM's own duplicate check (it usually matches by name and rejects a returning client's second request).
+- **Typed CRM fields vs free text:** phone numbers parsed as international numbers, dates, enums. Normalise first (phone → `+375…`); if the CRM still rejects a field, drop that field, put its raw value into the description, and retry (bounded loop). A lead with a wrong-format phone is still a lead.
+- **Leads without a name** (phone-only forms): name the lead by the phone so it is readable in lists and notifications.
+- **Attribution:** a small script stores UTM tags, `gclid`, `fbclid`, `_fbp`/`_fbc`, landing page and referrer in a first-party cookie on the first visit, and adds them as hidden fields on submit. The server copies them onto the lead.
+- **Webhooks from the CRM** (status / stage changes):
+  - Verify the signature (HMAC of the raw body) against every configured secret; `permission_callback` stays open only because of that.
+  - Payloads often carry only the ID and the changed field, and don't say which event fired: use a separate endpoint per event (e.g. "lead created" vs "status changed").
+  - Take the new status/stage **from the webhook**, not from re-reading the record: the queue runs later, and the record may already have moved on.
+  - Always answer 200 once the signature is valid (errors go to the log), or the CRM retries forever.
+  - Webhooks are queued by the CRM's cron (minutes, not seconds). From a CRM container to a local WP, use `host.docker.internal`.
+- **Notifications (Telegram):** bot token and chat ID in `.env`. Group chat IDs are negative (`-…`); supergroups start with `-100`. If the CRM is the main path, send the "new lead" message from the CRM webhook and use a direct message from the form only as a fallback when the CRM is not configured, so nothing is sent twice.
+- **Ad platforms:**
+  - Browser event and server event (Meta Pixel + Conversions API) share one `event_id` so they count once. Fire the browser goals (Pixel `Lead`, GA4 `generate_lead`, Metrika goal) from one `CustomEvent` that the form script dispatches on success.
+  - CRM-born events (qualified lead, closed deal) are `action_source: system_generated`, timed at the moment they happen (Meta rejects events older than 7 days), and sent once (store "sent at" on the record).
+  - Send only with marketing consent; hash personal data as the platform requires.
+  - Integrations without keys yet stay in the code as dormant placeholders that skip silently when their keys are empty.
+- **CRM setup as code:** a provisioning script (fields, statuses, pipeline stages, currency, webhooks, API user) so a fresh CRM can be rebuilt. Set the currency list before using a non-default currency, or amounts are rejected.
+- **Secrets:** every key and token in git-ignored `.env` files. A token pasted into a chat or ticket is compromised: rotate it before production.
+
+## Cookie consent and analytics
+
+- One banner. If a consent plugin is required (records, policy pages), keep the site's own banner and bridge its choice to the plugin's API (accept/deny functions), and hide the plugin's banner and CSS.
+- Analytics tags are printed blocked (`type="text/plain"` + a category attribute) and run only after consent. Clear their cookies on withdrawal.
+- Make the `gtag`/`ym` functions global, so later code (lead goals) can call them after consent.
+- Removing the "decline" button is a client decision with GDPR risk for EU visitors; note it in "Content flagged".
+
+## SEO and structured data
+
+- **Per page:** unique Title ≤ 60–65 characters, description 70–160, one H1 containing the query, self-referencing canonical, OG image. Commercial queries in one city want the city in Title and H1.
+- **Close duplicates on a CMS:** delete demo content ("Sample Page", "Hello world"), `noindex, follow` on author, date, search and default-category archives, keep taxonomies nobody uses out of the sitemap, and 301 paginated archives that duplicate one page.
+- **Schema (JSON-LD, one `@graph`, through the SEO plugin's filters when there is one):**
+  - Organization as the specific subtype (`ProfessionalService`, `ClothingStore`…) with address/city, phone, email, `areaServed`, `priceRange`, `contactPoint`.
+  - Blog posts: `BlogPosting` with the organization as author when there are no real authors (drop the auto-generated `Person`), `wordCount`.
+  - FAQ blocks: `FAQPage` + `Question`/`Answer` built from the same data the page shows.
+  - Service pages with prices: `Service` + `Offer` (price, currency); a services overview: `OfferCatalog`; portfolio items: `CreativeWork`.
+  - Never mark up what the page doesn't show (prices, reviews, ratings).
+- **SEO plugins don't see custom-field content** by default: feed the field text into their analysis (e.g. Yoast `wpseo_pre_analysis_post_content`).
+- **Audit script:** crawl the sitemap plus internal links and probe the usual duplicate URLs (`/author/…`, `/category/…`, `/page/2`, `?s=`, `?p=`), then report status, robots, canonical, Title/description length, H1 count, missing alt, invalid JSON-LD, thin pages (< 150 words in `<main>`), duplicate titles/descriptions and indexable pages missing from the sitemap. Rerun it after every SEO change.
+- **Strategy document** (`SEO-PLAN.md`): indexed pages, competitors and their prices from the real market, one intent → one URL keyword map, cannibalisation, blog audit, priorities P0–P4, article briefs, facts to confirm with the client, order of work. Search tools may not show the target country's results: say so and check against Search Console / Yandex Webmaster. Content changes wait for the client's approval; never invent prices, figures or reviews.
 
 ## Languages (if the site is multilingual)
 
@@ -219,6 +310,7 @@ Document each shared component here when you create it: class names, modifiers, 
   - **JS has no per-language strings.** Form errors and confirmations go in `data-msg-*` attributes on the form (translated like any attribute, with a default-language fallback in JS). Labels for live text are `data-*-label` attributes. Formats follow `<html lang>` (e.g. 12-hour time in English, 24-hour elsewhere).
 - **First visit:** an inline `<head>` script on the default-language home page redirects (`location.replace`) to the first supported language in `navigator.languages`, otherwise it stays. A choice made in the switcher is saved (`localStorage`) and always wins. Direct links to `/<lang>/` are never redirected.
 - **Switching keeps the place:** on click, save the choice and add the hash of the section on screen (the last `section[id]` whose top is above ~40 % of the viewport) to the link.
+- **Canonical and hreflang must be absolute URLs** (Lighthouse SEO fails relative ones). Keep a `siteUrl` in the language config and set it as soon as the production domain is known (the hosting's default domain works until then); generate `robots.txt` and a `sitemap.xml` with the hreflang alternates from the same config.
 - **Language codes:** Brazilian Portuguese `pt-BR`, Latin-American Spanish `es-419`. Decide formal vs informal address per language and write it into the JSON `_note`.
 - **Translations written by Claude:** say so in "Content flagged to the client" and ask for a native speaker's proofreading before launch. Keep brand lines (logo) in the original; translate the h1 and its repeats consistently.
 - **Layout per language:** follow "Layout that survives other text" (Breakpoints), and check fonts first (Typography → coverage). Then check every language at every width (How to verify → step 4).
@@ -287,6 +379,8 @@ Limits:
 - **Phones:** none of the three covers real touch, the moving toolbar or a real GPU. Use Chrome emulation for layout, plus a real iPhone (Safari Web Inspector over USB) before launch.
 - **Scripted scrolling with smooth scroll (Lenis):** after `scrollTo` the page keeps easing. Repeat `scrollTo` until the target holds and wait ≥ 1 s before reading scroll-linked values; values read too early look like the effect running backwards.
 - **CSS entrance animations** (e.g. a hero image scaling from 1.08) inflate measured sizes for a few seconds; wait or account for them.
+- **Cookie banners hide from automation:** vanilla-cookieconsent does not show when `navigator.webdriver` is true. Override it in an `initScript` (`Object.defineProperty(Navigator.prototype, 'webdriver', { get: () => false })`) to test the banner; answer it from the keyboard so Safari stays in focus-ring mode.
+- **Shell (zsh):** unquoted `$VAR` does not word-split, so `for x in $LIST` and `set -- $pair` loops break. Use arrays, functions or separate calls; macOS has no `timeout` command.
 - **Language detection:** test it with `initScript` overriding `navigator.languages`, in a fresh isolated context (`new_page` with `isolatedContext`), so earlier saved choices don't interfere.
 - Report per browser what was checked and what wasn't.
 
@@ -309,5 +403,8 @@ Steps 1–8 run in Chrome; then Safari (and Firefox when needed) as described in
 5. Refactors that must not change rendering (bundling, minifying, `<picture>` wrappers, font swaps): compare every computed property (or every element box/text width) between old and new in **sandboxed iframes without scripts** (deterministic, animation-free) at several widths. Exclude custom properties (only their text form changes).
 6. Performance: `chrome-devtools` emulate with `viewport` **and** `cpuThrottlingRate` in the same call (a CPU-only call resets the viewport). Run a rAF `scrollTo(y += 30)` loop and record frame deltas plus `long-animation-frame` / `layout-shift` entries. A trace shows forced reflows as `UpdateLayoutTree`/`Layout` nested in `FunctionCall`.
 7. Interactive parts: open dropdowns, menus and drawers, and use `document.elementFromPoint` at their centre to confirm they're on top. Test reduced motion and "library missing" by overriding `matchMedia` / `window.<Lib>` in an `initScript`.
+   - Dialogs: every opener on every language page; Esc, overlay, cross and links close; focus returns to the opener; the page behind doesn't move; a low window (e.g. 1920 × 620, 360 × 600) scrolls the dialog; the panel matches Figma at the frame size (1920 × 1197, 360 × 913).
+   - Forms: empty submit, the longest error message per language in the narrowest field, the success state, and the reset afterwards.
+   - Safari runs no transitions in a background window: check end states there with `* { transition: none !important }` injected, and judge the animation in Chrome.
 8. Regression: page height and positions at the widths already designed stay the same; the console has no errors (a missing `favicon.ico` 404 is harmless; errors from your own sandboxed test iframes are expected).
 9. Report deviations from Figma honestly, along with what was verified and what wasn't. Nothing is committed unless the user asks.

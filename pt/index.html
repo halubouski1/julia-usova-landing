@@ -49,13 +49,115 @@
         <a class="lang__link" href="/es/" hreflang="es-419" lang="es-419" aria-label="ES, Español" data-lang-link="es">ES</a>
         <a class="lang__link" href="/ru/" hreflang="ru" lang="ru" aria-label="RU, Русский" data-lang-link="ru">RU</a>
       </nav>
-      <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu-toggle>
+      <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu" data-menu-toggle>
         <span class="burger__line"></span>
         <span class="burger__line"></span>
         <span class="burger__line"></span>
       </button>
     </div>
   </header>
+
+  <!-- Menu (Figma 72:391): opened by the burger, initMenu() in main.js.
+       Identical on every page, like the header. -->
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu data-lenis-prevent>
+    <div class="menu__overlay" data-dialog-close></div>
+    <div class="menu__panel">
+      <img class="menu__circles" src="../assets/images/decor/circles-dark.svg" width="1911" height="1911" alt="" aria-hidden="true">
+      <a class="menu__logo" href="./" aria-label="Julia Usova — Maquiadora, página inicial">
+        <img src="../assets/images/logo.svg" width="221" height="51" alt="">
+      </a>
+      <button class="menu__close" type="button" aria-label="Fechar menu" data-dialog-close>
+        <img src="../assets/icons/close.svg" width="23" height="23" alt="">
+      </button>
+      <nav class="menu__nav" aria-label="Principal">
+        <ul class="menu__list">
+          <li><a class="menu__link" href="#top">Início</a></li>
+          <li><a class="menu__link" href="#about">Sobre Julia</a></li>
+          <li><a class="menu__link" href="#services">Serviços</a></li>
+          <li><a class="menu__link" href="#portfolio">Portfólio</a></li>
+          <li><a class="menu__link" href="#lessons">Aulas individuais</a></li>
+          <li><a class="menu__link" href="#contact">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="menu__contacts">
+        <div class="menu__contact menu__contact--phone">
+          <p class="menu__contact-label"><span>Telefone</span> <span class="menu__sparkle" aria-hidden="true"></span></p>
+          <a class="menu__contact-value" href="tel:+5521977773333">+55 (21) 97777-3333</a>
+        </div>
+        <span class="menu__divider" aria-hidden="true"></span>
+        <div class="menu__contact menu__contact--office">
+          <p class="menu__contact-label"><span>escritório</span> <span class="menu__sparkle" aria-hidden="true"></span></p>
+          <p class="menu__contact-value">Viige 11, 13516 <br class="br-compact">Rio de Janeiro</p>
+        </div>
+      </div>
+      <form class="menu__form" action="#" method="post" novalidate data-booking-form
+        data-msg-name-empty="Informe seu nome" data-msg-name-short="Nome muito curto"
+        data-msg-phone-empty="Informe seu telefone" data-msg-phone-invalid="Verifique o número"
+        data-msg-sent="Obrigado! Sua solicitação foi enviada. Julia entrará em contato para confirmar a data.">
+        <div class="field-wrap menu__field menu__field--name">
+          <input class="field field--light" id="menu-name" type="text" name="name" placeholder="Nome" aria-label="Nome" autocomplete="name" required data-validate="name" aria-describedby="menu-name-error">
+          <span class="field-error" id="menu-name-error"></span>
+        </div>
+        <div class="field-wrap menu__field menu__field--phone">
+          <input class="field field--light" id="menu-phone" type="tel" name="phone" placeholder="Telefone" aria-label="Telefone" autocomplete="tel" inputmode="tel" required data-validate="phone" aria-describedby="menu-phone-error">
+          <span class="field-error" id="menu-phone-error"></span>
+        </div>
+        <button class="btn btn--wine btn--sm menu__submit" type="submit">
+          <span class="btn__text">Enviar solicitação</span>
+          <span class="btn__ring" aria-hidden="true"></span>
+          <span class="btn__arrow" aria-hidden="true"></span>
+        </button>
+        <p class="menu__status" role="status" aria-live="polite" data-form-status></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Consultation popup (Figma 72:1674): opened by every [data-popup-open],
+       initPopup() in main.js. Identical on every page, like the header. -->
+  <div class="popup" id="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden data-popup data-lenis-prevent>
+    <div class="popup__overlay" data-dialog-close></div>
+    <div class="popup__panel">
+      <img class="popup__circles" src="../assets/images/decor/circles-dark.svg" width="1911" height="1911" alt="" aria-hidden="true">
+      <button class="popup__close" type="button" aria-label="Fechar" data-dialog-close>
+        <img src="../assets/icons/close-dark.svg" width="15.5" height="15.5" alt="">
+      </button>
+      <div class="popup__body">
+      <h2 class="popup__title" id="popup-title">Preencha o pedido de consulta</h2>
+      <form class="popup__form" action="#" method="post" novalidate data-booking-form
+        data-msg-name-empty="Informe seu nome" data-msg-name-short="Nome muito curto"
+        data-msg-phone-empty="Informe seu telefone" data-msg-phone-invalid="Verifique o número"
+        data-msg-email-empty="Informe seu e-mail" data-msg-email-invalid="Verifique o e-mail"
+        data-msg-sent="Obrigado! Sua solicitação foi enviada. Julia entrará em contato para confirmar a data.">
+        <div class="field-wrap">
+          <input class="field field--light popup__field" id="popup-name" type="text" name="name" placeholder="Nome" aria-label="Nome" autocomplete="name" required data-validate="name" aria-describedby="popup-name-error">
+          <span class="field-error" id="popup-name-error"></span>
+        </div>
+        <div class="field-wrap">
+          <input class="field field--light popup__field" id="popup-phone" type="tel" name="phone" placeholder="+55 (00) 00000-0000" aria-label="Telefone" autocomplete="tel" inputmode="tel" required data-validate="phone" aria-describedby="popup-phone-error">
+          <span class="field-error" id="popup-phone-error"></span>
+        </div>
+        <div class="field-wrap">
+          <input class="field field--light popup__field" id="popup-email" type="email" name="email" placeholder="example@mail.com" aria-label="E-mail" autocomplete="email" required data-validate="email" aria-describedby="popup-email-error">
+          <span class="field-error" id="popup-email-error"></span>
+        </div>
+        <button class="btn btn--wine btn--md popup__submit" type="submit">
+          <span class="btn__text">Enviar solicitação</span>
+          <span class="btn__ring" aria-hidden="true"></span>
+          <span class="btn__arrow" aria-hidden="true"></span>
+        </button>
+      </form>
+      </div>
+      <!-- Shown after a successful send (Figma 72:2257 / 72:2523) -->
+      <div class="popup__done" data-popup-done>
+        <h2 class="popup__title popup__title--done" id="popup-done-title" tabindex="-1">Obrigado pelo seu pedido</h2>
+        <button class="btn btn--wine btn--sm popup__back" type="button" data-dialog-close>
+          <span class="btn__text">Voltar</span>
+          <span class="btn__ring" aria-hidden="true"></span>
+          <span class="btn__arrow" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <main id="top">
 
@@ -91,12 +193,12 @@
         </ul>
 
         <div class="hero__actions">
-          <a class="btn btn--white btn--ring hero__btn-portfolio" href="#portfolio">
+          <a class="btn btn--white btn--ring hero__btn-portfolio" href="#portfolio" aria-haspopup="dialog" data-popup-open>
             <span class="btn__text">Ver portfólio</span>
             <span class="btn__ring" aria-hidden="true"></span>
             <span class="btn__arrow" aria-hidden="true"></span>
           </a>
-          <a class="btn btn--outline hero__btn-booking" href="#contact">
+          <a class="btn btn--outline hero__btn-booking" href="#contact" aria-haspopup="dialog" data-popup-open>
             <span class="btn__text">Consultar disponibilidade</span>
             <span class="btn__arrow" aria-hidden="true"></span>
           </a>
@@ -212,7 +314,7 @@
           </li>
         </ul>
 
-        <a class="btn btn--white btn--ring services__btn" href="#contact">
+        <a class="btn btn--white btn--ring services__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
           <span class="btn__text">Consultar sobre o serviço</span>
           <span class="btn__ring" aria-hidden="true"></span>
           <span class="btn__arrow" aria-hidden="true"></span>
@@ -255,7 +357,7 @@
 
         <div class="lessons__aside">
           <p class="lessons__text">Aprenda a escolher os produtos certos, valorizar seus traços e criar uma rotina eficiente. Cada aula se concentra em técnicas que você pode repetir por conta própria e em um kit enxuto, adequado à sua pele e às suas necessidades.</p>
-          <a class="btn btn--white btn--ring btn--gray lessons__btn" href="#contact">
+          <a class="btn btn--white btn--ring btn--gray lessons__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
             <span class="btn__text">Saiba mais sobre as aulas</span>
             <span class="btn__ring" aria-hidden="true"></span>
             <span class="btn__arrow" aria-hidden="true"></span>
@@ -287,8 +389,22 @@
         data-msg-phone-empty="Informe seu telefone" data-msg-phone-invalid="Verifique o número"
         data-msg-email-empty="Informe seu e-mail" data-msg-email-invalid="Verifique o e-mail"
         data-msg-sent="Obrigado! Sua solicitação foi enviada. Julia entrará em contato para confirmar a data.">
-        <div class="field-wrap">
-          <button class="field field--select" type="button" aria-haspopup="listbox" aria-expanded="false">Selecione o serviço</button>
+        <!-- Custom dropdown (initSelect in main.js): button + listbox; the choice
+             goes to the hidden input. Values are language-independent. -->
+        <div class="field-wrap field-wrap--select" data-select>
+          <button class="field field--select" id="booking-service" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="booking-service-list" data-select-button>
+            <span class="field-select__value" data-select-value>Selecione o serviço</span>
+            <span class="field-select__chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="field-select__list" id="booking-service-list" role="listbox" tabindex="-1" aria-label="Selecione o serviço" data-select-list>
+            <li class="field-select__option" id="booking-service-media" role="option" aria-selected="false" data-value="media">Mídia e aparições públicas</li>
+            <li class="field-select__option" id="booking-service-private" role="option" aria-selected="false" data-value="private-events">Clientes particulares e eventos</li>
+            <li class="field-select__option" id="booking-service-bridal" role="option" aria-selected="false" data-value="bridal">Noivas</li>
+            <li class="field-select__option" id="booking-service-photo" role="option" aria-selected="false" data-value="photography">Fotografia e produção</li>
+            <li class="field-select__option" id="booking-service-lessons" role="option" aria-selected="false" data-value="lessons">Aulas individuais</li>
+            <li class="field-select__option" id="booking-service-other" role="option" aria-selected="false" data-value="other">Outro</li>
+          </ul>
+          <input type="hidden" name="service" value="" data-select-input>
         </div>
         <div class="field-wrap">
           <input class="field" id="booking-name" type="text" name="name" placeholder="Nome" aria-label="Nome" autocomplete="name" required data-validate="name" aria-describedby="booking-name-error">
@@ -321,9 +437,6 @@
           <p class="footer__group-title">Redes sociais</p>
           <ul class="footer__links footer__links--social">
             <li><a href="#">Instagram</a></li>
-            <li><a href="#">YouTube</a></li>
-            <li><a href="https://wa.me/5521977773333?text=Ol%C3%A1%2C%20Julia!%20Gostaria%20de%20saber%20mais%20sobre%20os%20seus%20servi%C3%A7os%20de%20maquiagem." target="_blank" rel="noopener">WhatsApp</a></li>
-            <li><a href="#">TikTok</a></li>
           </ul>
         </div>
         <div class="footer__group">
