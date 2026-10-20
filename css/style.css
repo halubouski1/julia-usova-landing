@@ -1570,6 +1570,16 @@ a.menu__contact-value:focus-visible {
 .expertise__p--3 { top: 1013px; width: 466px; }
 .expertise__p--4 { top: 1155px; width: 401px; }
 
+/* RU copy (client, Oct 2026): the third paragraph is longer; at the second
+   paragraph's width it still ends above "Rio de Janeiro" */
+:lang(ru) .expertise__p--3 { width: 543px; }
+
+/* RU features have a title line (client copy, Oct 2026) */
+.services__feature-title {
+  display: block;
+  margin-bottom: 8px;
+}
+
 /* 61:82 — runs off the right edge, clipped by the section */
 .expertise__city {
   top: 1128.48px;

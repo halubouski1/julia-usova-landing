@@ -959,6 +959,14 @@
     width: 300.75px;
   }
 
+  :lang(ru) .expertise__p--3 {
+    width: 407.25px;
+  }
+
+  .services__feature-title {
+    margin-bottom: 6px;
+  }
+
   .expertise__city {
     top: 846.36px;
     left: 171px;
@@ -2568,6 +2576,67 @@
   .services__case.is-case-3d {
     perspective: calc(1250px * var(--m));
     perspective-origin: 50% -140%;
+  }
+}
+
+/* Russian copy (client, Oct 2026) — compact. The RU texts of Expertise,
+   features 01/02 and Lessons are longer than the Figma (English) ones:
+   - Expertise paragraphs keep the English 25m gaps; the section grows 95m and
+     the dark gradient that continues in .services__bg-top shifts with it and
+     is 95m taller;
+   - features start below the 4-line heading, 02 sits 30m under 01, and the
+     case + the section bottom move down (192m tablets, 120m phones);
+   - phones: the lesson button label wraps inside the 298px pill.
+   ========================================================================== */
+@media (max-width: 1279px) {
+  :lang(ru) .expertise { height: calc(1456px * var(--m)); }
+  :lang(ru) .expertise__p--2 { top: calc(1037px * var(--m)); }
+  :lang(ru) .expertise__p--3 { top: calc(1233px * var(--m)); width: calc(313px * var(--m)); }
+  :lang(ru) .expertise__p--4 { top: calc(1353px * var(--m)); }
+
+  /* The dark → red gradient image is 95m taller too (2601 instead of 2506),
+     in both places it is drawn, so it still joins seamlessly and reaches the
+     bottom of .services__bg-top (otherwise a 95m cream strip shows) */
+  :lang(ru) .expertise__media::after {
+    background-size: 100% calc(2601px * var(--m));
+  }
+
+  :lang(ru) .services__bg-top {
+    background-position: 0 calc(-819px * var(--m));
+    background-size: 100% calc(2601px * var(--m));
+  }
+
+  :lang(ru) .services { height: calc(3020px * var(--m)); }
+  :lang(ru) .services__features { top: calc(2093px * var(--m)); }
+  :lang(ru) .feature--2 { top: calc(201px * var(--m)); }
+  :lang(ru) .services__case { top: calc(2571px * var(--m)); }
+
+  :lang(ru) .services__feature-title {
+    margin-bottom: calc(6px * var(--m));
+  }
+}
+
+@media (max-width: 768px) {
+  :lang(ru) .services { height: calc(2948px * var(--m)); }
+  :lang(ru) .services__case { top: calc(2582.5px * var(--m)); }
+}
+
+@media (max-width: 480px) {
+  /* Two lines ("Обсудить индивидуальное / занятие"): 15px, 30px from the
+     left, 14px clear of the ring */
+  :lang(ru) .lessons__btn {
+    padding-left: 30px;
+    padding-right: 74px;
+    white-space: normal;
+    font-size: 15px;
+    line-height: 18px;
+  }
+}
+
+@media (max-width: 359px) {
+  :lang(ru) .lessons__btn {
+    padding-left: 20px;
+    font-size: calc(15px * var(--m));
   }
 }
 
