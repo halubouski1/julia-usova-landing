@@ -332,6 +332,499 @@
             <p class="feature__text">Sua formação inclui estudos com renomados maquiadores de Moscou e aperfeiçoamento contínuo com especialistas russos e europeus.</p>
           </li>
         </ul>
+
+        <!-- Services & Prices (Figma 97:393–97:449): two price columns; hovering
+             the list shows the "Leave a request" circle under the cursor and a
+             click opens the consultation popup (initPriceCursor in main.js) -->
+        <div class="prices" id="prices">
+          <h2 class="prices__heading">/Serviços e preços</h2>
+          <ul class="prices__list" data-price-list data-popup-open>
+            <li class="prices__item">
+              <span class="prices__num">/01</span>
+              <p class="prices__name">Maquiagem para eventos</p>
+              <p class="prices__details">Uma pessoa · Até 2 horas</p>
+              <p class="prices__price">R$ 1,500</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/02</span>
+              <p class="prices__name">Maquiagem e cabelo</p>
+              <p class="prices__details">Uma pessoa · Até 3 horas</p>
+              <p class="prices__price">R$ 2,200</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/03</span>
+              <p class="prices__name">Noiva: maquiagem e cabelo</p>
+              <p class="prices__details">Uma pessoa · Até 3 horas no dia do casamento</p>
+              <p class="prices__price">R$ 3,200</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/04</span>
+              <p class="prices__name">Noiva: maquiagem e cabelo com teste</p>
+              <p class="prices__details">Uma pessoa · Dois atendimentos</p>
+              <p class="prices__price">R$ 4,800</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/05</span>
+              <p class="prices__name">Noiva: maquiagem e cabelo com acompanhamento no dia</p>
+              <p class="prices__details">Uma pessoa · Teste + até 6 horas no dia do casamento</p>
+              <p class="prices__price">R$ 6,500</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/06</span>
+              <p class="prices__name">Preparação para entrevistas na TV e aparições públicas</p>
+              <p class="prices__details">Uma pessoa · Até 2 horas</p>
+              <p class="prices__price">R$ 1,800</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/07</span>
+              <p class="prices__name">Maquiagem e cabelo no set — 4 horas</p>
+              <p class="prices__details">Uma pessoa · Preparação e retoques</p>
+              <p class="prices__price">R$ 3,500</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/08</span>
+              <p class="prices__name">Maquiagem e cabelo no set — 8 horas</p>
+              <p class="prices__details">Uma pessoa · Preparação e retoques</p>
+              <p class="prices__price">R$ 6,000</p>
+            </li>
+            <li class="prices__item">
+              <span class="prices__num">/09</span>
+              <p class="prices__name">Aula individual de maquiagem</p>
+              <p class="prices__details">Uma pessoa · 2,5 horas</p>
+              <p class="prices__price">R$ 1,800</p>
+            </li>
+          </ul>
+          <span class="prices__num prices__num--btn" aria-hidden="true">/10</span>
+          <span class="prices__cursor" aria-hidden="true" data-price-cursor><span class="prices__cursor-text">Enviar solicitação</span></span>
+          <a class="btn btn--white btn--ring prices__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+            <span class="btn__text">Consultar sobre o serviço</span>
+            <span class="btn__ring" aria-hidden="true"></span>
+            <span class="btn__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Your Occasion. Your Look. (Figma 97:450–97:518): four tabs; every tab
+         holds two cards (tabs 2–4 repeat the first pair until their copy
+         arrives). initTabs() in main.js -->
+    <section class="occasion" id="occasion">
+      <div class="container occasion__inner">
+        <h2 class="occasion__heading">Sua ocasião. Seu visual.</h2>
+        <div class="occasion__tabs" role="tablist" aria-label="Ocasiões" data-tabs>
+          <span class="occasion__tab-pill" aria-hidden="true" data-tab-pill></span>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-1" aria-controls="occasion-panel-1" aria-selected="true" data-tab><span>Maquiagem e cabelo</span></button>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-2" aria-controls="occasion-panel-2" aria-selected="false" tabindex="-1" data-tab><span>Seu grande dia</span></button>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-3" aria-controls="occasion-panel-3" aria-selected="false" tabindex="-1" data-tab><span>Formação profissional</span></button>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-4" aria-controls="occasion-panel-4" aria-selected="false" tabindex="-1" data-tab><span>Técnica clara</span></button>
+        </div>
+        <div class="occasion__panel" id="occasion-panel-1" role="tabpanel" aria-labelledby="occasion-tab-1" data-tab-panel>
+          <article class="occasion-card occasion-card--light">
+            <span class="occasion-card__num">001</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem para eventos</h3>
+            <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Uma consulta sobre as suas preferências e o visual desejado.</li>
+                <li>Preparação da pele, pele, sobrancelhas, olhos e lábios.</li>
+                <li>Cílios em fita ou tufos, quando adequado.</li>
+                <li>Fixação da maquiagem e conferência final sob luz de maquiagem.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Penteado e retoques durante o evento não estão incluídos.</p>
+              <p class="occasion-card__price">R$ 1,500</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 2 horas</p>
+              <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+          <article class="occasion-card occasion-card--dark">
+            <span class="occasion-card__num">002</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
+            <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Tudo o que está incluído na maquiagem para eventos.</li>
+                <li>Escova ou penteado a partir de uma referência combinada.</li>
+                <li>Forma e volume pensados para a sua roupa, joias e cabelo.</li>
+                <li>Colocação dos seus próprios acessórios de cabelo e fixação final.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Inclui um visual combinado. Retoques durante o evento podem ser contratados à parte.</p>
+              <p class="occasion-card__price">R$ 2,200</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 3 horas</p>
+              <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem e cabelo</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+        </div>
+        <div class="occasion__panel" id="occasion-panel-2" role="tabpanel" aria-labelledby="occasion-tab-2" hidden data-tab-panel>
+          <article class="occasion-card occasion-card--light">
+            <span class="occasion-card__num">001</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem para eventos</h3>
+            <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Uma consulta sobre as suas preferências e o visual desejado.</li>
+                <li>Preparação da pele, pele, sobrancelhas, olhos e lábios.</li>
+                <li>Cílios em fita ou tufos, quando adequado.</li>
+                <li>Fixação da maquiagem e conferência final sob luz de maquiagem.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Penteado e retoques durante o evento não estão incluídos.</p>
+              <p class="occasion-card__price">R$ 1,500</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 2 horas</p>
+              <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+          <article class="occasion-card occasion-card--dark">
+            <span class="occasion-card__num">002</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
+            <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Tudo o que está incluído na maquiagem para eventos.</li>
+                <li>Escova ou penteado a partir de uma referência combinada.</li>
+                <li>Forma e volume pensados para a sua roupa, joias e cabelo.</li>
+                <li>Colocação dos seus próprios acessórios de cabelo e fixação final.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Inclui um visual combinado. Retoques durante o evento podem ser contratados à parte.</p>
+              <p class="occasion-card__price">R$ 2,200</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 3 horas</p>
+              <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem e cabelo</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+        </div>
+        <div class="occasion__panel" id="occasion-panel-3" role="tabpanel" aria-labelledby="occasion-tab-3" hidden data-tab-panel>
+          <article class="occasion-card occasion-card--light">
+            <span class="occasion-card__num">001</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem para eventos</h3>
+            <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Uma consulta sobre as suas preferências e o visual desejado.</li>
+                <li>Preparação da pele, pele, sobrancelhas, olhos e lábios.</li>
+                <li>Cílios em fita ou tufos, quando adequado.</li>
+                <li>Fixação da maquiagem e conferência final sob luz de maquiagem.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Penteado e retoques durante o evento não estão incluídos.</p>
+              <p class="occasion-card__price">R$ 1,500</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 2 horas</p>
+              <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+          <article class="occasion-card occasion-card--dark">
+            <span class="occasion-card__num">002</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
+            <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Tudo o que está incluído na maquiagem para eventos.</li>
+                <li>Escova ou penteado a partir de uma referência combinada.</li>
+                <li>Forma e volume pensados para a sua roupa, joias e cabelo.</li>
+                <li>Colocação dos seus próprios acessórios de cabelo e fixação final.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Inclui um visual combinado. Retoques durante o evento podem ser contratados à parte.</p>
+              <p class="occasion-card__price">R$ 2,200</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 3 horas</p>
+              <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem e cabelo</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+        </div>
+        <div class="occasion__panel" id="occasion-panel-4" role="tabpanel" aria-labelledby="occasion-tab-4" hidden data-tab-panel>
+          <article class="occasion-card occasion-card--light">
+            <span class="occasion-card__num">001</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem para eventos</h3>
+            <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Uma consulta sobre as suas preferências e o visual desejado.</li>
+                <li>Preparação da pele, pele, sobrancelhas, olhos e lábios.</li>
+                <li>Cílios em fita ou tufos, quando adequado.</li>
+                <li>Fixação da maquiagem e conferência final sob luz de maquiagem.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Penteado e retoques durante o evento não estão incluídos.</p>
+              <p class="occasion-card__price">R$ 1,500</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 2 horas</p>
+              <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+          <article class="occasion-card occasion-card--dark">
+            <span class="occasion-card__num">002</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
+            <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
+            <p class="occasion-card__includes">Inclui:</p>
+            <ul class="occasion-card__list">
+                <li>Tudo o que está incluído na maquiagem para eventos.</li>
+                <li>Escova ou penteado a partir de uma referência combinada.</li>
+                <li>Forma e volume pensados para a sua roupa, joias e cabelo.</li>
+                <li>Colocação dos seus próprios acessórios de cabelo e fixação final.</li>
+            </ul>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__foot">Inclui um visual combinado. Retoques durante o evento podem ser contratados à parte.</p>
+              <p class="occasion-card__price">R$ 2,200</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Uma pessoa<br>· Até 3 horas</p>
+              <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Reservar maquiagem e cabelo</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+              </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- From Brief to First Shot (Figma 97:519–97:559): Swiper slider of the
+         steps over a dark photo panel. initStepsSlider() in main.js -->
+    <section class="steps" id="steps">
+      <div class="steps__panel">
+        <picture><source type="image/avif" srcset="../assets/images/brief-amber-portrait-1672.avif 1672w" sizes="(max-width: 1919px) 1559px, 2078px"><img class="steps__bg" src="../assets/images/brief-amber-portrait-1672.webp" srcset="../assets/images/brief-amber-portrait-1672.webp 1672w" sizes="(max-width: 1919px) 1559px, 2078px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture>
+        <span class="steps__shade" aria-hidden="true"></span>
+        <h2 class="steps__heading">Do briefing à primeira foto</h2>
+        <div class="steps__nav">
+          <button class="steps__arrow steps__arrow--prev" type="button" aria-label="Etapa anterior" data-steps-prev></button>
+          <button class="steps__arrow steps__arrow--next" type="button" aria-label="Próxima etapa" data-steps-next></button>
+        </div>
+        <div class="swiper steps__slider" data-steps-slider>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide steps__slide">
+              <div class="steps__card">
+                <img class="steps__icon" src="../assets/icons/icon-file.svg" width="18" height="18" alt="">
+                <h3 class="steps__card-title">Briefing e cronograma</h3>
+                <p class="steps__card-text">Combinamos o formato, as referências, o número de pessoas, o figurino, as exigências do local e o horário exato em que tudo deve estar pronto. Para aparições na TV, também confirmamos se a emissora oferece maquiador.</p>
+              </div>
+            </div>
+            <div class="swiper-slide steps__slide">
+              <div class="steps__card">
+                <img class="steps__icon" src="../assets/icons/icon-home.svg" width="18" height="18" alt="">
+                <h3 class="steps__card-title">Preparação da pele e do cabelo</h3>
+                <p class="steps__card-text">Conversamos sobre necessidades individuais e possíveis sensibilidades, escolhemos os produtos adequados e planejamos a ordem da preparação. Os instrumentos são preparados para cada pessoa.</p>
+              </div>
+            </div>
+            <div class="swiper-slide steps__slide">
+              <div class="steps__card">
+                <img class="steps__icon" src="../assets/icons/icon-home.svg" width="18" height="18" alt="">
+                <h3 class="steps__card-title">Maquiagem conforme o briefing</h3>
+                <p class="steps__card-text">Para aparições profissionais, o foco é a correção pontual, o controle do brilho e uma pele de aparência natural. A preparação masculina inclui também sobrancelhas e cabelo. Em projetos criativos, as referências definem o nível de definição e expressão.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preparation That Fits Your Schedule (Figma 97:336–97:390): 3 × 3 grid -->
+    <section class="prep" id="prep">
+      <div class="container prep__inner">
+        <div class="prep__grid">
+          <div class="prep__cell prep__cell--photo prep__cell--r1c1" aria-hidden="true">
+            <picture><source type="image/avif" srcset="../assets/images/prep-double-portrait-760.avif 760w, ../assets/images/prep-double-portrait-1140.avif 1140w, ../assets/images/prep-double-portrait-1520.avif 1520w" sizes="(max-width: 1919px) 569px, 758px"><img class="prep__img prep__img--portrait" src="../assets/images/prep-double-portrait-1140.webp" srcset="../assets/images/prep-double-portrait-760.webp 760w, ../assets/images/prep-double-portrait-1140.webp 1140w, ../assets/images/prep-double-portrait-1520.webp 1520w" sizes="(max-width: 1919px) 569px, 758px" width="1672" height="940" alt="" loading="lazy" decoding="async"></picture>
+            <span class="prep__label">[&nbsp;&nbsp;&nbsp;01</span>
+            <img class="prep__icon prep__icon--up" src="../assets/icons/icon-corner-arrow.svg" width="16" height="16" alt="">
+          </div>
+          <div class="prep__cell prep__cell--r1c2">
+            <span class="prep__label">[&nbsp;&nbsp;&nbsp;02</span>
+            <img class="prep__icon" src="../assets/icons/icon-corner-arrow.svg" width="16" height="16" alt="">
+            <p class="prep__text">Pele uniforme, brilho controlado e cabelo bem arrumado, com a preparação marcada conforme o horário da gravação ou transmissão. Para retoques durante a gravação, contrate o serviço no set.</p>
+            <h3 class="prep__title">Entrevistas na TV e transmissões ao vivo</h3>
+          </div>
+          <div class="prep__cell prep__cell--r1c3">
+            <h2 class="prep__heading">Preparação que se encaixa na sua agenda</h2>
+          </div>
+          <div class="prep__cell prep__cell--r2c1">
+            <span class="prep__label">[&nbsp;&nbsp;&nbsp;03</span>
+            <img class="prep__icon" src="../assets/icons/icon-corner-arrow.svg" width="16" height="16" alt="">
+            <p class="prep__text">Um visual combinado, checagens na câmera e retoques entre as tomadas, com atenção à continuidade da maquiagem e do cabelo durante toda a filmagem. Escolha uma reserva de 4 ou 8 horas. Vários modelos e mudanças completas de visual têm orçamento à parte.</p>
+            <h3 class="prep__title">Ensaios em estúdio e publicidade</h3>
+          </div>
+          <div class="prep__cell prep__cell--r2c2" aria-hidden="true"><span class="prep__plus">+</span></div>
+          <div class="prep__cell prep__cell--photo prep__cell--r2c3" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/prep-gold-cosmetics-760.avif 760w, ../assets/images/prep-gold-cosmetics-1140.avif 1140w, ../assets/images/prep-gold-cosmetics-1520.avif 1520w" sizes="(max-width: 1919px) 570px, 760px"><img class="prep__img prep__img--cosmetics" src="../assets/images/prep-gold-cosmetics-1140.webp" srcset="../assets/images/prep-gold-cosmetics-760.webp 760w, ../assets/images/prep-gold-cosmetics-1140.webp 1140w, ../assets/images/prep-gold-cosmetics-1520.webp 1520w" sizes="(max-width: 1919px) 570px, 760px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div>
+          <div class="prep__cell prep__cell--r3c1">
+            <p class="prep__audience">Para equipes de produção, assessorias de imprensa, agentes de talentos e clientes particulares.</p>
+          </div>
+          <div class="prep__cell prep__cell--r3c2">
+            <span class="prep__label">[&nbsp;&nbsp;&nbsp;05</span>
+            <img class="prep__icon" src="../assets/icons/icon-corner-arrow.svg" width="16" height="16" alt="">
+            <p class="prep__text">Preparação para ensaios, estreias, entrevistas e apresentações. Referências, horários, alinhamento com a equipe e autorização para fotos de bastidores são combinados antes do projeto.</p>
+            <h3 class="prep__title">Artistas, apresentadores e celebridades</h3>
+          </div>
+          <div class="prep__cell prep__cell--r3c3">
+            <span class="prep__label">[&nbsp;&nbsp;&nbsp;06</span>
+            <img class="prep__icon" src="../assets/icons/icon-corner-arrow.svg" width="16" height="16" alt="">
+            <p class="prep__text">Maquiagem discreta para câmera e preparo do cabelo para entrevistas, coletivas de imprensa e falas em público. A correção pontual da pele e o controle do brilho ajudam a manter uma aparência cuidada e familiar. Horários e confidencialidade podem ser coordenados com a assessoria, assistente ou produtor.</p>
+            <h3 class="prep__title">Executivos, políticos e autoridades</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Everything Agreed in Advance (Figma 97:560–97:598): photo panel with
+         the extras table; "Learn More" opens the consultation popup -->
+    <section class="agreed" id="agreed">
+      <div class="agreed__panel">
+        <picture><source type="image/avif" srcset="../assets/images/agreed-gold-earring-1672.avif 1672w" sizes="(max-width: 1919px) 1597px, 2129px"><img class="agreed__bg" src="../assets/images/agreed-gold-earring-1672.webp" srcset="../assets/images/agreed-gold-earring-1672.webp 1672w" sizes="(max-width: 1919px) 1597px, 2129px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture>
+        <span class="agreed__shade" aria-hidden="true"></span>
+        <h2 class="agreed__heading">Tudo combinado com antecedência</h2>
+        <p class="agreed__intro">Deslocamento até o local de preparação ou set no Rio de Janeiro, custos de transporte e estacionamento, transporte e montagem do equipamento profissional de maquiagem, iluminação de maquiagem, cosméticos e materiais, cílios em fita ou tufos quando adequados à maquiagem combinada.</p>
+        <div class="agreed__table">
+          <table>
+            <thead><tr><td></td><th scope="col">Preço</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Maquiagem para uma segunda pessoa no mesmo endereço</th><td>R$ 900</td></tr>
+              <tr><th scope="row">Maquiagem e cabelo para uma segunda pessoa no mesmo endereço</th><td>R$ 1,500</td></tr>
+              <tr><th scope="row">Hora adicional de acompanhamento no local</th><td>R$ 700</td></tr>
+              <tr><th scope="row">Início antes das 7h</th><td>+ R$ 350</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="agreed__note agreed__note--1">* Os valores para uma segunda pessoa valem para eventos particulares e casamentos. Os atendimentos acontecem em sequência na mesma visita, e o tempo de preparação da pessoa adicional está incluído no preço do serviço dela.</p>
+        <p class="agreed__note agreed__note--2">* A equipe para produções é combinada à parte. A taxa de início antecipado é cobrada uma vez por visita.</p>
+        <span class="agreed__line" aria-hidden="true"></span>
+        <button class="agreed__more" type="button" aria-haspopup="dialog" data-popup-open>
+          <span class="agreed__more-circle" aria-hidden="true"><img src="../assets/icons/icon-learn-more.svg" width="19.04" height="27.2" alt=""></span>
+          <span class="agreed__more-text">Saiba mais</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Booking // Details (Figma 97:598–97:633): rows; hovering a row shows its
+         tilted pill photo (alternating tilt), initBookingRows() in main.js -->
+    <section class="booking" id="booking">
+      <div class="container booking__inner">
+        <h2 class="booking__heading"><span class="booking__heading-1">Reserva</span> <span class="booking__heading-2"><span aria-hidden="true">//</span> <span class="booking__heading-muted">Detalhes</span></span></h2>
+        <a class="btn btn--wine btn--ring booking__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+          <span class="btn__text">Reservar maquiagem</span>
+          <span class="btn__ring" aria-hidden="true"></span>
+          <span class="btn__arrow" aria-hidden="true"></span>
+        </a>
+        <ul class="booking__list">
+          <li class="booking__row">
+            <span class="booking__num">/01</span>
+            <h3 class="booking__title">Reserva mínima</h3>
+            <p class="booking__text">A reserva mínima é de R$ 1.500. Os preços indicados são finais para o escopo descrito. Data, endereço, visual combinado, horário e serviços adicionais são confirmados antes de a reserva ser finalizada.</p>
+            <span class="booking__pill" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/about-lips-250.avif 250w, ../assets/images/about-lips-300.avif 300w, ../assets/images/about-lips-380.avif 380w, ../assets/images/about-lips-450.avif 450w, ../assets/images/about-lips-600.avif 600w" sizes="(max-width: 1919px) 227px, 302px"><img class="booking__img" src="../assets/images/about-lips-380.webp" srcset="../assets/images/about-lips-250.webp 250w, ../assets/images/about-lips-300.webp 300w, ../assets/images/about-lips-380.webp 380w, ../assets/images/about-lips-450.webp 450w, ../assets/images/about-lips-600.webp 600w" sizes="(max-width: 1919px) 227px, 302px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></span>
+          </li>
+          <li class="booking__row">
+            <span class="booking__num">/02</span>
+            <h3 class="booking__title">Tempo reservado</h3>
+            <p class="booking__text">O deslocamento até o primeiro endereço, a montagem e a desmontagem do equipamento não reduzem o seu tempo de serviço pago. Em ensaios, preparação, espera e deslocamentos entre locais estão incluídos nas horas reservadas.</p>
+            <span class="booking__pill" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/booking-chair-736.avif 736w" sizes="(max-width: 1919px) 467px, 623px"><img class="booking__img booking__img--chair" src="../assets/images/booking-chair-736.webp" srcset="../assets/images/booking-chair-736.webp 736w" sizes="(max-width: 1919px) 467px, 623px" width="736" height="1104" alt="" loading="lazy" decoding="async"></picture></span>
+          </li>
+          <li class="booking__row">
+            <span class="booking__num">/03</span>
+            <h3 class="booking__title">Orçamentos personalizados</h3>
+            <p class="booking__text">Viagens para fora do Rio de Janeiro, tranças elaboradas, perucas, apliques ou extensões, visitas adicionais, mudanças completas de visual e especialistas extras têm orçamento individual. Qualquer custo adicional é combinado com antecedência.</p>
+            <span class="booking__pill" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 403px, 537px"><img class="booking__img" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 403px, 537px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></span>
+          </li>
+          <li class="booking__row">
+            <span class="booking__num">/04</span>
+            <h3 class="booking__title">Privacidade</h3>
+            <p class="booking__text">Nomes, fotos, vídeos e conteúdos de bastidores só são publicados com consentimento prévio. Para projetos, é possível firmar um NDA.</p>
+            <span class="booking__pill" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/prep-double-portrait-760.avif 760w, ../assets/images/prep-double-portrait-1140.avif 1140w, ../assets/images/prep-double-portrait-1520.avif 1520w" sizes="(max-width: 1919px) 403px, 537px"><img class="booking__img" src="../assets/images/prep-double-portrait-1140.webp" srcset="../assets/images/prep-double-portrait-760.webp 760w, ../assets/images/prep-double-portrait-1140.webp 1140w, ../assets/images/prep-double-portrait-1520.webp 1520w" sizes="(max-width: 1919px) 403px, 537px" width="1672" height="940" alt="" loading="lazy" decoding="async"></picture></span>
+          </li>
+          <li class="booking__row">
+            <span class="booking__num">/05</span>
+            <h3 class="booking__title">Custos à parte</h3>
+            <p class="booking__text">Extensão de cílios, acessórios comprados, aluguel do local e equipamento de filmagem não estão incluídos. A iluminação da artista é usada para a preparação da maquiagem. A iluminação de produção fica a cargo da equipe do projeto.</p>
+            <span class="booking__pill" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/prep-gold-cosmetics-760.avif 760w, ../assets/images/prep-gold-cosmetics-1140.avif 1140w, ../assets/images/prep-gold-cosmetics-1520.avif 1520w" sizes="(max-width: 1919px) 403px, 537px"><img class="booking__img" src="../assets/images/prep-gold-cosmetics-1140.webp" srcset="../assets/images/prep-gold-cosmetics-760.webp 760w, ../assets/images/prep-gold-cosmetics-1140.webp 1140w, ../assets/images/prep-gold-cosmetics-1520.webp 1520w" sizes="(max-width: 1919px) 403px, 537px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- A Quick Brief for Your Upcoming Project (Figma 97:640–97:694); its
+         cream bottom (rounded 15) covers the top of the lessons, like the
+         services block used to -->
+    <section class="brief" id="brief">
+      <div class="brief__panel">
+        <picture><source type="image/avif" srcset="../assets/images/brief-cta-blonde-gold-1672.avif 1672w" sizes="(max-width: 1919px) 1713px, 2284px"><img class="brief__bg" src="../assets/images/brief-cta-blonde-gold-1672.webp" srcset="../assets/images/brief-cta-blonde-gold-1672.webp 1672w" sizes="(max-width: 1919px) 1713px, 2284px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture>
+        <p class="brief__intro">Essas informações nos ajudam a definir o escopo do trabalho, o tempo de preparação e o preço final, sem custos inesperados no set.</p>
+        <img class="brief__icon" src="../assets/icons/icon-brief.svg" width="25" height="25" alt="">
+        <span class="brief__arrow" aria-hidden="true"></span>
+        <h2 class="brief__heading">Um briefing rápido para o seu próximo projeto</h2>
+        <table class="brief__table">
+          <thead><tr><th scope="col">Detalhes do projeto</th><th scope="col">Informações necessárias</th></tr></thead>
+          <tbody>
+              <tr><th scope="row">Formato</th><td>Entrevista na TV, transmissão ao vivo, podcast, ensaio de retrato, filmagem publicitária ou aparição pública</td></tr>
+              <tr><th scope="row">Data e horário</th><td>Horário de início da preparação, horário de prontidão para a primeira foto e horário de término</td></tr>
+              <tr><th scope="row">Local</th><td>Endereço, credenciais de acesso, acesso para equipamentos, espaço de trabalho e energia elétrica</td></tr>
+              <tr><th scope="row">Participantes</th><td>Número de pessoas e quem precisa estar pronto ao mesmo tempo</td></tr>
+              <tr><th scope="row">O visual</th><td>Referências, figurino, joias, exigências de cabelo e maquiagem desejada</td></tr>
+              <tr><th scope="row">Necessidades individuais</th><td>Sensibilidades a cosméticos e produtos preferidos, se houver</td></tr>
+              <tr><th scope="row">Condições de filmagem</th><td>Estúdio ou externa, iluminação, closes e duração da transmissão ou gravação</td></tr>
+              <tr><th scope="row">Mudanças</th><td>Número de visuais, deslocamentos entre locais e momentos para retoques entre as tomadas</td></tr>
+              <tr><th scope="row">Contato do projeto</th><td>Contato do produtor, empresário, assistente ou assessoria de imprensa</td></tr>
+              <tr><th scope="row">Acordos finais</th><td>Autorizações de foto e filmagem, confidencialidade, orçamento final e condições de pagamento</td></tr>
+          </tbody>
+        </table>
+        <a class="btn btn--white btn--ring brief__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+          <span class="btn__text">Consultar sobre o serviço</span>
+          <span class="btn__ring" aria-hidden="true"></span>
+          <span class="btn__arrow" aria-hidden="true"></span>
+        </a>
       </div>
     </section>
 

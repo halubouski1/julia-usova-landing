@@ -146,5 +146,59 @@
       1241
     ],
     "avif": true
+  },
+  "occasion-silver-dress": {
+    "widths": [
+      670,
+      890
+    ],
+    "avif": true
+  },
+  "occasion-beige-portrait": {
+    "widths": [
+      400,
+      530
+    ],
+    "avif": true
+  },
+  "brief-amber-portrait": {
+    "widths": [
+      1672
+    ],
+    "avif": true
+  },
+  "prep-double-portrait": {
+    "widths": [
+      760,
+      1140,
+      1520
+    ],
+    "avif": true
+  },
+  "prep-gold-cosmetics": {
+    "widths": [
+      760,
+      1140,
+      1520
+    ],
+    "avif": true
+  },
+  "agreed-gold-earring": {
+    "widths": [
+      1672
+    ],
+    "avif": true
+  },
+  "brief-cta-blonde-gold": {
+    "widths": [
+      1672
+    ],
+    "avif": true
+  },
+  "booking-chair": {
+    "widths": [
+      736
+    ],
+    "avif": true
   }
 }

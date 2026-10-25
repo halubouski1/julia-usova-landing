@@ -180,6 +180,29 @@
   --c-white-06: rgba(255, 255, 255, 0.06);
   --c-white-05: rgba(255, 255, 255, 0.05);
   --c-error: #ff5c64; /* not in Figma: form validation */
+  --c-wine-60: rgba(74, 11, 11, 0.6);
+  --c-wine-55: rgba(74, 11, 11, 0.55);
+  --c-wine-45: rgba(74, 11, 11, 0.45);
+  --c-wine-40: rgba(74, 11, 11, 0.4);
+  --c-wine-30: rgba(74, 11, 11, 0.3);
+  --c-wine-25: rgba(74, 11, 11, 0.25);
+  --c-white-45: rgba(255, 255, 255, 0.45);
+  --c-white-40: rgba(255, 255, 255, 0.4);
+  --c-white-30: rgba(255, 255, 255, 0.3);
+  --c-white-20: rgba(255, 255, 255, 0.2);
+  --c-white-10: rgba(255, 255, 255, 0.1);
+  --c-white-02: rgba(255, 255, 255, 0.02);
+  --c-black-25: rgba(0, 0, 0, 0.25);
+  --c-black-70: rgba(0, 0, 0, 0.7);
+  --c-sand: #eeeae0;           /* occasion tabs, light card */
+  --c-silver: #acacac;         /* price details */
+  --c-mist: #dbdbdb;           /* dark occasion card text */
+  --c-mist-55: rgba(219, 219, 219, 0.55);
+  --c-pale-lime: #e9eac8;      /* agreed price column */
+  --c-slate: #1c2227;          /* agreed price text */
+  --c-umber: #140903;          /* steps panel */
+  --c-rule-gray: #cdcdd0;      /* booking rows */
+  --shadow-pill: 0 3.7px 16.5px rgba(0, 0, 0, 0.03);
 
   /* Gradients (Figma fills) */
   --g-hero-shade: linear-gradient(180deg, rgb(60, 1, 5) 0%, rgb(80, 1, 3) 25.226%, rgb(86, 1, 3) 39.065%, rgb(91, 1, 3) 49.038%, rgb(95, 0, 2) 100%);
@@ -1605,7 +1628,7 @@ a.menu__contact-value:focus-visible {
 .services {
   position: relative;
   z-index: 2;
-  height: 2648px;
+  height: 4694px; /* new design: Services & Prices below the case (Figma 3966–8660) */
   overflow-x: clip; /* x only: the brush polaroid still pokes up into expertise */
 }
 
@@ -1653,7 +1676,7 @@ a.menu__contact-value:focus-visible {
   top: 1644px;
   left: calc(50% - 867px); /* Figma x 93, centred */
   width: 1734px;
-  height: 1004px;
+  height: 1454px;
 }
 
 .services__case-photo {
@@ -1956,6 +1979,1378 @@ a.menu__contact-value:focus-visible {
 
 .feature--1 .feature__text { left: 120px; width: 309px; }
 .feature--2 .feature__text { left: 129px; width: 295px; }
+
+/* New sections (Figma file cWQESbtPnUFbXo7todEZbN, frame 97:98, Oct 2026).
+   Desktop only for now: hidden on ≤1279 (media.css). Every text uses the
+   Figma tracking of -3 %; em resolves per element, so it is set on each. */
+.prices,
+.prices *,
+.occasion *,
+.steps *,
+.prep *,
+.agreed *,
+.booking *,
+.brief * {
+  letter-spacing: -0.03em;
+}
+
+/* …except these, untracked in Figma */
+.prep__label,
+.prep__text,
+.prep__audience,
+.prep__plus,
+.agreed__note,
+.agreed__table tbody *,
+.booking__num,
+.booking__title,
+.booking__text {
+  letter-spacing: 0;
+}
+
+/* Services & Prices (Figma 97:393–97:449; inside .services, y 7221)
+   ========================================================================== */
+
+.prices {
+  top: 3255px;
+  left: 133px;
+  right: 144px;
+  height: 1247px;
+}
+
+.prices__heading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: var(--fw-regular);
+  line-height: 44px;
+  color: var(--c-white);
+}
+
+/* Two columns of five ~241px bands; the rules span both columns */
+.prices__list {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(2, minmax(0, 686px));
+  grid-template-rows: 245px 237px 241px 241px 241px;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+  background:
+    linear-gradient(var(--c-white-10), var(--c-white-10)) 0 0 / 100% 1px no-repeat,
+    linear-gradient(var(--c-white-10), var(--c-white-10)) 0 245px / 100% 1px no-repeat,
+    linear-gradient(var(--c-white-10), var(--c-white-10)) 0 482px / 100% 1px no-repeat,
+    linear-gradient(var(--c-white-10), var(--c-white-10)) 0 723px / 100% 1px no-repeat,
+    linear-gradient(var(--c-white-10), var(--c-white-10)) 0 964px / 100% 1px no-repeat,
+    linear-gradient(var(--c-white-10), var(--c-white-10)) 0 100% / 100% 1px no-repeat;
+}
+
+/* Content sits 101px below its rule (centred, 33px lower) */
+.prices__item {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-content: center;
+  align-items: start;
+  padding-top: 33px;
+}
+
+.prices__num {
+  grid-row: 1;
+  font-size: 18px;
+  line-height: 18px;
+  color: var(--c-white-45);
+}
+
+/* Line-height 37 as in Figma's two-line names; the -5px margins keep a
+   single line on the 27px box */
+.prices__name {
+  grid-row: 1;
+  max-width: 492px;
+  margin: -5px 0;
+  font-size: 30px;
+  line-height: 37px;
+  color: var(--c-white);
+}
+
+.prices__item:nth-child(5) .prices__name {
+  max-width: 405px;
+}
+
+.prices__details {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 18px 0 0;
+  font-size: 18px;
+  line-height: 27px;
+  color: var(--c-silver);
+}
+
+.prices__price {
+  grid-row: 1;
+  margin: 0 0 0 24px;
+  font-size: 25px;
+  line-height: 27px;
+  color: var(--c-white);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.prices__num--btn {
+  position: absolute;
+  top: 1086px;
+  left: calc(100% - 686px);
+}
+
+.prices__btn {
+  position: absolute;
+  top: 1091px;
+  left: calc(100% - 634px);
+  min-width: 303px;
+  padding-right: 78px;
+}
+
+/* "Leave a request" badge that follows the pointer over the list
+   (initPriceCursor() in main.js; fixed, moved with translate) */
+.prices__cursor {
+  position: fixed;
+  top: -75.5px;
+  left: -75.5px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 151px;
+  height: 151px;
+  border-radius: 50%;
+  background: var(--c-white-05);
+  -webkit-backdrop-filter: blur(2.9px);
+  backdrop-filter: blur(2.9px);
+  pointer-events: none;
+  opacity: 0;
+  clip-path: circle(0 at 50% 50%);
+  transition: clip-path 0.5s var(--ease), opacity 0.3s var(--ease);
+}
+
+.prices__cursor::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--c-white-25);
+  border-radius: 50%;
+}
+
+.prices__cursor.is-visible {
+  opacity: 1;
+  clip-path: circle(50% at 50% 50%);
+}
+
+.prices__cursor-text {
+  width: 74px;
+  font-size: 18px;
+  font-weight: var(--fw-medium);
+  line-height: 16px;
+  color: var(--c-white);
+  text-align: center;
+}
+
+/* Your Occasion. Your Look. (Figma 97:450–97:518, y 8660–9852)
+   ========================================================================== */
+
+.occasion {
+  position: relative;
+  height: 1192px;
+  color: var(--c-wine);
+}
+
+.occasion__inner > * {
+  position: absolute;
+}
+
+.occasion__heading {
+  top: 176px;
+  left: calc(50% - 481px);
+  width: 910px;
+  margin: 0;
+  font-size: 85px;
+  font-weight: var(--fw-regular);
+  line-height: 79px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Tabs: the wine pill slides to the active tab (initTabs()) */
+.occasion__tabs {
+  top: 394px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  width: max-content;
+  min-width: 1077px;
+  height: 49px;
+  margin: 0 auto;
+  translate: 3.5px 0; /* Figma centre x 963.5 */
+  border-radius: 45px;
+  background: var(--c-sand);
+}
+
+.occasion__tab-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--c-wine);
+  transition: translate 0.5s var(--ease), width 0.5s var(--ease);
+}
+
+.occasion__tab {
+  position: relative;
+  height: 49px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 45px;
+  background: none;
+  color: var(--c-wine-50);
+  font: inherit;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.4s var(--ease);
+}
+
+.occasion__tab:hover {
+  color: var(--c-wine);
+}
+
+.occasion__tab[aria-selected="true"] {
+  color: var(--c-white);
+}
+
+/* Without JS the active tab carries its own fill */
+.occasion__tabs:not(.is-ready) .occasion__tab[aria-selected="true"] {
+  background: var(--c-wine);
+}
+
+.occasion__panel {
+  top: 543px;
+  left: 38px;
+  right: 37px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 917.162px));
+  justify-content: space-between;
+  height: 529.303px;
+}
+
+.occasion__panel[hidden] {
+  display: none;
+}
+
+.occasion__panel.is-entering {
+  animation: occasion-in 0.6s var(--ease) both;
+}
+
+@keyframes occasion-in {
+  from { opacity: 0; translate: 0 16px; }
+}
+
+.occasion-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--c-sand);
+  color: var(--c-wine);
+}
+
+.occasion-card > * {
+  position: absolute;
+  margin: 0;
+}
+
+.occasion-card--dark {
+  background: var(--c-wine);
+  color: var(--c-white);
+}
+
+.occasion-card__num {
+  top: 26.69px;
+  left: 26.69px;
+  font-size: 14px;
+  line-height: 19.571px;
+  color: var(--c-wine-55);
+}
+
+.occasion-card--dark .occasion-card__num {
+  color: var(--c-mist-55);
+}
+
+.occasion-card__dots {
+  top: 30.25px;
+  right: 26.7px;
+  display: flex;
+  gap: 1.03px;
+}
+
+.occasion-card__dot {
+  width: 8.256px;
+  height: 9.804px;
+  border-radius: 2.669px;
+  background: var(--c-wine-25);
+}
+
+.occasion-card__dot:nth-child(even) {
+  width: 7.74px;
+}
+
+.occasion-card__dot.is-on {
+  background: var(--c-wine);
+}
+
+.occasion-card--dark .occasion-card__dot {
+  background: var(--c-white-25);
+}
+
+.occasion-card--dark .occasion-card__dot.is-on {
+  background: var(--c-white);
+}
+
+/* Polaroid: frame 272.6 × 315 rotated -6.18°, window 11.67 from the
+   sides/top and 60.37 from the bottom */
+.occasion-card__snap {
+  top: 90.256px;
+  left: 42.85px;
+  width: 272.578px;
+  height: 314.979px;
+  padding: 11.67px 11.67px 60.37px;
+  background: var(--c-polaroid);
+  transform: rotate(-6.18deg);
+  transition: rotate 0.6s var(--ease), scale 0.6s var(--ease);
+}
+
+/* Hover: the polaroid straightens a little and lifts */
+.occasion-card:hover .occasion-card__snap {
+  rotate: 3deg;
+  scale: 1.03;
+}
+
+.occasion-card__photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.occasion-card__img {
+  position: absolute;
+  max-width: none;
+}
+
+.occasion-card__img--dress {
+  top: -4.7px;
+  left: -107.1px;
+  width: 444px;
+  height: 250px;
+}
+
+.occasion-card__img--beige {
+  top: -3.7px;
+  left: -6.6px;
+  width: 263.285px;
+  height: 263.285px;
+}
+
+.occasion-card__title {
+  top: 89px;
+  left: 429.67px;
+  right: 26px;
+  font-size: 30px;
+  font-weight: var(--fw-medium);
+  line-height: 32.915px;
+}
+
+.occasion-card__desc {
+  top: 140.55px;
+  left: 429.67px;
+  right: 26px;
+  max-width: 415.4px;
+  font-size: 16px;
+  line-height: 24.019px;
+  color: var(--c-wine-35);
+}
+
+.occasion-card--dark .occasion-card__desc {
+  max-width: 314px;
+  color: var(--c-mist);
+}
+
+.occasion-card__includes {
+  top: 231.29px;
+  left: 429.67px;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 24.019px;
+  color: var(--c-wine-75);
+}
+
+.occasion-card--dark .occasion-card__includes {
+  color: var(--c-mist);
+}
+
+.occasion-card__list {
+  top: 261.54px;
+  left: 429.67px;
+  right: 26px;
+  max-width: 445.7px;
+  padding: 0 0 0 21px;
+  list-style: disc;
+  font-size: 14px;
+  line-height: 19.571px;
+  color: var(--c-wine-35);
+}
+
+.occasion-card--dark .occasion-card__list {
+  color: var(--c-white);
+}
+
+.occasion-card__rule {
+  top: 403.87px;
+  left: 429.67px;
+  right: 26px;
+  max-width: 410.988px;
+  height: 1px;
+  background: var(--c-wine-15);
+}
+
+.occasion-card--dark .occasion-card__rule {
+  background: var(--c-white-25);
+}
+
+/* Bottom row: note · price | per · button. Flex, so it narrows on laptops */
+.occasion-card__bottom {
+  left: 30.69px;
+  right: 24.02px;
+  bottom: 27.58px;
+  display: flex;
+  align-items: center;
+  height: 51.596px;
+}
+
+.occasion-card__foot {
+  flex: 0 1 226.8px;
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 15px;
+  color: var(--c-wine-35);
+}
+
+.occasion-card--dark .occasion-card__foot {
+  flex-basis: 276px;
+  color: var(--c-white-55);
+}
+
+.occasion-card__price {
+  margin: 0 0 0 auto;
+  padding-left: 16px;
+  font-size: 22.24px;
+  font-weight: var(--fw-medium);
+  line-height: 26px;
+  white-space: nowrap;
+}
+
+.occasion-card__sep {
+  flex: none;
+  width: 1px;
+  height: 26.688px;
+  margin: 0 14.92px 0 15.41px;
+  background: var(--c-wine-15);
+}
+
+.occasion-card--dark .occasion-card__sep {
+  background: var(--c-white-25);
+}
+
+.occasion-card__meta {
+  margin: 0 40px 0 0;
+  font-size: 14px;
+  line-height: 15.123px;
+  color: var(--c-wine-55);
+  white-space: nowrap;
+}
+
+.occasion-card--dark .occasion-card__meta {
+  color: var(--c-white-55);
+}
+
+/* 215 × 51.6 (Figma), ring 42.5 × 43.8 */
+.occasion-card__btn {
+  --btn-fill-origin: calc(100% - 26.45px) 50%;
+  flex: none;
+  min-width: 215.28px;
+  height: 51.596px;
+  padding: 1px 62px 0 25.8px;
+  font-size: 14px;
+  line-height: 26.688px;
+}
+
+.occasion-card__btn .btn__ring {
+  top: 3.9px;
+  right: 5.2px;
+  width: 42.509px;
+  height: 43.797px;
+  -webkit-mask-image: url("../assets/icons/ring-sm.svg");
+  mask-image: url("../assets/icons/ring-sm.svg");
+}
+
+.occasion-card__btn .btn__arrow {
+  top: 20.79px;
+  right: 20.94px;
+  width: 11.97px;
+  height: 11.97px;
+  -webkit-mask-image: url("../assets/icons/arrow-sm.png");
+  mask-image: url("../assets/icons/arrow-sm.png");
+}
+
+/* From Brief to First Shot (Figma 97:519–97:559, y 9852–11122)
+   ========================================================================== */
+
+.steps {
+  position: relative;
+  height: 1270px;
+}
+
+.steps__panel {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  right: 20px;
+  height: 1170px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--c-umber);
+  isolation: isolate;
+}
+
+.steps__panel > *,
+.steps__panel > picture > img {
+  position: absolute;
+}
+
+.steps__bg {
+  top: 0;
+  left: calc(50% - 1326px);
+  width: 2078px;
+  max-width: none;
+  height: 1170px;
+  object-fit: cover;
+}
+
+/* The photo ends on the right; the slides fade into the panel colour there */
+.steps__shade {
+  top: 0;
+  bottom: 0;
+  left: calc(50% + 745px);
+  right: 0;
+  z-index: 2;
+  min-width: 297px;
+  background: linear-gradient(90deg, rgba(20, 9, 3, 0) 50%, var(--c-umber) 66%);
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+
+.steps.is-slider-end .steps__shade {
+  opacity: 0;
+}
+
+.steps__heading {
+  top: 70px;
+  left: 47px;
+  width: 644px;
+  margin: 0;
+  font-size: 85px;
+  font-weight: var(--fw-regular);
+  line-height: 79px;
+  color: var(--c-white);
+  text-transform: uppercase;
+}
+
+.steps__nav {
+  left: 47px;
+  bottom: 47px;
+  display: flex;
+  gap: 13px;
+}
+
+.steps__arrow {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  border: 0;
+  border-radius: 68px;
+  background: var(--c-white);
+  cursor: pointer;
+  transition: opacity 0.3s var(--ease);
+}
+
+.steps__arrow::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 6.5px);
+  left: calc(50% - 6.5px);
+  width: 13px;
+  height: 13px;
+  background: var(--c-red);
+  -webkit-mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
+  mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
+  transition: translate 0.35s var(--ease);
+}
+
+.steps__arrow--prev::before {
+  scale: -1 1;
+}
+
+.steps__arrow--next:hover::before {
+  translate: 3px 0;
+}
+
+.steps__arrow--prev:hover::before {
+  translate: -3px 0;
+}
+
+.steps__arrow:disabled,
+.steps__arrow.swiper-button-disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.steps__arrow:disabled::before,
+.steps__arrow.swiper-button-disabled::before {
+  translate: none;
+}
+
+.steps__slider {
+  top: 453px;
+  left: 704px;
+  right: 0;
+  z-index: 1;
+  height: 670px;
+}
+
+/* Slide = glass card; .steps__card = the white block in its corner */
+.steps__slide {
+  position: relative;
+  width: 466px;
+  height: 670px;
+  border: 1px solid var(--c-white-30);
+  border-radius: 5px;
+  background: var(--c-white-02);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.steps__card {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 334px;
+  height: 382px;
+  padding: 30px;
+  border-radius: 0 0 5px 0;
+  background: var(--c-white);
+  color: var(--c-wine);
+}
+
+.steps__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.steps__card-title {
+  margin: auto 0 0;
+  font-size: 25px;
+  font-weight: var(--fw-medium);
+  line-height: 26px;
+}
+
+.steps__card-text {
+  max-width: 285px;
+  margin: 20px 0 0;
+  font-size: 15px;
+  line-height: 19.163px;
+  color: var(--c-wine-50);
+}
+
+/* Preparation That Fits Your Schedule (Figma 97:336–97:390, y 11122–12607)
+   ========================================================================== */
+
+.prep {
+  position: relative;
+  height: 1485px;
+  color: var(--c-wine);
+}
+
+.prep__grid {
+  position: absolute;
+  top: 110px;
+  left: 56px;
+  right: 56px;
+  display: grid;
+  grid-template-columns: 616fr 615fr 577fr;
+  grid-template-rows: 426px 425px 424px;
+}
+
+.prep__cell {
+  position: relative;
+  min-width: 0;
+  border: 0 solid var(--c-wine-25);
+}
+
+.prep__cell > * {
+  position: absolute;
+  margin: 0;
+}
+
+.prep__cell--r1c2 { border-width: 1px; }
+.prep__cell--r2c1 { border-width: 1px 0 1px 1px; }
+.prep__cell--r2c2,
+.prep__cell--r3c2 { border-width: 0 1px 1px; }
+.prep__cell--r3c3 { border-width: 0 1px 1px 0; }
+
+.prep__cell--photo {
+  overflow: hidden;
+}
+
+.prep__cell--photo > picture > img,
+.prep__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.prep__label {
+  top: 40px;
+  left: 40px;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 23px;
+  color: var(--c-wine-50);
+  white-space: pre;
+}
+
+/* Corner arrow points down-left in the text cells, up-right on the photo */
+.prep__icon {
+  top: 40px;
+  right: 40px;
+  width: 16px;
+  height: 16px;
+  rotate: 180deg;
+}
+
+.prep__icon--up {
+  rotate: none;
+}
+
+.prep__text {
+  top: 76px;
+  right: 40px;
+  left: 40px;
+  margin-left: auto;
+  font-size: 16px;
+  font-weight: var(--fw-light);
+  line-height: 23px;
+  color: var(--c-wine-55);
+  text-align: right;
+}
+
+.prep__cell--r1c2 .prep__text { max-width: 337px; }
+.prep__cell--r2c1 .prep__text { max-width: 428px; }
+.prep__cell--r3c2 .prep__text { max-width: 413px; }
+.prep__cell--r3c3 .prep__text { max-width: 394px; }
+
+/* 05/06 are Regular in Figma: +4 % width for the wider supplied Regular */
+.prep__cell--r3c2 .prep__text,
+.prep__cell--r3c3 .prep__text {
+  font-weight: var(--fw-regular);
+}
+
+.prep__cell--r3c2 .prep__text { max-width: 430px; }
+.prep__cell--r3c3 .prep__text { max-width: 410px; }
+
+.prep__title {
+  left: 40px;
+  bottom: 40px;
+  font-size: 28px;
+  font-weight: var(--fw-medium);
+  line-height: 25px;
+}
+
+.prep__cell--r1c2 .prep__title { max-width: 364px; }
+.prep__cell--r2c1 .prep__title { max-width: 251px; }
+.prep__cell--r3c2 .prep__title { max-width: 246px; }
+.prep__cell--r3c3 .prep__title { max-width: 278px; }
+
+.prep__heading {
+  top: 15px;
+  left: 50px;
+  max-width: 439px;
+  font-size: 40px;
+  font-weight: var(--fw-medium);
+  line-height: 41px;
+}
+
+.prep__plus {
+  top: calc(50% - 33.5px);
+  left: 0;
+  right: 0;
+  font-size: 40px;
+  font-weight: var(--fw-light);
+  line-height: 67px;
+  text-align: center;
+}
+
+.prep__audience {
+  left: 0;
+  bottom: -7px;
+  max-width: 366px;
+  font-size: 16px;
+  line-height: 23px;
+}
+
+/* Everything Agreed in Advance (Figma 97:560–97:598, y 12607–13915)
+   ========================================================================== */
+
+.agreed {
+  position: relative;
+  height: 1308px;
+}
+
+.agreed__panel {
+  position: absolute;
+  top: 60px;
+  left: 22px;
+  right: 22px;
+  height: 1198px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: var(--c-umber);
+  color: var(--c-white);
+  isolation: isolate;
+}
+
+.agreed__panel > *,
+.agreed__panel > picture > img {
+  position: absolute;
+  margin: 0;
+}
+
+.agreed__bg {
+  top: 0;
+  left: calc(50% - 1064.5px);
+  width: 2129px;
+  max-width: none;
+  height: 1199px;
+  object-fit: cover;
+}
+
+.agreed__shade {
+  inset: 0;
+  background: linear-gradient(180deg, var(--c-black-25) 0%, rgba(0, 0, 0, 0.1) 35%, var(--c-black-70) 100%);
+}
+
+.agreed__heading {
+  top: 159px;
+  left: calc(50% - 317.5px);
+  width: 635px;
+  font-size: 75px;
+  font-weight: var(--fw-medium);
+  line-height: 75px;
+  text-align: center;
+}
+
+.agreed__intro {
+  top: 336px;
+  left: calc(50% - 329px);
+  width: 658px;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 24px;
+  text-align: center;
+}
+
+/* Glass table 863 × 280; the pale price column (::before) rises 79px above it */
+.agreed__table {
+  top: 674px;
+  left: calc(50% - 431.5px);
+  width: 863px;
+  height: 280px;
+  border-radius: 10px;
+  background: var(--c-white-05);
+  -webkit-backdrop-filter: blur(37.4px);
+  backdrop-filter: blur(37.4px);
+}
+
+.agreed__table::before {
+  content: "";
+  position: absolute;
+  top: -79px;
+  left: 633px;
+  width: 230px;
+  height: 359px;
+  border-radius: 19px;
+  background: var(--c-pale-lime);
+}
+
+.agreed__table table {
+  position: relative;
+  display: block;
+  border-collapse: collapse;
+}
+
+.agreed__table thead {
+  position: absolute;
+  top: -79px;
+  left: 633px;
+  display: block;
+  width: 230px;
+}
+
+.agreed__table thead tr {
+  display: block;
+}
+
+.agreed__table thead td {
+  display: none;
+}
+
+.agreed__table thead th {
+  display: block;
+  padding: 0;
+  font-size: 21px;
+  font-weight: var(--fw-bold);
+  line-height: 79px;
+  color: var(--c-slate);
+  text-align: center;
+}
+
+.agreed__table tbody {
+  display: block;
+}
+
+.agreed__table tbody tr {
+  display: flex;
+  height: 70px;
+}
+
+.agreed__table tbody th,
+.agreed__table tbody td {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 23px;
+}
+
+.agreed__table tbody th {
+  width: 613px;
+  margin-right: 20px;
+  padding-left: 30px;
+  text-align: left;
+}
+
+.agreed__table tbody tr:not(:last-child) th {
+  border-bottom: 1px solid var(--c-white-20);
+}
+
+.agreed__table tbody td {
+  justify-content: center;
+  width: 230px;
+  color: var(--c-slate);
+}
+
+.agreed__note {
+  top: 984px;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--c-white-40);
+}
+
+.agreed__note--1 {
+  left: calc(50% - 431px);
+  width: 464px;
+}
+
+.agreed__note--2 {
+  left: calc(50% + 91px);
+  width: 275px;
+}
+
+/* Fades in towards "Learn More" (Figma x 1769, y 627–990) */
+.agreed__line {
+  top: 627px;
+  right: 107px;
+  width: 1px;
+  height: 363px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--c-white) 100%);
+}
+
+.agreed__more {
+  top: 1020px;
+  right: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-white-40);
+  font: inherit;
+  cursor: pointer;
+}
+
+.agreed__more-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95px;
+  height: 96px;
+  border: 1px solid var(--c-white-20);
+  border-radius: 50%;
+  background: var(--c-white-02);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.agreed__more-circle img {
+  width: 19.04px;
+  height: 27.2px;
+  transition: translate 0.4s var(--ease);
+}
+
+.agreed__more-text {
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 30px;
+  white-space: nowrap;
+  transition: color 0.4s var(--ease);
+}
+
+.agreed__more:hover .agreed__more-circle,
+.agreed__more:focus-visible .agreed__more-circle {
+  border-color: var(--c-white-40);
+  background: var(--c-white-10);
+}
+
+.agreed__more:hover .agreed__more-circle img,
+.agreed__more:focus-visible .agreed__more-circle img {
+  translate: 0 3px;
+}
+
+.agreed__more:hover .agreed__more-text,
+.agreed__more:focus-visible .agreed__more-text {
+  color: var(--c-white);
+}
+
+/* Booking // Details (Figma 97:598–97:633, y 13915–15399)
+   ========================================================================== */
+
+.booking {
+  position: relative;
+  height: 1484px;
+  color: var(--c-wine);
+}
+
+.booking__inner > * {
+  position: absolute;
+  margin: 0;
+}
+
+.booking__heading {
+  top: 100px;
+  left: 28px;
+  font-size: 75px;
+  font-weight: var(--fw-medium);
+  line-height: 75px;
+}
+
+.booking__heading-1,
+.booking__heading-2 {
+  display: block;
+}
+
+.booking__heading-2 {
+  padding-left: 250px;
+}
+
+.booking__heading-muted {
+  color: var(--c-wine-30);
+}
+
+/* 242 × 58 (Figma), ring 47.8 × 49.2 */
+.booking__btn {
+  --btn-fill-origin: calc(100% - 29.73px) 50%;
+  top: 170px;
+  right: 26px;
+  min-width: 242px;
+  height: 58px;
+  padding: 1px 70px 0 29px;
+  font-size: 14px;
+}
+
+.booking__btn .btn__ring {
+  top: 4.38px;
+  right: 5.84px;
+  width: 47.785px;
+  height: 49.233px;
+}
+
+.booking__btn .btn__arrow {
+  top: 23.36px;
+  right: 23.53px;
+  width: 13.45px;
+  height: 13.45px;
+}
+
+.booking__list {
+  top: 342px;
+  left: 32px;
+  right: 17px;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--c-rule-gray);
+}
+
+.booking__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 246px minmax(0, 412px) 1fr;
+  align-items: center;
+  height: 218.4px;
+  padding-left: 7px;
+  border-top: 1px solid var(--c-rule-gray);
+}
+
+.booking__num {
+  font-size: 20px;
+  line-height: 45px;
+  color: var(--c-wine-60);
+}
+
+.booking__title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: var(--fw-medium);
+  line-height: 45px;
+}
+
+/* Left edge 658px from the row's right; Figma widths differ per row
+   (553/586/610/610/621), +4 % for the wider supplied Regular so the
+   lines break as in Figma */
+.booking__text {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 658px);
+  max-width: 634px;
+  margin: 0;
+  translate: 0 -50%;
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--c-wine-45);
+}
+
+/* Pill photo shown on hover, centred on the screen's x + 46px; the tilt
+   alternates from row to row */
+.booking__pill {
+  position: absolute;
+  top: calc(50% - 151px);
+  left: calc(50% - 57px);
+  z-index: 2;
+  width: 191px;
+  height: 302px;
+  overflow: hidden;
+  border-radius: 119px;
+  box-shadow: var(--shadow-pill);
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.6;
+  transition: opacity 0.35s var(--ease), scale 0.5s var(--ease), rotate 0.5s var(--ease);
+}
+
+.booking__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking__row:nth-child(1) .booking__text { max-width: 575px; }
+.booking__row:nth-child(2) .booking__text { max-width: 609px; }
+.booking__row:nth-child(5) .booking__text { max-width: 646px; }
+
+/* Rows are stacking contexts (AOS transform): lift the hovered one so the
+   next row's rule doesn't cross its pill */
+.booking__row:hover {
+  z-index: 1;
+}
+
+.booking__row:hover .booking__pill {
+  opacity: 1;
+  scale: 1;
+  rotate: 6deg;
+}
+
+.booking__row:nth-child(even):hover .booking__pill {
+  rotate: -6deg;
+}
+
+/* A Quick Brief for Your Upcoming Project (Figma 97:640–97:694, y 15399–16793).
+   Cream with a rounded bottom over the top 60px of the lessons.
+   ========================================================================== */
+
+.brief {
+  position: relative;
+  z-index: 2;
+  height: 1394px;
+  border-radius: 0 0 15px 15px;
+  background: var(--c-cream);
+  color: var(--c-white);
+}
+
+.brief__panel {
+  position: absolute;
+  top: 50px;
+  left: 32px;
+  right: 33px;
+  height: 1285px;
+  overflow: hidden;
+  border-radius: 15px;
+  background: var(--c-black);
+  isolation: isolate;
+}
+
+.brief__panel > *,
+.brief__panel > picture > img {
+  position: absolute;
+  margin: 0;
+}
+
+.brief__bg {
+  top: 0;
+  right: 0;
+  width: max(2284px, 100%);
+  max-width: none;
+  height: 1285px;
+  object-fit: cover;
+  object-position: right;
+}
+
+.brief__intro {
+  top: 80px;
+  left: 80px;
+  width: 295px;
+  font-size: 16px;
+  font-weight: var(--fw-medium);
+  line-height: 24px;
+}
+
+.brief__icon {
+  top: 164px;
+  left: 80px;
+  width: 25px;
+  height: 25px;
+  rotate: 90deg; /* the icon file points right */
+}
+
+/* Dashed arrow 856.5 × 7.4 turned to point down, centred on x 93 (under
+   the icon), from y 205 */
+.brief__arrow {
+  top: 629.32px;
+  left: -335.25px;
+  width: 856.5px;
+  height: 7.364px;
+  background: url("../assets/icons/brief-arrow.png") center / 100% 100% no-repeat;
+  rotate: 90deg;
+}
+
+.brief__heading {
+  top: 1084px;
+  left: 80px;
+  width: 922px;
+  font-size: 75px;
+  font-weight: var(--fw-medium);
+  line-height: 75px;
+}
+
+.brief__btn {
+  right: 64px;
+  bottom: 73px;
+  min-width: 303px;
+  padding-right: 78px;
+}
+
+.brief__table {
+  top: 77px;
+  right: 63px;
+  width: 790px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.brief__table th,
+.brief__table td {
+  border: 1px solid var(--c-white-20);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.brief__table th:first-child {
+  width: 399px;
+}
+
+.brief__table thead th {
+  height: 58px;
+  padding: 0 0 0 34px;
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  line-height: 48px;
+  color: var(--c-white-45);
+  text-transform: uppercase;
+}
+
+.brief__table thead th + th {
+  padding-left: 35px;
+}
+
+.brief__table tbody th,
+.brief__table tbody td {
+  height: 61px;
+  font-weight: var(--fw-medium);
+}
+
+.brief__table tbody th {
+  padding: 0 0 0 38px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.brief__table tbody td {
+  padding: 0 68px 0 37px;
+  font-size: 12px;
+  line-height: 16px;
+}
 
 /* Lessons (Figma 6554–8586; starts 60px under the services' rounded bottom)
    ========================================================================== */
@@ -2693,6 +4088,25 @@ a.footer__contact-value:focus-visible {
 
 .fill-word {
   color: color-mix(in srgb, var(--c-wine) calc(var(--fill, 0) * 100%), var(--c-wine-35));
+}
+
+/* Vertical line drawing from the top */
+[data-aos="draw-down"] {
+  transform-origin: center top;
+  scale: 1 0;
+  transition-property: scale;
+}
+
+[data-aos="draw-down"].aos-animate {
+  scale: 1 1;
+}
+
+/* Photo panels with parallax (PARALLAX in main.js): 10 % zoom keeps a
+   hidden 5 % buffer on every side for the translate */
+.steps__bg[data-parallax],
+.agreed__bg[data-parallax],
+.brief__bg[data-parallax] {
+  scale: 1.1;
 }
 
 /* Rule drawing from left to right */

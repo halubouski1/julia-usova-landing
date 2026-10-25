@@ -16,6 +16,7 @@ const SOURCES = [
   'css/normalize.css',
   'css/vendor/lenis-1.1.13.css',
   'css/vendor/aos-2.3.4.css',
+  'css/vendor/swiper-14.3.0.min.css',
   'css/style.css',
   'css/media.css',
 ];

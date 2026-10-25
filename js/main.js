@@ -30,6 +30,37 @@
     // .services__case is animated by initCaseLid() (which also fades the 01/02 block in on desktop)
     { selector: '.feature', effect: 'fade-up', delay: 300, stagger: 150 },
 
+    { selector: '.prices__heading', effect: 'fade-up' },
+    { selector: '.prices__item', effect: 'fade-up', stagger: 100, staggerGroup: 5 },
+    { selector: '.prices__num--btn, .prices__btn', effect: 'fade-up', delay: 400, stagger: 100 },
+
+    { selector: '.occasion__heading, .occasion__tabs', effect: 'fade-up', stagger: 150 },
+    { selector: '.occasion-card', effect: 'reveal', duration: 1200, stagger: 150, staggerGroup: 2 },
+
+    { selector: '.steps__heading', effect: 'fade-right', duration: 1200 },
+    { selector: '.steps__nav', effect: 'fade-up', delay: 300 },
+    { selector: '.steps__slide', effect: 'fade-left', duration: 1100, stagger: 150 },
+
+    { selector: '.prep__cell--photo', effect: 'reveal', duration: 1200, stagger: 200 },
+    { selector: '.prep__cell:not(.prep__cell--photo)', effect: 'fade', duration: 1000, stagger: 100 },
+
+    { selector: '.agreed__heading, .agreed__intro', effect: 'fade-up', stagger: 150 },
+    { selector: '.agreed__table', effect: 'fade-up', delay: 150, duration: 1100 },
+    { selector: '.agreed__note', effect: 'fade', delay: 300, stagger: 100 },
+    { selector: '.agreed__line', effect: 'draw-down', duration: 1400 },
+    { selector: '.agreed__more', effect: 'zoom-in', delay: 600 },
+
+    { selector: '.booking__heading-1', effect: 'fade-right' },
+    { selector: '.booking__heading-2', effect: 'fade-right', delay: 150 },
+    { selector: '.booking__btn', effect: 'fade-left', delay: 200 },
+    { selector: '.booking__row', effect: 'fade-up', stagger: 100 },
+
+    { selector: '.brief__intro, .brief__icon', effect: 'fade-up', stagger: 150 },
+    { selector: '.brief__arrow', effect: 'draw', duration: 1800, delay: 300 },
+    { selector: '.brief__table tbody tr', effect: 'fade', stagger: 60, duration: 700 },
+    { selector: '.brief__heading', effect: 'fade-up', duration: 1200 },
+    { selector: '.brief__btn', effect: 'fade-up', delay: 200 },
+
     { selector: '.lessons__head .label', effect: 'fade-right' },
     { selector: '.lessons__rule', effect: 'draw', duration: 1400 },
     { selector: '.lessons__title-line', effect: 'fade-right', stagger: 120 },
@@ -51,6 +82,8 @@
   var PARALLAX = [
     { selector: '.hero__portrait', speed: 0.06 },
     { selector: '.lessons__palettes', speed: 0.015 },
+    // Photo panels: zoomed 10 % in CSS for a hidden buffer of 5 % per side
+    { selector: '.steps__bg, .agreed__bg, .brief__bg', speed: 0.025 },
     { selector: '.footer__portrait', speed: 0.06 }
   ];
 
@@ -928,6 +961,196 @@
     });
   }
 
+  // Services & Prices: a "Leave a request" badge follows the mouse over the
+  // price list ([data-price-list]; a click opens the popup via its
+  // data-popup-open). Fixed position + translate from clientX/Y, eased in a
+  // rAF loop that stops once the badge has settled. Whether the pointer is
+  // over the list is computed from cached page coordinates, both on pointer
+  // moves and on every scroll frame, so the badge also appears when the list
+  // scrolls under a still pointer. Hidden over the "Enquire" button.
+  function initPriceCursor() {
+    var list = document.querySelector('[data-price-list]');
+    var badge = document.querySelector('[data-price-cursor]');
+    if (!list || !badge || !window.matchMedia('(hover: hover)').matches) return;
+
+    var button = list.parentElement.querySelector('.prices__btn');
+    var pointer = null; // last mouse position (client coordinates)
+    var pos = { x: 0, y: 0 };
+    var box = null;
+    var buttonBox = null;
+    var visible = false;
+    var frame = null;
+    var ease = reduceMotion ? 1 : 0.2;
+
+    function pageBox(node) {
+      var rect = node.getBoundingClientRect();
+      if (!rect.width) return null; // hidden (≤1279)
+      return { left: rect.left, right: rect.right, top: rect.top + window.scrollY, bottom: rect.bottom + window.scrollY };
+    }
+
+    function within(b, x, y) {
+      return b && x >= b.left && x <= b.right && y >= b.top && y <= b.bottom;
+    }
+
+    function render() {
+      pos.x += (pointer.x - pos.x) * ease;
+      pos.y += (pointer.y - pos.y) * ease;
+      badge.style.translate = pos.x.toFixed(1) + 'px ' + pos.y.toFixed(1) + 'px';
+      var settled = Math.abs(pointer.x - pos.x) < 0.1 && Math.abs(pointer.y - pos.y) < 0.1;
+      frame = settled || !visible ? null : requestAnimationFrame(render);
+    }
+
+    function sync(scrollY) {
+      var y = pointer ? pointer.y + scrollY : 0;
+      var on = !!pointer && within(box, pointer.x, y) && !within(buttonBox, pointer.x, y) &&
+        !document.documentElement.classList.contains('is-dialog-open');
+      if (on && !visible) {
+        // Appear right under the pointer instead of flying in from the last spot
+        pos.x = pointer.x;
+        pos.y = pointer.y;
+        badge.style.translate = pos.x.toFixed(1) + 'px ' + pos.y.toFixed(1) + 'px';
+      }
+      if (on !== visible) {
+        visible = on;
+        badge.classList.toggle('is-visible', on);
+      }
+      if (visible && !frame) frame = requestAnimationFrame(render);
+    }
+
+    document.addEventListener('pointermove', function (event) {
+      if (event.pointerType !== 'mouse') return;
+      pointer = { x: event.clientX, y: event.clientY };
+      sync(window.scrollY);
+    }, { passive: true });
+
+    document.documentElement.addEventListener('pointerleave', function () {
+      pointer = null;
+      sync(window.scrollY);
+    });
+
+    // The click opens the popup; the badge returns with the next move
+    list.addEventListener('click', function () {
+      pointer = null;
+      sync(window.scrollY);
+    });
+
+    addScrollEffect({
+      measure: function () {
+        box = pageBox(list);
+        buttonBox = null;
+        // offsets, not the rect: the button's AOS translate would skew it
+        if (box && button && button.offsetParent) {
+          var parent = pageBox(button.offsetParent);
+          buttonBox = {
+            left: parent.left + button.offsetLeft,
+            right: parent.left + button.offsetLeft + button.offsetWidth,
+            top: parent.top + button.offsetTop,
+            bottom: parent.top + button.offsetTop + button.offsetHeight
+          };
+        }
+      },
+      update: function (y) { sync(y); }
+    });
+  }
+
+  // Tabs ([data-tabs]): role=tablist with [data-tab] buttons and
+  // [data-tab-panel] panels. The [data-tab-pill] slides under the active tab;
+  // ←/→/Home/End move between tabs (roving tabindex).
+  function initTabs() {
+    document.querySelectorAll('[data-tabs]').forEach(function (tablist) {
+      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[data-tab]'));
+      var pill = tablist.querySelector('[data-tab-pill]');
+      if (!tabs.length) return;
+
+      function placePill() {
+        var active = tablist.querySelector('[aria-selected="true"]');
+        if (!pill || !active) return;
+        pill.style.width = active.offsetWidth + 'px';
+        pill.style.translate = active.offsetLeft + 'px 0';
+      }
+
+      function select(tab, focus) {
+        tabs.forEach(function (item) {
+          var selected = item === tab;
+          var panel = document.getElementById(item.getAttribute('aria-controls'));
+          item.setAttribute('aria-selected', String(selected));
+          item.tabIndex = selected ? 0 : -1;
+          if (!panel) return;
+          if (selected && panel.hidden) {
+            panel.hidden = false;
+            if (!reduceMotion) {
+              panel.classList.remove('is-entering');
+              void panel.offsetWidth; // restart the animation
+              panel.classList.add('is-entering');
+            }
+          } else if (!selected) {
+            panel.hidden = true;
+          }
+        });
+        if (focus) tab.focus();
+        placePill();
+      }
+
+      tabs.forEach(function (tab, index) {
+        tab.addEventListener('click', function () { select(tab, false); });
+        tab.addEventListener('keydown', function (event) {
+          var next = null;
+          if (event.key === 'ArrowRight') next = tabs[(index + 1) % tabs.length];
+          else if (event.key === 'ArrowLeft') next = tabs[(index - 1 + tabs.length) % tabs.length];
+          else if (event.key === 'Home') next = tabs[0];
+          else if (event.key === 'End') next = tabs[tabs.length - 1];
+          if (!next) return;
+          event.preventDefault();
+          select(next, true);
+        });
+      });
+
+      // No pill transition on the first placement
+      if (pill) pill.style.transition = 'none';
+      placePill();
+      tablist.classList.add('is-ready');
+      if (pill) {
+        void pill.offsetWidth;
+        pill.style.transition = '';
+      }
+      window.addEventListener('resize', placePill);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
+    });
+  }
+
+  // "From Brief to First Shot" slider: Swiper (local custom bundle with
+  // Navigation, Keyboard and A11y, see tools/build-swiper.mjs)
+  function initStepsSlider() {
+    var slider = document.querySelector('[data-steps-slider]');
+    if (!slider || typeof window.Swiper !== 'function') return;
+    var modules = window.SwiperModules || {};
+    var section = slider.closest('section') || document;
+
+    new window.Swiper(slider, {
+      modules: [modules.Navigation, modules.Keyboard, modules.A11y].filter(Boolean),
+      slidesPerView: 'auto',
+      spaceBetween: 24.75, // laptop ×0.75
+      slidesOffsetAfter: 35.25, // the last card stops short of the panel edge
+      breakpoints: { 1920: { spaceBetween: 33, slidesOffsetAfter: 47 } },
+      speed: reduceMotion ? 0 : 700,
+      grabCursor: true,
+      watchOverflow: true,
+      navigation: {
+        prevEl: section.querySelector('[data-steps-prev]'),
+        nextEl: section.querySelector('[data-steps-next]')
+      },
+      keyboard: { enabled: true, onlyInViewport: true },
+      a11y: { enabled: true },
+      on: {
+        // The right-edge shade fades the next card in; at the end it would
+        // cover the last one, so it fades out
+        progress: function (swiper) {
+          section.classList.toggle('is-slider-end', swiper.isEnd);
+        }
+      }
+    });
+  }
+
   function initWorldtime() {
     var nodes = document.querySelectorAll('[data-worldtime]');
     if (!nodes.length) return;
@@ -971,6 +1194,9 @@
     initSelect();
     initMenu();
     initPopup();
+    initPriceCursor();
+    initTabs();
+    initStepsSlider();
     initWorldtime();
     initLanguage();
   });

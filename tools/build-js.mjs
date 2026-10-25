@@ -11,7 +11,7 @@ import path from 'node:path';
 import { transformSync } from 'esbuild';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const VENDOR = ['js/vendor/lenis-1.1.13.min.js', 'js/vendor/aos-2.3.4.js'];
+const VENDOR = ['js/vendor/lenis-1.1.13.min.js', 'js/vendor/aos-2.3.4.js', 'js/vendor/swiper-14.3.0.custom.min.js'];
 const MAIN = 'js/main.js';
 const OUTPUT = 'js/site.min.js';
 

@@ -97,6 +97,36 @@
     ],
     "footer-portrait": [
       1241
+    ],
+    "occasion-silver-dress": [
+      670,
+      890
+    ],
+    "occasion-beige-portrait": [
+      400,
+      530
+    ],
+    "brief-amber-portrait": [
+      1672
+    ],
+    "prep-double-portrait": [
+      760,
+      1140,
+      1520
+    ],
+    "prep-gold-cosmetics": [
+      760,
+      1140,
+      1520
+    ],
+    "agreed-gold-earring": [
+      1672
+    ],
+    "brief-cta-blonde-gold": [
+      1672
+    ],
+    "booking-chair": [
+      736
     ]
   }
 }

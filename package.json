@@ -10,12 +10,14 @@
     "build:images": "node tools/optimize-images.mjs",
     "build:js": "node tools/build-js.mjs",
     "build:html": "node tools/build-html.mjs",
-    "build": "npm run build:html && npm run build:css && npm run build:js"
+    "build": "npm run build:html && npm run build:css && npm run build:js",
+    "build:swiper": "node tools/build-swiper.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",
     "lighthouse": "13.5.0",
     "lightningcss": "1.33.0",
-    "sharp": "0.35.5"
+    "sharp": "0.35.5",
+    "swiper": "14.3.0"
   }
 }
