@@ -1985,15 +1985,15 @@
   }
 
   .brief__btn {
-    right: 48px;
-    bottom: 54.75px;
+    right: 72.75px;
+    bottom: 99px;
     min-width: 227.25px;
     padding-right: 58.5px;
   }
 
   .brief__table {
-    top: 57.75px;
-    right: 47.25px;
+    top: 95.25px;
+    right: 72px;
     width: 592.5px;
   }
 
@@ -2817,11 +2817,12 @@
     height: calc(998.625px * var(--m));
   }
 
+  /* Figma 104:145: 774 × 671m, the photo's top 671m (lid, tray, handle) */
   .services__case {
     top: calc(2379px * var(--m));
     left: calc(50% - 387px * var(--m));
     width: calc(774px * var(--m));
-    height: calc(449px * var(--m));
+    height: calc(671px * var(--m));
   }
 
   /* Same perspective-to-width ratio as desktop (2400 / 1734) */
@@ -2957,10 +2958,10 @@
   .feature--1 .feature__text { left: calc(115px * var(--m)); width: calc(209px * var(--m)); }
   .feature--2 .feature__text { left: calc(115px * var(--m)); width: calc(186px * var(--m)); }
 
-  /* Lessons (Figma 6060–7371; starts 68 under the services' rounded bottom) */
+  /* Lessons (Figma 15929–17240; starts 52 under the brief's rounded bottom) */
   .lessons {
     height: calc(1311px * var(--m));
-    margin-top: calc(-68px * var(--m));
+    margin-top: calc(-52px * var(--m));
   }
 
   .lessons__haze--top,
@@ -3347,19 +3348,1022 @@
   }
 }
 
-/* New sections (Figma 97:98, Oct 2026) — desktop only so far: hidden on
-   ≤1279 until the mobile frames arrive; the lessons then follow the services
-   directly, as before.
+/* New sections ≤1279 (mobile Figma KxDuCN8Wv4jZcjUnm5TXGn, Frame 53 104:22,
+   360 × 19232; Oct 2026). Same scaling as the rest of the compact layout
+   (calc(N * var(--m)) in a centred 320m column), but laid out in the flow
+   rather than absolutely, so longer translations push the content down
+   instead of overlapping it. Frame y: services & prices 6430–7926,
+   occasion 7926–9052, steps 9052–9790, prep 9790–12112, agreed 12112–12920,
+   booking 12920–14277, brief 14277–15981 (cream, rounded over the lessons).
    ========================================================================== */
 @media (max-width: 1279px) {
-  .prices,
-  .occasion,
-  .steps,
-  .prep,
-  .agreed,
-  .booking,
-  .brief {
+  /* Services & Prices (Figma 104:227–104:290): in the services' flow, below
+     the case; the section grows with the list. The absolute children above
+     (cards, case, 01/02) keep their places in .services__inner. */
+  .services {
+    height: auto;
+  }
+
+  .services__inner {
+    height: auto;
+    padding: calc(3130px * var(--m)) 0 calc(76px * var(--m));
+  }
+
+  .services__inner > .prices {
+    position: relative;
+    inset: auto;
+    width: calc(320px * var(--m));
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .prices__heading {
+    margin-bottom: calc(-2px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(44px * var(--m));
+  }
+
+  .prices__list {
+    position: static;
+    display: block;
+    border-top: 1px solid var(--c-white-10);
+    background: none;
+  }
+
+  /* Rules 134–152m apart in Figma; 40m above and below the content */
+  .prices__item {
+    grid-template-columns: calc(52px * var(--m)) minmax(0, 1fr) auto;
+    align-content: start;
+    padding: calc(43.5px * var(--m)) 0 calc(40px * var(--m));
+    border-bottom: 1px solid var(--c-white-10);
+  }
+
+  .prices__num {
+    margin-top: calc(1px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(18px * var(--m));
+  }
+
+  .prices__name,
+  .prices__item:nth-child(5) .prices__name {
+    max-width: none;
+    margin: 0;
+    font-size: calc(19px * var(--m));
+    line-height: calc(20px * var(--m));
+  }
+
+  /* May run on under the price (Figma 104:273: 238m wide) */
+  .prices__details {
+    grid-column: 2 / -1;
+    margin-top: calc(5px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(16px * var(--m));
+  }
+
+  .prices__price {
+    margin-left: calc(6px * var(--m));
+    font-size: calc(16px * var(--m));
+    line-height: calc(20px * var(--m));
+  }
+
+  /* Touch layout: no "/10" and no pointer badge */
+  .prices__num--btn,
+  .prices__cursor {
     display: none;
+  }
+
+  .prices__btn {
+    position: relative;
+    inset: auto;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    margin-top: calc(42px * var(--m));
+    padding: 3px 78px 0 38px;
+  }
+
+  /* Your Occasion. Your Look. (Figma 104:298–104:383) */
+  .occasion {
+    height: auto;
+    padding: calc(100px * var(--m)) 0 calc(46px * var(--m));
+  }
+
+  .occasion__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .occasion__inner > * {
+    position: relative;
+    inset: auto;
+  }
+
+  /* Figma's box is 400m (wider than the screen); same three lines in 340m */
+  .occasion__heading {
+    width: calc(340px * var(--m));
+    font-size: calc(50px * var(--m));
+    line-height: calc(50px * var(--m));
+  }
+
+  /* 340m track that scrolls sideways (the tabs don't fit), so the outer
+     tabs are cut by its rounded ends as in Figma */
+  .occasion__tabs {
+    justify-content: flex-start;
+    width: calc(340px * var(--m));
+    min-width: 0;
+    height: calc(49px * var(--m));
+    margin: calc(40px * var(--m)) 0 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    translate: none;
+  }
+
+  .occasion__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .occasion__tab {
+    flex: none;
+    height: 100%;
+    padding: 0 calc(31px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(41px * var(--m));
+  }
+
+  .occasion__nav {
+    display: flex;
+    gap: calc(6px * var(--m));
+    margin-top: calc(22px * var(--m));
+  }
+
+  .occasion__arrow {
+    position: relative;
+    width: calc(49px * var(--m));
+    height: calc(49px * var(--m));
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--c-wine);
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease);
+  }
+
+  .occasion__arrow::before {
+    content: "";
+    position: absolute;
+    top: calc(50% - 5.15px * var(--m));
+    left: calc(50% - 5.15px * var(--m));
+    width: calc(10.3px * var(--m));
+    height: calc(10.3px * var(--m));
+    background: var(--c-white);
+    -webkit-mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
+    mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
+    transition: background-color 0.3s var(--ease);
+  }
+
+  .occasion__arrow--prev::before {
+    scale: -1 1;
+  }
+
+  /* At the first/last card: the pale circle of Figma's "back" arrow */
+  .occasion__arrow:disabled {
+    background: var(--c-sand);
+    cursor: default;
+  }
+
+  .occasion__arrow:disabled::before {
+    background: var(--c-red);
+  }
+
+  /* One 320m card at a time; swipe or arrows (initOccasionCards()) */
+  .occasion__panel {
+    display: grid;
+    grid-auto-columns: 100%;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    justify-content: start;
+    column-gap: calc(20px * var(--m));
+    width: calc(320px * var(--m));
+    height: auto;
+    margin-top: calc(40px * var(--m));
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .occasion__panel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .occasion__panel[hidden] {
+    display: none;
+  }
+
+  /* Card (Figma 104:347, 320 × 630): polaroid | title + text, then the
+     list, rule, price row, button and note in the flow */
+  .occasion-card {
+    display: grid;
+    grid-template-columns: calc(140px * var(--m)) minmax(0, 1fr);
+    align-content: start;
+    padding: calc(46px * var(--m)) calc(20px * var(--m)) calc(21px * var(--m));
+    scroll-snap-align: start;
+  }
+
+  .occasion-card > * {
+    position: static;
+    grid-column: 1 / -1;
+  }
+
+  .occasion-card > .occasion-card__num,
+  .occasion-card > .occasion-card__dots {
+    position: absolute;
+  }
+
+  .occasion-card__num {
+    top: calc(14px * var(--m));
+    left: calc(14px * var(--m));
+    font-size: calc(12px * var(--m));
+    line-height: calc(19.571px * var(--m));
+  }
+
+  .occasion-card__dots {
+    top: calc(18px * var(--m));
+    right: calc(18.2px * var(--m));
+    gap: calc(0.95px * var(--m));
+  }
+
+  .occasion-card__dot {
+    width: calc(7.579px * var(--m));
+    height: calc(9px * var(--m));
+    border-radius: calc(2.45px * var(--m));
+  }
+
+  .occasion-card__dot:nth-child(even) {
+    width: calc(7.105px * var(--m));
+  }
+
+  /* The desktop polaroid × 0.4355 (118.7 × 137.2m), tilted -4.1° */
+  .occasion-card > .occasion-card__snap {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: calc(118.714px * var(--m));
+    height: calc(137.181px * var(--m));
+    margin: calc(4.07px * var(--m)) 0 0 calc(-4.25px * var(--m));
+    padding: calc(5.08px * var(--m)) calc(5.08px * var(--m)) calc(26.29px * var(--m));
+    transform: rotate(-4.1deg);
+  }
+
+  .occasion-card__img--dress {
+    top: calc(-2.05px * var(--m));
+    left: calc(-46.64px * var(--m));
+    width: calc(193.36px * var(--m));
+    height: calc(108.88px * var(--m));
+  }
+
+  .occasion-card__img--beige {
+    top: calc(-1.61px * var(--m));
+    left: calc(-2.87px * var(--m));
+    width: calc(114.66px * var(--m));
+    height: calc(114.66px * var(--m));
+  }
+
+  .occasion-card > .occasion-card__title {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: calc(21px * var(--m));
+    line-height: calc(32.915px * var(--m));
+  }
+
+  .occasion-card > .occasion-card__desc {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: none;
+    margin-top: calc(10px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(18px * var(--m));
+  }
+
+  .occasion-card__includes {
+    margin-top: calc(28px * var(--m));
+    font-size: calc(15px * var(--m));
+    line-height: calc(24.019px * var(--m));
+  }
+
+  .occasion-card__list {
+    max-width: calc(273px * var(--m));
+    margin-top: calc(6px * var(--m));
+    padding-left: calc(19.5px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(18px * var(--m));
+  }
+
+  .occasion-card__rule {
+    max-width: none;
+    margin-top: calc(30px * var(--m));
+  }
+
+  /* Price | per, then the full-width button, then the note */
+  .occasion-card__bottom {
+    flex-wrap: wrap;
+    height: auto;
+    margin-top: calc(29px * var(--m));
+  }
+
+  .occasion-card__price {
+    order: 1;
+    margin: 0;
+    padding: 0;
+    font-size: calc(19px * var(--m));
+    line-height: calc(24.019px * var(--m));
+  }
+
+  .occasion-card__sep {
+    order: 2;
+    height: calc(26.688px * var(--m));
+    margin: 0 calc(15.9px * var(--m)) 0 calc(15.41px * var(--m));
+  }
+
+  .occasion-card__meta {
+    order: 3;
+    margin: 0;
+    font-size: calc(13px * var(--m));
+    line-height: calc(15.123px * var(--m));
+  }
+
+  /* 286 × 51m: 3m wider than the text column on each side, as in Figma;
+     the desktop 51.6px button inside (the compact .btn is 65px) */
+  .occasion-card__btn {
+    --btn-fill-origin: calc(100% - 26.45px) 50%;
+    order: 4;
+    height: auto;
+    min-height: 51.596px;
+    padding: 6px 62px 5px 25.8px;
+    font-size: 14px;
+    line-height: 16px;
+    white-space: normal; /* RU/PT/ES labels take two lines on phones */
+    flex: 0 0 calc(100% + 6px * var(--m));
+    margin: calc(24.75px * var(--m)) calc(-3px * var(--m)) 0;
+  }
+
+  .occasion-card__foot,
+  .occasion-card--dark .occasion-card__foot {
+    order: 5;
+    flex: 0 1 100%;
+    max-width: calc(227px * var(--m));
+    margin: calc(24px * var(--m)) 0 0;
+    font-size: calc(13px * var(--m));
+    line-height: calc(15px * var(--m));
+  }
+
+  /* From Brief to First Shot (Figma 104:383–104:414): 320 × 738m panel */
+  .steps {
+    height: auto;
+  }
+
+  /* Heading, slider, then the arrows (they come before the slider in the
+     markup) */
+  .steps__panel {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(320px * var(--m));
+    height: auto;
+    min-height: calc(738px * var(--m));
+    margin: 0 auto;
+    padding: calc(20px * var(--m)) 0;
+  }
+
+  .steps__panel > .steps__heading,
+  .steps__panel > .steps__slider,
+  .steps__panel > .steps__nav {
+    position: relative;
+    inset: auto;
+  }
+
+  /* Figma 104:395: 1312 × 738m, centred 37m right of the panel centre */
+  .steps__bg {
+    left: calc(50% - 619px * var(--m));
+    width: calc(1312px * var(--m));
+    height: 100%;
+  }
+
+  /* The peeking card is cut by the panel edge; no fade on phones */
+  .steps__shade {
+    display: none;
+  }
+
+  .steps__heading {
+    width: calc(275px * var(--m));
+    margin-left: calc(20px * var(--m));
+    font-size: calc(45px * var(--m));
+    line-height: calc(45px * var(--m));
+  }
+
+  .steps__slider {
+    width: 100%;
+    height: auto;
+    margin-top: calc(71px * var(--m));
+  }
+
+  .steps__slide {
+    width: calc(271px * var(--m));
+    height: calc(389.635px * var(--m));
+  }
+
+  .steps__card {
+    width: calc(194px * var(--m));
+    height: auto;
+    min-height: calc(267px * var(--m));
+    padding: calc(17px * var(--m));
+  }
+
+  .steps__icon {
+    width: auto;
+    height: calc(18px * var(--m));
+  }
+
+  .steps__slide:first-child .steps__icon {
+    height: calc(24px * var(--m));
+  }
+
+  .steps__card-title {
+    padding-top: calc(16px * var(--m));
+    font-size: calc(16px * var(--m));
+    line-height: calc(26px * var(--m));
+  }
+
+  .steps__card-text {
+    max-width: calc(166px * var(--m));
+    margin-top: calc(11px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(16px * var(--m));
+  }
+
+  .steps__nav {
+    order: 1;
+    gap: calc(6px * var(--m));
+    margin: calc(53.4px * var(--m)) 0 0 calc(20px * var(--m));
+  }
+
+  .steps__arrow {
+    width: calc(49px * var(--m));
+    height: calc(49px * var(--m));
+  }
+
+  .steps__arrow::before {
+    top: calc(50% - 5.15px * var(--m));
+    left: calc(50% - 5.15px * var(--m));
+    width: calc(10.3px * var(--m));
+    height: calc(10.3px * var(--m));
+  }
+
+  /* Preparation That Fits Your Schedule (Figma 105:506–105:562): one
+     column in the order 01, 02, (gap), 03, +, 04, audience, 05, 06 */
+  .prep {
+    height: auto;
+    padding: calc(100px * var(--m)) 0 calc(120px * var(--m));
+  }
+
+  .prep__grid {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    width: calc(320px * var(--m));
+    margin: 0 auto;
+  }
+
+  .prep__cell {
+    display: flex;
+    flex-direction: column;
+    padding: calc(38px * var(--m)) calc(17px * var(--m)) calc(12px * var(--m));
+    border-width: 0;
+  }
+
+  .prep__cell > * {
+    position: static;
+  }
+
+  .prep__cell > .prep__label,
+  .prep__cell > .prep__icon {
+    position: absolute;
+  }
+
+  .prep__label {
+    top: calc(12px * var(--m));
+    left: calc(12px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(23px * var(--m));
+  }
+
+  .prep__label--compact {
+    display: block;
+  }
+
+  .prep__icon {
+    top: calc(12px * var(--m));
+    right: calc(17px * var(--m));
+    width: calc(16px * var(--m));
+    height: calc(16px * var(--m));
+  }
+
+  .prep__icon--up {
+    display: none;
+  }
+
+  .prep__text,
+  .prep__cell--r3c2 .prep__text,
+  .prep__cell--r3c3 .prep__text {
+    align-self: flex-end;
+    font-size: calc(13px * var(--m));
+    line-height: calc(17px * var(--m));
+  }
+
+  /* Regular for 02/03, Light for 05/06 in the mobile Figma */
+  .prep__cell--r1c2 .prep__text,
+  .prep__cell--r2c1 .prep__text {
+    font-weight: var(--fw-regular);
+  }
+
+  .prep__cell--r3c2 .prep__text,
+  .prep__cell--r3c3 .prep__text {
+    font-weight: var(--fw-light);
+  }
+
+  .prep__cell--r1c2 .prep__text { max-width: calc(227px * var(--m)); }
+  .prep__cell--r2c1 .prep__text { max-width: calc(272px * var(--m)); }
+  .prep__cell--r3c2 .prep__text { max-width: calc(291px * var(--m)); }
+  .prep__cell--r3c3 .prep__text { max-width: calc(300px * var(--m)); }
+
+  .prep__title {
+    margin-top: auto;
+    padding-top: calc(20px * var(--m));
+    font-size: calc(21px * var(--m));
+    line-height: calc(21px * var(--m));
+  }
+
+  .prep__cell--r1c2 .prep__title { max-width: calc(196px * var(--m)); }
+  .prep__cell--r2c1 .prep__title { max-width: calc(261px * var(--m)); }
+  .prep__cell--r3c2 .prep__title { max-width: calc(176px * var(--m)); }
+  .prep__cell--r3c3 .prep__title { max-width: calc(261px * var(--m)); }
+
+  .prep__cell--r1c3 {
+    order: 0;
+    padding: 0 0 calc(20px * var(--m));
+  }
+
+  .prep__heading {
+    max-width: calc(295px * var(--m));
+    font-size: calc(30px * var(--m));
+    line-height: calc(29px * var(--m));
+  }
+
+  .prep__cell--photo {
+    padding: 0;
+  }
+
+  .prep__cell--r1c1 {
+    order: 1;
+    height: calc(221.5px * var(--m));
+  }
+
+  /* 02 uses 12m insets in Figma (the others 17m) */
+  .prep__cell--r1c2 {
+    order: 2;
+    min-height: calc(223px * var(--m));
+    padding-right: calc(12px * var(--m));
+    padding-left: calc(12px * var(--m));
+    border-width: 0 1px 1px;
+  }
+
+  .prep__cell--r1c2 .prep__icon {
+    right: calc(12px * var(--m));
+  }
+
+  .prep__cell--r2c1 {
+    order: 3;
+    min-height: calc(213px * var(--m));
+    margin-top: calc(213px * var(--m));
+    border-width: 1px;
+  }
+
+  .prep__cell--r2c2 {
+    order: 4;
+    height: calc(213px * var(--m));
+    border-width: 0 1px;
+  }
+
+  .prep__cell > .prep__plus {
+    position: absolute;
+    top: calc(50% - 33.5px * var(--m));
+    font-size: calc(30px * var(--m));
+    line-height: calc(67px * var(--m));
+  }
+
+  .prep__cell--r2c3 {
+    order: 5;
+    height: calc(236.3px * var(--m));
+  }
+
+  .prep__cell--r3c1 {
+    order: 6;
+    padding: calc(108px * var(--m)) 0;
+  }
+
+  .prep__audience {
+    max-width: calc(233px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(17px * var(--m));
+  }
+
+  .prep__cell--r3c2 {
+    order: 7;
+    min-height: calc(213px * var(--m));
+    border-width: 1px;
+  }
+
+  .prep__cell--r3c3 {
+    order: 8;
+    min-height: calc(243px * var(--m));
+    border-width: 0 1px 1px;
+  }
+
+  /* Everything Agreed in Advance (Figma 105:565–105:607): 340m panel,
+     heading, table and notes in the flow; no intro, line or "Learn More" */
+  .agreed {
+    height: auto;
+    padding-bottom: calc(61px * var(--m));
+  }
+
+  .agreed__panel {
+    position: relative;
+    inset: auto;
+    width: calc(340px * var(--m));
+    height: auto;
+    min-height: calc(747px * var(--m));
+    margin: 0 auto;
+    padding: calc(75px * var(--m)) calc(10px * var(--m)) calc(53px * var(--m));
+    border-radius: calc(10px * var(--m));
+  }
+
+  .agreed__panel > .agreed__heading,
+  .agreed__panel > .agreed__table,
+  .agreed__panel > .agreed__note {
+    position: relative;
+    inset: auto;
+  }
+
+  .agreed__intro,
+  .agreed__line,
+  .agreed__more {
+    display: none;
+  }
+
+  /* Figma 105:604: 1329 × 748m, centred 127.5m right of the panel centre */
+  .agreed__bg {
+    left: calc(50% - 537px * var(--m));
+    width: calc(1329px * var(--m));
+    height: 100%;
+  }
+
+  .agreed__heading {
+    width: calc(256px * var(--m));
+    margin: 0 auto;
+    font-size: calc(30px * var(--m));
+    line-height: calc(29px * var(--m));
+  }
+
+  /* 320 × 297m glass; the pale price column (77m) rises 32m above it */
+  .agreed__table {
+    width: 100%;
+    height: auto;
+    margin-top: calc(61px * var(--m));
+    border-radius: calc(10px * var(--m));
+  }
+
+  .agreed__table::before {
+    top: calc(-32px * var(--m));
+    left: auto;
+    right: 0;
+    width: calc(77px * var(--m));
+    height: calc(100% + 32px * var(--m));
+    border-radius: calc(10px * var(--m));
+  }
+
+  .agreed__table thead {
+    top: calc(-32px * var(--m));
+    left: auto;
+    right: 0;
+    width: calc(77px * var(--m));
+  }
+
+  .agreed__table thead th {
+    padding-top: calc(9px * var(--m));
+    font-size: calc(10px * var(--m));
+    line-height: calc(23px * var(--m));
+  }
+
+  .agreed__table tbody tr {
+    height: auto;
+    min-height: calc(72px * var(--m));
+  }
+
+  .agreed__table tbody tr:last-child {
+    min-height: calc(81px * var(--m));
+  }
+
+  .agreed__table tbody th {
+    flex: 1;
+    width: auto;
+    margin-right: calc(15px * var(--m));
+    padding: calc(12px * var(--m)) 0 calc(12px * var(--m)) calc(15px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(13px * var(--m));
+  }
+
+  .agreed__table tbody td {
+    flex: none;
+    width: calc(77px * var(--m));
+    font-size: calc(14px * var(--m));
+    line-height: calc(23px * var(--m));
+  }
+
+  .agreed__note {
+    margin: calc(61px * var(--m)) auto 0;
+    font-size: calc(13px * var(--m));
+    line-height: calc(17px * var(--m));
+    text-align: center;
+  }
+
+  .agreed__note--1 {
+    width: calc(320px * var(--m));
+  }
+
+  .agreed__note--2 {
+    width: calc(280px * var(--m));
+    margin-top: calc(40px * var(--m));
+  }
+
+  /* Booking // Details (Figma 105:609–105:643) */
+  .booking {
+    height: auto;
+    padding-bottom: calc(102px * var(--m));
+  }
+
+  .booking__inner {
+    display: flex;
+    flex-direction: column;
+    width: calc(320px * var(--m));
+  }
+
+  .booking__inner > * {
+    position: static;
+  }
+
+  /* Its fill layers (::before/::after) need the button as their box */
+  .booking__inner > .booking__btn {
+    position: relative;
+    inset: auto;
+  }
+
+  .booking__heading {
+    font-size: calc(30px * var(--m));
+    line-height: calc(30px * var(--m));
+  }
+
+  .booking__heading-2 {
+    padding-left: calc(67px * var(--m));
+  }
+
+  .booking__list {
+    order: 1;
+    margin-top: calc(50px * var(--m));
+  }
+
+  .booking__row {
+    grid-template-columns: calc(47px * var(--m)) minmax(0, 1fr);
+    height: auto;
+    padding: calc(40px * var(--m)) 0;
+  }
+
+  .booking__num {
+    font-size: calc(13px * var(--m));
+    line-height: calc(13px * var(--m));
+  }
+
+  .booking__title {
+    font-size: calc(16px * var(--m));
+    line-height: calc(16px * var(--m));
+  }
+
+  .booking__text,
+  .booking__row:nth-child(n) .booking__text {
+    position: static;
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-top: calc(29px * var(--m));
+    translate: none;
+    font-size: calc(14px * var(--m));
+    line-height: calc(19px * var(--m));
+  }
+
+  .booking__pill {
+    display: none;
+  }
+
+  /* The compact 65px button, full column width */
+  .booking__btn {
+    --btn-fill-origin: calc(100% - 35px) 50%;
+    order: 2;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    height: 65px;
+    margin-top: calc(42px * var(--m));
+    padding: 3px 78px 0 38px;
+    font-size: 16px;
+  }
+
+  .booking__btn .btn__ring {
+    top: 6.73px;
+    right: 10.43px;
+    width: 49.805px;
+    height: 51.314px;
+  }
+
+  .booking__btn .btn__arrow {
+    top: 25.69px;
+    right: 27.93px;
+    width: 14.023px;
+    height: 14.023px;
+  }
+
+  /* A Quick Brief for Your Upcoming Project (Figma 105:651–106:712): the
+     340 × 747m photo panel, the table and the button below it; the cream
+     bottom (rounded 15m) covers the top 52m of the lessons */
+  .brief {
+    height: auto;
+    padding-bottom: calc(113px * var(--m));
+    border-radius: 0 0 calc(15px * var(--m)) calc(15px * var(--m));
+  }
+
+  .brief__panel {
+    position: relative;
+    inset: auto;
+    width: calc(340px * var(--m));
+    height: calc(747px * var(--m));
+    margin: 0 auto;
+    border-radius: calc(10px * var(--m));
+  }
+
+  /* Figma's black 70 % glow at the bottom, under the heading */
+  .brief__panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, var(--c-black-70) 100%);
+  }
+
+  .brief__panel > :not(picture) {
+    z-index: 1;
+  }
+
+  /* Figma 105:660 is stretched to 1342m; its own ratio is 1327m wide */
+  .brief__bg {
+    right: auto;
+    left: calc(50% - 762.65px * var(--m));
+    width: calc(1327.3px * var(--m));
+    height: 100%;
+  }
+
+  .brief__intro {
+    top: calc(20px * var(--m));
+    left: auto;
+    right: calc(20px * var(--m));
+    width: calc(122px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(17px * var(--m));
+    text-align: right;
+  }
+
+  .brief__icon {
+    top: calc(143px * var(--m));
+    left: auto;
+    right: calc(24px * var(--m));
+    width: calc(25px * var(--m));
+    height: calc(25px * var(--m));
+  }
+
+  /* 457m dashed arrow (Figma 105:666) from y 184m, 36m from the panel's
+     right edge (under the icon); turned about its centre */
+  .brief__arrow {
+    top: calc(408.75px * var(--m));
+    left: auto;
+    right: calc(-192.5px * var(--m));
+    width: calc(457px * var(--m));
+    height: calc(7.5px * var(--m));
+    background-image: url("../assets/icons/brief-arrow-mobile.png");
+  }
+
+  .brief__heading {
+    top: auto;
+    bottom: calc(20px * var(--m));
+    left: calc(20px * var(--m));
+    width: calc(286px * var(--m));
+    font-size: calc(30px * var(--m));
+    line-height: calc(29px * var(--m));
+  }
+
+  .brief__table {
+    position: relative;
+    inset: auto;
+    width: calc(340px * var(--m));
+    margin: calc(30px * var(--m)) auto 0;
+    color: var(--c-black);
+  }
+
+  .brief__table th,
+  .brief__table td {
+    border-color: var(--c-black-20);
+  }
+
+  .brief__table th:first-child {
+    width: calc(118px * var(--m));
+  }
+
+  .brief__table thead th {
+    height: calc(37px * var(--m));
+    padding: 0 0 0 calc(10px * var(--m));
+    font-size: calc(10px * var(--m));
+    line-height: calc(10px * var(--m));
+    color: var(--c-black-45);
+  }
+
+  .brief__table thead th + th {
+    padding-left: calc(16px * var(--m));
+  }
+
+  .brief__table tbody th,
+  .brief__table tbody td {
+    height: auto;
+    padding: calc(13.5px * var(--m)) calc(6px * var(--m)) calc(13.5px * var(--m)) calc(10px * var(--m));
+    font-size: calc(12px * var(--m));
+  }
+
+  .brief__table tbody th {
+    line-height: calc(14px * var(--m));
+  }
+
+  .brief__table tbody td {
+    padding-left: calc(16px * var(--m));
+    line-height: calc(16px * var(--m));
+  }
+
+  /* Wine on cream here (white on the dark desktop panel) */
+  .brief__btn {
+    --btn-color: var(--c-white);
+    --btn-fill: var(--c-red);
+    position: relative;
+    inset: auto;
+    display: flex;
+    justify-content: center;
+    width: calc(320px * var(--m));
+    min-width: 0;
+    margin: calc(32px * var(--m)) auto 0;
+    padding: 3px 78px 0 38px;
+  }
+
+  .brief__btn::after {
+    background: var(--c-wine);
+  }
+}
+
+/* Tablets 481–1279: the photo panels of the new sections span the screen
+   (gutters as in the 360 frame: 20m steps, 10m agreed/brief) instead of a
+   narrow card in a wide cream page; their text stays in the 320m column,
+   the steps slider shows the next cards, the brief texts keep to the
+   panel's corners. Phones (≤480) keep the exact Figma widths.
+   ========================================================================== */
+@media (min-width: 481px) and (max-width: 1279px) {
+  .steps__panel {
+    width: calc(100% - 40px * var(--m));
+  }
+
+  .agreed__panel,
+  .brief__panel {
+    width: calc(100% - 20px * var(--m));
+  }
+
+  .agreed__table {
+    width: calc(320px * var(--m));
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 
@@ -3400,7 +4404,7 @@
   /* The whole case (Figma crops a 774m-wide photo to its lid and tray):
      400m wide, the photo's own ratio (1312 × 1199), so the front wall and
      handle show and its 84 % wide base fits the screen with a margin.
-     Bottom on the section bottom, as before. */
+     The price list follows 80m below it, as below the 671m crop in Figma. */
   .services__case {
     top: calc(2462.5px * var(--m));
     left: calc(50% - 200px * var(--m));
@@ -3414,6 +4418,10 @@
     perspective: calc(1250px * var(--m));
     perspective-origin: 50% -140%;
   }
+
+  .services__inner {
+    padding-top: calc(2908px * var(--m));
+  }
 }
 
 /* Russian copy (client, Oct 2026) — compact. The RU texts of Expertise,
@@ -3422,7 +4430,7 @@
      the dark gradient that continues in .services__bg-top shifts with it and
      is 95m taller;
    - features start below the 4-line heading, 02 sits 30m under 01, and the
-     case + the section bottom move down (192m tablets, 120m phones);
+     case + the price list move down (192m tablets, 120m phones);
    - phones: the lesson button label wraps inside the 298px pill.
    ========================================================================== */
 @media (max-width: 1279px) {
@@ -3443,7 +4451,7 @@
     background-size: 100% calc(2601px * var(--m));
   }
 
-  :lang(ru) .services { height: calc(3020px * var(--m)); }
+  :lang(ru) .services__inner { padding-top: calc(3322px * var(--m)); }
   :lang(ru) .services__features { top: calc(2093px * var(--m)); }
   :lang(ru) .feature--2 { top: calc(201px * var(--m)); }
   :lang(ru) .services__case { top: calc(2571px * var(--m)); }
@@ -3454,7 +4462,7 @@
 }
 
 @media (max-width: 768px) {
-  :lang(ru) .services { height: calc(2948px * var(--m)); }
+  :lang(ru) .services__inner { padding-top: calc(3028px * var(--m)); }
   :lang(ru) .services__case { top: calc(2582.5px * var(--m)); }
 }
 
@@ -3506,11 +4514,17 @@
 
   /* Full column width; the label scales with the page here so longer
      languages still clear the ring */
-  .lessons__btn {
+  .lessons__btn,
+  .prices__btn,
+  .booking__btn,
+  .brief__btn {
     min-width: 0;
-    width: 100%;
     padding-left: 20px;
     padding-right: 64px;
     font-size: calc(16px * var(--m));
+  }
+
+  .lessons__btn {
+    width: 100%;
   }
 }

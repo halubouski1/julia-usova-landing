@@ -1089,6 +1089,14 @@
         });
         if (focus) tab.focus();
         placePill();
+        revealTab(tab);
+      }
+
+      // ≤1279 the tab row scrolls sideways: bring the chosen tab into view
+      function revealTab(tab) {
+        if (tablist.scrollWidth <= tablist.clientWidth) return;
+        var left = tab.offsetLeft - (tablist.clientWidth - tab.offsetWidth) / 2;
+        tablist.scrollTo({ left: Math.max(0, left), behavior: reduceMotion ? 'auto' : 'smooth' });
       }
 
       tabs.forEach(function (tab, index) {
@@ -1120,6 +1128,86 @@
 
   // "From Brief to First Shot" slider: Swiper (local custom bundle with
   // Navigation, Keyboard and A11y, see tools/build-swiper.mjs)
+  // Occasion cards ≤1279: each tab panel is a sideways scroller showing one
+  // card. The arrows go to the next/previous card and, past the last/first
+  // card of a tab, on to the neighbouring tab. Swiping scrolls natively.
+  function initOccasionCards() {
+    var prev = document.querySelector('[data-cards-prev]');
+    var next = document.querySelector('[data-cards-next]');
+    if (!prev || !next) return;
+    var section = prev.closest('section') || document;
+    var tabs = Array.prototype.slice.call(section.querySelectorAll('[data-tab]'));
+    var panels = Array.prototype.slice.call(section.querySelectorAll('[data-tab-panel]'));
+    if (!tabs.length || !panels.length) return;
+
+    function activePanel() {
+      return panels.filter(function (panel) { return !panel.hidden; })[0];
+    }
+
+    function cardIndex(panel) {
+      var cards = panel.children;
+      var best = 0;
+      for (var i = 1; i < cards.length; i++) {
+        if (Math.abs(cards[i].offsetLeft - cards[0].offsetLeft - panel.scrollLeft) <
+            Math.abs(cards[best].offsetLeft - cards[0].offsetLeft - panel.scrollLeft)) best = i;
+      }
+      return best;
+    }
+
+    function scrollToCard(panel, index, instant) {
+      var cards = panel.children;
+      panel.scrollTo({
+        left: cards[index].offsetLeft - cards[0].offsetLeft,
+        behavior: instant || reduceMotion ? 'auto' : 'smooth'
+      });
+    }
+
+    function tabIndex() {
+      return tabs.indexOf(section.querySelector('[data-tab][aria-selected="true"]'));
+    }
+
+    function update() {
+      var panel = activePanel();
+      if (!panel) return;
+      var index = cardIndex(panel);
+      var tab = tabIndex();
+      prev.disabled = tab <= 0 && index <= 0;
+      next.disabled = tab >= tabs.length - 1 && index >= panel.children.length - 1;
+    }
+
+    function step(direction) {
+      var panel = activePanel();
+      if (!panel) return;
+      var index = cardIndex(panel) + direction;
+      if (index >= 0 && index < panel.children.length) {
+        scrollToCard(panel, index, false);
+        return;
+      }
+      var tab = tabs[tabIndex() + direction];
+      if (!tab) return;
+      tab.click();
+      panel = activePanel();
+      if (panel) scrollToCard(panel, direction > 0 ? 0 : panel.children.length - 1, true);
+      update();
+    }
+
+    prev.addEventListener('click', function () { step(-1); });
+    next.addEventListener('click', function () { step(1); });
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { requestAnimationFrame(update); });
+    });
+    panels.forEach(function (panel) {
+      var ticking = false;
+      panel.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; update(); });
+      }, { passive: true });
+    });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   function initStepsSlider() {
     var slider = document.querySelector('[data-steps-slider]');
     if (!slider || typeof window.Swiper !== 'function') return;
@@ -1129,9 +1217,19 @@
     new window.Swiper(slider, {
       modules: [modules.Navigation, modules.Keyboard, modules.A11y].filter(Boolean),
       slidesPerView: 'auto',
-      spaceBetween: 24.75, // laptop ×0.75
-      slidesOffsetAfter: 35.25, // the last card stops short of the panel edge
-      breakpoints: { 1920: { spaceBetween: 33, slidesOffsetAfter: 47 } },
+      // ≤1279: the mobile Figma (10 between 271 cards, 24 from the panel
+      // edge) × --m (0.889 / 1 / 1.2 / 1.35, see media.css)
+      spaceBetween: 8.89,
+      slidesOffsetBefore: 21.33,
+      slidesOffsetAfter: 21.33,
+      breakpoints: {
+        360: { spaceBetween: 10, slidesOffsetBefore: 24, slidesOffsetAfter: 24 },
+        481: { spaceBetween: 12, slidesOffsetBefore: 28.8, slidesOffsetAfter: 28.8 },
+        769: { spaceBetween: 13.5, slidesOffsetBefore: 32.4, slidesOffsetAfter: 32.4 },
+        // laptop ×0.75; the last card stops short of the panel edge
+        1280: { spaceBetween: 24.75, slidesOffsetBefore: 0, slidesOffsetAfter: 35.25 },
+        1920: { spaceBetween: 33, slidesOffsetBefore: 0, slidesOffsetAfter: 47 }
+      },
       speed: reduceMotion ? 0 : 700,
       grabCursor: true,
       watchOverflow: true,
@@ -1196,6 +1294,7 @@
     initPopup();
     initPriceCursor();
     initTabs();
+    initOccasionCards();
     initStepsSlider();
     initWorldtime();
     initLanguage();

@@ -139,6 +139,7 @@ Hard rules:
 ## Figma
 
 - File: "Мейкап Артур (Copy)", key `KjJyeA5pJFIxovSCJmfX2o`. Desktop frame: "Frame 12", node `61:2`, 1920×9795. Mobile frame: "Frame 13", node `61:242`, 360×9363. No tablet frame.
+- New full mobile frame (Oct 2026): file `KxDuCN8Wv4jZcjUnm5TXGn`, "Frame 53" `104:22`, 360×19232. Hero → case, lessons and footer are the old 61:242 values (lessons/footer shifted +9869); it adds the mobile design of the seven new sections.
 - The frame is flat: no section frames, many stacked and hidden layers. Section boundaries below were derived from the layer positions.
 - Figma MCP is the source of truth. Workflow per frame: `get_metadata` → `get_design_context` (screenshot on) → build → measure in the browser → compare to Figma positions.
 - Treat the generated code as a reference only. Use the project's tokens and components.
@@ -205,8 +206,18 @@ Inside a section, children are positioned with section-relative px (`top = figma
   - The About collage x-offsets use `--spread` instead of `--m`, so on tablets the photos spread towards the edges like on desktop.
 - **Not scaled:** buttons (65/52px, desktop internals) and form fields (51px). Only their placement scales.
 - **Hero:** `height: var(--fixed-vh)`, `min-height: 560 × m`. Title from the top, tagline + "View Portfolio" from the bottom. Hidden: stat cards, "Booking Enquiries", glows (off-canvas in the mobile frame).
-- **Sections (mobile frame y):** about 913–1939 · expertise 1939–3300 · services 3300–6128 · lessons 6060–7371 (`margin-top: -68m`) · footer 7243–9363 (`margin-top: -128m`). The dark → red gradient 62:440 (2576–5082) is split across expertise (`::after` of `.expertise__media`) and `.services__bg-top` with the same `background-size` and an offset `background-position`.
-- **Mobile-only assets** via `<picture>` (`media="(max-width: 1279px)"`): `footer-curve-mobile.svg`, `circles-light-mobile.svg`.
+- **Sections (mobile frame y, Frame 53 `104:22`):** about 913–1939 · expertise 1939–3300 · services 3300–7926 (case 5679, Services & Prices 6430) · occasion 7926–9052 · steps 9052–9790 · prep 9790–12112 · agreed 12112–12920 · booking 12920–14277 · brief 14277–15981 (cream, rounded 15m) · lessons 15929–17240 (`margin-top: -52m`) · footer 17112–19232 (`margin-top: -128m`). The dark → red gradient 62:440 (2576–5082) is split across expertise (`::after` of `.expertise__media`) and `.services__bg-top` with the same `background-size` and an offset `background-position`.
+- **Mobile-only assets** via `<picture>` (`media="(max-width: 1279px)"`): `footer-curve-mobile.svg`, `circles-light-mobile.svg`, the step icons `icon-mascara.png` / `icon-powder.png` (Figma masks tinted wine 25 %); via CSS: `brief-arrow-mobile.png` (457m arrow).
+- **New sections ≤1279** (block "New sections ≤1279" in `media.css`): same `calc(N * var(--m))` values, but **in the flow** (flex/grid, margins), not absolute, so longer translations push content down instead of overlapping. Section heights are `auto`.
+  - Services & Prices: `.services` is `height: auto`; `.services__inner` has `padding-top` 3130m (tablets) / 2908m (phones, 80m under the zoomed-out case) / RU +192m / +120m, and `.prices` is the only in-flow child (the cards, case, 01/02 stay absolute). One column of rows (num | name + details | price), full-width white button; no "/10", no pointer badge. Tablet case = Figma 774 × 671m crop (phones keep the client's whole-case zoom).
+  - Occasion: the tab row is a 340m sideways scroller (the active tab is scrolled into view); each panel is a scroll-snap row showing one 320m card; `.occasion__nav` arrows (`initOccasionCards()`) step through the cards and on into the next/previous tab, disabled (sand) at the very ends. Card = grid: polaroid (desktop × 0.4355, −4.1°) | title + text, then list, rule, price | per, the 286 × 51.6 button (label wraps to two lines on phones in RU/PT/ES), note.
+  - Steps: 320 × 738m panel; heading, Swiper, arrows (flex `order`); Swiper `spaceBetween`/`slidesOffsetBefore`/`After` per `--m` breakpoint in JS (0/360/481/769), `slidesOffsetBefore: 0` again from 1280. No right-edge shade.
+  - Prep: one column in the order heading, 01 photo, 02, 213m gap, 03, +, 04 photo (`.prep__label--compact` "[ 04", hidden ≥1280), audience, 05, 06; text cells are flex columns with the title pushed to the bottom (`min-height` = Figma height).
+  - Agreed: heading, table (price column 77m, rises 32m), notes; no intro / line / "Learn More".
+  - Booking: heading, rows (num | title, text below), full-width wine button last (`order`).
+  - Brief: the table and button are **siblings of `.brief__panel`** in the markup (desktop places them on `.brief`: panel offset + Figma), so on ≤1279 they follow the 747m photo panel. Button wine on cream (custom properties on `.brief__btn`).
+  - **Tablets 481–1279:** the steps / agreed / brief photo panels span the screen (gutters 20m / 10m) instead of a 320m card in a cream page; their text stays in the 320m column (the brief intro/icon/arrow keep to the right corner, heading bottom-left).
+  - Checked: EN/PT/ES/RU at 1279, 1024, 960, 768, 600, 390, 360, 320: no horizontal scroll, nothing off-screen, no overlaps, every ring-button label clear of its ring; occasion arrows walk all 8 cards and back; desktop 1920/1440/1280 geometry identical to before (brief table/button, slider). Safari 27 at 1024 and 390: same section heights, no overlaps.
 - **Mobile-only markup:** the 4th service card `.service-card--compact-only` (hidden ≥1280); `<br class="br-compact">` breaks (hidden ≥1280), `<br class="br-design">` breaks (hidden ≤1279).
 - **Polaroids** were solved from the mobile masks the same way as on desktop (windows 7.5/8.5/10.4px from the sides, 40/45/56 from the bottom); the blonde one has the desktop geometry.
 - **Lessons backdrop:** `.lessons__media` carries an unblurred copy of the top haze gradient (same size and position) behind the blurred haze. iPhone Safari can fade a blurred layer at the clipped screen edges, which showed the cream page as thin side strips; now grey shows through. Change both together.
@@ -282,7 +293,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
     - Measured at 360 × 913: every element on its Figma position (contacts shifted by one link row, 49.5m, for the sixth link).
     - Checked at 1279×800, 1024×768, 1024×1366, 820×1180, 768×1024, 600×960, 390×844, 360×740 and 320×568 in all languages: nothing outside the panel, no overlaps, no horizontal overflow. Landscape 1024×768 scrolls ~465px to reach the contacts.
   - Safari: the end state was verified with transitions disabled (a background Safari window runs no transitions); 1920 and 390 match Chrome.
-- **New sections (Oct 2026, Figma `cWQESbtPnUFbXo7todEZbN` frame 97:98; desktop + laptop only, hidden on ≤1279 until mobile frames exist):**
+- **New sections (Oct 2026, Figma `cWQESbtPnUFbXo7todEZbN` frame 97:98; ≤1279 from Frame 53 `104:22`, see Compact layout):**
   - Tracking: Figma uses −3 % on most texts, so `letter-spacing: -0.03em` is set on every element of the new sections (em resolves per element). Untracked in Figma, set back to 0: prep labels/texts/audience/plus, agreed table rows and notes, booking rows. Check `tracking-[…]` in `get_design_context` when adding text.
   - Where Figma uses Regular and the line breaks matter (booking texts, prep 05/06), boxes are 4 % wider than Figma because the supplied Regular is wider.
   - **Services & Prices** (`.prices` inside `.services`, top 3255): two 686px columns of five bands (245/237/241/241/241); the rules are 1px background gradients across both columns. Item = grid num | name + details | price; content centred 33px low (101px below the rule for one-line names). The `ul` has `data-popup-open`, so a click anywhere opens the popup; the "Enquire" button + "/10" sit in the last right band.
@@ -381,7 +392,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
 
 | Page | Desktop 1920 | Laptop ×0.75 | Tablet 1024 | Mobile 360 |
 |---|---|---|---|---|
-| index.html | done (node 61:2; new sections from frame 97:98) | done (×0.75, generated) | done (mobile frame × 1.35 / 1.2, no tablet frame); new sections hidden | done (node 61:242); new sections hidden |
+| index.html | done (node 61:2; new sections from frame 97:98) | done (×0.75, generated) | done (mobile frame × 1.35 / 1.2, no tablet frame; new sections' photo panels full width) | done (node 61:242 + new sections from 104:22) |
 
 ## Deviations from Figma (desktop)
 
@@ -400,7 +411,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
   - Booking rows 3–5 reuse the dress, double-portrait and cosmetics photos (Figma shows only the lips photo for row 1).
   - Figma's price "R$1,800" (lesson) is written "R$ 1,800" like the others; Figma's stray "/03" layer in the booking list and the rules starting at x 70 instead of 133 in the price list are not reproduced.
   - Two-line price names sit ~12px lower than in Figma (the rows are centred so translations of any length fit).
-  - Desktop/laptop only so far: on ≤1279 the new blocks are hidden until the mobile design exists.
+  - Mobile (Frame 53 `104:22`, Oct 2026): the occasion arrows step through the cards (two per tab) and on into the next tab, since only one card fits; the mobile step icons (mascara, powder) are used on ≤1279 only, desktop keeps the file/house icons; Figma's grey "R$" in the agreed prices and its stretched brief photo (1342 instead of 1327m) are not reproduced; prep 02 keeps its 12m insets (the other cells 17m), and 02/03 are Regular, 05/06 Light, as in the mobile frame (desktop is the other way round); the price details run on under the price instead of Figma's 174–188m wrap; the tablet case shows Figma's 671m crop, phones keep the whole case (client request), so the price list starts 80m below it there.
   - PT/ES/RU texts of the new sections were written by Claude.
 
 - Consultation popup (Oct 2026):

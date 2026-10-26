@@ -418,11 +418,17 @@
           <button class="occasion__tab" type="button" role="tab" id="occasion-tab-3" aria-controls="occasion-panel-3" aria-selected="false" tabindex="-1" data-tab><span>Formação profissional</span></button>
           <button class="occasion__tab" type="button" role="tab" id="occasion-tab-4" aria-controls="occasion-panel-4" aria-selected="false" tabindex="-1" data-tab><span>Técnica clara</span></button>
         </div>
+        <!-- ≤1279 only: one card at a time; the arrows step through the cards
+             and on into the next/previous tab (initOccasionCards() in main.js) -->
+        <div class="occasion__nav">
+          <button class="occasion__arrow occasion__arrow--prev" type="button" aria-label="Serviço anterior" data-cards-prev></button>
+          <button class="occasion__arrow occasion__arrow--next" type="button" aria-label="Próximo serviço" data-cards-next></button>
+        </div>
         <div class="occasion__panel" id="occasion-panel-1" role="tabpanel" aria-labelledby="occasion-tab-1" data-tab-panel>
           <article class="occasion-card occasion-card--light">
             <span class="occasion-card__num">001</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem para eventos</h3>
             <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -448,7 +454,7 @@
           <article class="occasion-card occasion-card--dark">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
             <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -476,7 +482,7 @@
           <article class="occasion-card occasion-card--light">
             <span class="occasion-card__num">001</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem para eventos</h3>
             <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -502,7 +508,7 @@
           <article class="occasion-card occasion-card--dark">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
             <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -530,7 +536,7 @@
           <article class="occasion-card occasion-card--light">
             <span class="occasion-card__num">001</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem para eventos</h3>
             <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -556,7 +562,7 @@
           <article class="occasion-card occasion-card--dark">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
             <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -584,7 +590,7 @@
           <article class="occasion-card occasion-card--light">
             <span class="occasion-card__num">001</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem para eventos</h3>
             <p class="occasion-card__desc">Maquiagem personalizada, pensada para a sua pele, a iluminação, a sua roupa e a impressão que você quer causar.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -610,7 +616,7 @@
           <article class="occasion-card occasion-card--dark">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
             <h3 class="occasion-card__title">Maquiagem e cabelo</h3>
             <p class="occasion-card__desc">Um visual completo e coordenado, com maquiagem e cabelo feitos pela mesma artista.</p>
             <p class="occasion-card__includes">Inclui:</p>
@@ -652,21 +658,21 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide steps__slide">
               <div class="steps__card">
-                <img class="steps__icon" src="../assets/icons/icon-file.svg" width="18" height="18" alt="">
+                <picture><source media="(max-width: 1279px)" srcset="../assets/icons/icon-mascara.png" width="12.5" height="24"><img class="steps__icon" src="../assets/icons/icon-file.svg" width="18" height="18" alt=""></picture>
                 <h3 class="steps__card-title">Briefing e cronograma</h3>
                 <p class="steps__card-text">Combinamos o formato, as referências, o número de pessoas, o figurino, as exigências do local e o horário exato em que tudo deve estar pronto. Para aparições na TV, também confirmamos se a emissora oferece maquiador.</p>
               </div>
             </div>
             <div class="swiper-slide steps__slide">
               <div class="steps__card">
-                <img class="steps__icon" src="../assets/icons/icon-home.svg" width="18" height="18" alt="">
+                <picture><source media="(max-width: 1279px)" srcset="../assets/icons/icon-powder.png" width="18" height="18"><img class="steps__icon" src="../assets/icons/icon-home.svg" width="18" height="18" alt=""></picture>
                 <h3 class="steps__card-title">Preparação da pele e do cabelo</h3>
                 <p class="steps__card-text">Conversamos sobre necessidades individuais e possíveis sensibilidades, escolhemos os produtos adequados e planejamos a ordem da preparação. Os instrumentos são preparados para cada pessoa.</p>
               </div>
             </div>
             <div class="swiper-slide steps__slide">
               <div class="steps__card">
-                <img class="steps__icon" src="../assets/icons/icon-home.svg" width="18" height="18" alt="">
+                <picture><source media="(max-width: 1279px)" srcset="../assets/icons/icon-powder.png" width="18" height="18"><img class="steps__icon" src="../assets/icons/icon-home.svg" width="18" height="18" alt=""></picture>
                 <h3 class="steps__card-title">Maquiagem conforme o briefing</h3>
                 <p class="steps__card-text">Para aparições profissionais, o foco é a correção pontual, o controle do brilho e uma pele de aparência natural. A preparação masculina inclui também sobrancelhas e cabelo. Em projetos criativos, as referências definem o nível de definição e expressão.</p>
               </div>
@@ -681,7 +687,7 @@
       <div class="container prep__inner">
         <div class="prep__grid">
           <div class="prep__cell prep__cell--photo prep__cell--r1c1" aria-hidden="true">
-            <picture><source type="image/avif" srcset="../assets/images/prep-double-portrait-760.avif 760w, ../assets/images/prep-double-portrait-1140.avif 1140w, ../assets/images/prep-double-portrait-1520.avif 1520w" sizes="(max-width: 1919px) 569px, 758px"><img class="prep__img prep__img--portrait" src="../assets/images/prep-double-portrait-1140.webp" srcset="../assets/images/prep-double-portrait-760.webp 760w, ../assets/images/prep-double-portrait-1140.webp 1140w, ../assets/images/prep-double-portrait-1520.webp 1520w" sizes="(max-width: 1919px) 569px, 758px" width="1672" height="940" alt="" loading="lazy" decoding="async"></picture>
+            <picture><source type="image/avif" srcset="../assets/images/prep-double-portrait-760.avif 760w, ../assets/images/prep-double-portrait-1140.avif 1140w, ../assets/images/prep-double-portrait-1520.avif 1520w" sizes="(max-width: 359px) 349px, (max-width: 480px) 393px, (max-width: 768px) 472px, (max-width: 1279px) 531px, (max-width: 1919px) 569px, 758px"><img class="prep__img prep__img--portrait" src="../assets/images/prep-double-portrait-1140.webp" srcset="../assets/images/prep-double-portrait-760.webp 760w, ../assets/images/prep-double-portrait-1140.webp 1140w, ../assets/images/prep-double-portrait-1520.webp 1520w" sizes="(max-width: 359px) 349px, (max-width: 480px) 393px, (max-width: 768px) 472px, (max-width: 1279px) 531px, (max-width: 1919px) 569px, 758px" width="1672" height="940" alt="" loading="lazy" decoding="async"></picture>
             <span class="prep__label">[&nbsp;&nbsp;&nbsp;01</span>
             <img class="prep__icon prep__icon--up" src="../assets/icons/icon-corner-arrow.svg" width="16" height="16" alt="">
           </div>
@@ -701,7 +707,7 @@
             <h3 class="prep__title">Ensaios em estúdio e publicidade</h3>
           </div>
           <div class="prep__cell prep__cell--r2c2" aria-hidden="true"><span class="prep__plus">+</span></div>
-          <div class="prep__cell prep__cell--photo prep__cell--r2c3" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/prep-gold-cosmetics-760.avif 760w, ../assets/images/prep-gold-cosmetics-1140.avif 1140w, ../assets/images/prep-gold-cosmetics-1520.avif 1520w" sizes="(max-width: 1919px) 570px, 760px"><img class="prep__img prep__img--cosmetics" src="../assets/images/prep-gold-cosmetics-1140.webp" srcset="../assets/images/prep-gold-cosmetics-760.webp 760w, ../assets/images/prep-gold-cosmetics-1140.webp 1140w, ../assets/images/prep-gold-cosmetics-1520.webp 1520w" sizes="(max-width: 1919px) 570px, 760px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div>
+          <div class="prep__cell prep__cell--photo prep__cell--r2c3" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/images/prep-gold-cosmetics-760.avif 760w, ../assets/images/prep-gold-cosmetics-1140.avif 1140w, ../assets/images/prep-gold-cosmetics-1520.avif 1520w" sizes="(max-width: 359px) 373px, (max-width: 480px) 420px, (max-width: 768px) 504px, (max-width: 1279px) 567px, (max-width: 1919px) 570px, 760px"><img class="prep__img prep__img--cosmetics" src="../assets/images/prep-gold-cosmetics-1140.webp" srcset="../assets/images/prep-gold-cosmetics-760.webp 760w, ../assets/images/prep-gold-cosmetics-1140.webp 1140w, ../assets/images/prep-gold-cosmetics-1520.webp 1520w" sizes="(max-width: 359px) 373px, (max-width: 480px) 420px, (max-width: 768px) 504px, (max-width: 1279px) 567px, (max-width: 1919px) 570px, 760px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture><span class="prep__label prep__label--compact">[&nbsp;&nbsp;&nbsp;04</span></div>
           <div class="prep__cell prep__cell--r3c1">
             <p class="prep__audience">Para equipes de produção, assessorias de imprensa, agentes de talentos e clientes particulares.</p>
           </div>
@@ -805,27 +811,27 @@
         <img class="brief__icon" src="../assets/icons/icon-brief.svg" width="25" height="25" alt="">
         <span class="brief__arrow" aria-hidden="true"></span>
         <h2 class="brief__heading">Um briefing rápido para o seu próximo projeto</h2>
-        <table class="brief__table">
-          <thead><tr><th scope="col">Detalhes do projeto</th><th scope="col">Informações necessárias</th></tr></thead>
-          <tbody>
-              <tr><th scope="row">Formato</th><td>Entrevista na TV, transmissão ao vivo, podcast, ensaio de retrato, filmagem publicitária ou aparição pública</td></tr>
-              <tr><th scope="row">Data e horário</th><td>Horário de início da preparação, horário de prontidão para a primeira foto e horário de término</td></tr>
-              <tr><th scope="row">Local</th><td>Endereço, credenciais de acesso, acesso para equipamentos, espaço de trabalho e energia elétrica</td></tr>
-              <tr><th scope="row">Participantes</th><td>Número de pessoas e quem precisa estar pronto ao mesmo tempo</td></tr>
-              <tr><th scope="row">O visual</th><td>Referências, figurino, joias, exigências de cabelo e maquiagem desejada</td></tr>
-              <tr><th scope="row">Necessidades individuais</th><td>Sensibilidades a cosméticos e produtos preferidos, se houver</td></tr>
-              <tr><th scope="row">Condições de filmagem</th><td>Estúdio ou externa, iluminação, closes e duração da transmissão ou gravação</td></tr>
-              <tr><th scope="row">Mudanças</th><td>Número de visuais, deslocamentos entre locais e momentos para retoques entre as tomadas</td></tr>
-              <tr><th scope="row">Contato do projeto</th><td>Contato do produtor, empresário, assistente ou assessoria de imprensa</td></tr>
-              <tr><th scope="row">Acordos finais</th><td>Autorizações de foto e filmagem, confidencialidade, orçamento final e condições de pagamento</td></tr>
-          </tbody>
-        </table>
-        <a class="btn btn--white btn--ring brief__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-          <span class="btn__text">Consultar sobre o serviço</span>
-          <span class="btn__ring" aria-hidden="true"></span>
-          <span class="btn__arrow" aria-hidden="true"></span>
-        </a>
       </div>
+      <table class="brief__table">
+        <thead><tr><th scope="col">Detalhes do projeto</th><th scope="col">Informações necessárias</th></tr></thead>
+        <tbody>
+            <tr><th scope="row">Formato</th><td>Entrevista na TV, transmissão ao vivo, podcast, ensaio de retrato, filmagem publicitária ou aparição pública</td></tr>
+            <tr><th scope="row">Data e horário</th><td>Horário de início da preparação, horário de prontidão para a primeira foto e horário de término</td></tr>
+            <tr><th scope="row">Local</th><td>Endereço, credenciais de acesso, acesso para equipamentos, espaço de trabalho e energia elétrica</td></tr>
+            <tr><th scope="row">Participantes</th><td>Número de pessoas e quem precisa estar pronto ao mesmo tempo</td></tr>
+            <tr><th scope="row">O visual</th><td>Referências, figurino, joias, exigências de cabelo e maquiagem desejada</td></tr>
+            <tr><th scope="row">Necessidades individuais</th><td>Sensibilidades a cosméticos e produtos preferidos, se houver</td></tr>
+            <tr><th scope="row">Condições de filmagem</th><td>Estúdio ou externa, iluminação, closes e duração da transmissão ou gravação</td></tr>
+            <tr><th scope="row">Mudanças</th><td>Número de visuais, deslocamentos entre locais e momentos para retoques entre as tomadas</td></tr>
+            <tr><th scope="row">Contato do projeto</th><td>Contato do produtor, empresário, assistente ou assessoria de imprensa</td></tr>
+            <tr><th scope="row">Acordos finais</th><td>Autorizações de foto e filmagem, confidencialidade, orçamento final e condições de pagamento</td></tr>
+        </tbody>
+      </table>
+      <a class="btn btn--white btn--ring brief__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+        <span class="btn__text">Consultar sobre o serviço</span>
+        <span class="btn__ring" aria-hidden="true"></span>
+        <span class="btn__arrow" aria-hidden="true"></span>
+      </a>
     </section>
 
     <!-- Individual makeup lessons (Figma 61:90–61:94, 61:147–61:159, 61:168–61:169) -->

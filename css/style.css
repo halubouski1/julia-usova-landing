@@ -192,7 +192,9 @@
   --c-white-20: rgba(255, 255, 255, 0.2);
   --c-white-10: rgba(255, 255, 255, 0.1);
   --c-white-02: rgba(255, 255, 255, 0.02);
+  --c-black-20: rgba(0, 0, 0, 0.2);
   --c-black-25: rgba(0, 0, 0, 0.25);
+  --c-black-45: rgba(0, 0, 0, 0.45);
   --c-black-70: rgba(0, 0, 0, 0.7);
   --c-sand: #eeeae0;           /* occasion tabs, light card */
   --c-silver: #acacac;         /* price details */
@@ -2182,6 +2184,11 @@ a.menu__contact-value:focus-visible {
   text-transform: uppercase;
 }
 
+/* Card arrows: ≤1279 only (one card at a time there) */
+.occasion__nav {
+  display: none;
+}
+
 /* Tabs: the wine pill slides to the active tab (initTabs()) */
 .occasion__tabs {
   top: 394px;
@@ -2762,6 +2769,11 @@ a.menu__contact-value:focus-visible {
   rotate: none;
 }
 
+/* "[ 04" on the cosmetics photo: only in the mobile Figma */
+.prep__label--compact {
+  display: none;
+}
+
 .prep__text {
   top: 76px;
   right: 40px;
@@ -3294,16 +3306,20 @@ a.menu__contact-value:focus-visible {
   line-height: 75px;
 }
 
+/* The table and the button follow the panel in the markup (on ≤1279 they
+   sit below the photo), so they are placed on .brief: panel offset + Figma */
 .brief__btn {
-  right: 64px;
-  bottom: 73px;
+  position: absolute;
+  right: 97px;
+  bottom: 132px;
   min-width: 303px;
   padding-right: 78px;
 }
 
 .brief__table {
-  top: 77px;
-  right: 63px;
+  position: absolute;
+  top: 127px;
+  right: 96px;
   width: 790px;
   border-collapse: collapse;
   table-layout: fixed;
