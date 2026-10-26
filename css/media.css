@@ -4114,6 +4114,7 @@
   .booking {
     height: auto;
     padding-bottom: calc(102px * var(--m));
+    overflow-x: clip; /* the full-width button starts its fade-left 100px past the screen edge */
   }
 
   .booking__inner {

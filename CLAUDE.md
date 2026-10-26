@@ -214,7 +214,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
   - Steps: 320 × 738m panel; heading, Swiper, arrows (flex `order`); Swiper `spaceBetween`/`slidesOffsetBefore`/`After` per `--m` breakpoint in JS (0/360/481/769), `slidesOffsetBefore: 0` again from 1280. No right-edge shade.
   - Prep: one column in the order heading, 01 photo, 02, 213m gap, 03, +, 04 photo (`.prep__label--compact` "[ 04", hidden ≥1280), audience, 05, 06; text cells are flex columns with the title pushed to the bottom (`min-height` = Figma height).
   - Agreed: heading, table (price column 77m, rises 32m), notes; no intro / line / "Learn More".
-  - Booking: heading, rows (num | title, text below), full-width wine button last (`order`).
+  - Booking: heading, rows (num | title, text below), full-width wine button last (`order`). `.booking` has `overflow-x: clip`: the button's AOS `fade-left` starts 100px to the right, so until it animated the page was 440–467px wide on phones (sideways scroll).
   - Brief: the table and button are **siblings of `.brief__panel`** in the markup (desktop places them on `.brief`: panel offset + Figma), so on ≤1279 they follow the 747m photo panel. Button wine on cream (custom properties on `.brief__btn`).
   - **Tablets 481–1279:** the steps / agreed / brief photo panels span the screen (gutters 20m / 10m) instead of a 320m card in a cream page; their text stays in the 320m column (the brief intro/icon/arrow keep to the right corner, heading bottom-left).
   - Checked: EN/PT/ES/RU at 1279, 1024, 960, 768, 600, 390, 360, 320: no horizontal scroll, nothing off-screen, no overlaps, every ring-button label clear of its ring; occasion arrows walk all 8 cards and back; desktop 1920/1440/1280 geometry identical to before (brief table/button, slider). Safari 27 at 1024 and 390: same section heights, no overlaps.
@@ -459,6 +459,7 @@ Steps 1–6 run in Chrome; then Safari, and Firefox when needed (see "Browser te
 3. Check for horizontal overflow (`scrollWidth > width`) at 1920, 1440, 1280, 1279, 1024, 960, 769, 768, 600, 360 and 320px:
    - Sweep with iframes of the given width.
    - Reload CSS/JS with `fetch(url, {cache: 'reload'})` or `ignoreCache` first; stale files cause false alarms.
+   - Also check **with JS on**, in mobile emulation (`isMobile`, `hasTouch`), on load and while scrolling the whole page: AOS start offsets (`fade-left`/`fade-right` move 100px) exist only before an element animates, and script-less iframes never see them.
 4. For dropdowns, menus and drawers, open them and use `document.elementFromPoint` at their centre to confirm they really are on top.
 5. Laptop: at 1440 every position is exactly Figma × 0.75 (with `--fixed-vh: 897.75px`) and text wraps into the same number of lines as at 1920; no horizontal overflow from 1280 to 1919.
 6. Regression: with `--fixed-vh: 1197px` (navigate with an initScript) page height at 1920 is 9795 and positions match Figma; and the console has no errors (a missing `favicon.ico` 404 is harmless).
