@@ -1303,8 +1303,8 @@
     line-height: 12px;
   }
 
-  .occasion {
-    height: 894px;
+  .occasion__inner {
+    padding: 407.25px 27.75px 89.775px 28.5px;
   }
 
   .occasion__heading {
@@ -1317,9 +1317,9 @@
 
   .occasion__tabs {
     top: 295.5px;
-    min-width: 807.75px;
+    left: 28.5px;
+    right: 171.75px;
     height: 36.75px;
-    translate: 2.625px 0;
     border-radius: 33.75px;
   }
 
@@ -1331,12 +1331,44 @@
     line-height: 30.75px;
   }
 
-  .occasion__panel {
-    top: 407.25px;
-    left: 28.5px;
+  .occasion__nav {
+    top: 291px;
     right: 27.75px;
-    grid-template-columns: repeat(2, minmax(0, 687.871px));
-    height: 396.977px;
+    gap: 9.75px;
+  }
+
+  .occasion__arrow {
+    width: 46.5px;
+    height: 46.5px;
+  }
+
+  .occasion__arrow::before {
+    top: calc(50% - 4.875px);
+    left: calc(50% - 4.875px);
+    width: 9.75px;
+    height: 9.75px;
+  }
+
+  .occasion__arrow--next:not(:disabled):hover::before {
+    translate: 2.25px 0;
+  }
+
+  .occasion__arrow--prev:not(:disabled):hover::before {
+    translate: -2.25px 0;
+  }
+
+  .occasion__panel {
+    grid-auto-columns: calc((100% - 8.002px) / 2);
+    column-gap: 8.002px;
+  }
+
+  .occasion-card {
+    min-height: 396.977px;
+    padding: 66.75px 18px 20.475px 299.25px;
+  }
+
+  .occasion-card--events {
+    padding-left: 322.252px;
   }
 
   .occasion-card__num {
@@ -1384,84 +1416,104 @@
     height: 197.464px;
   }
 
+  .occasion-card__body {
+    max-width: 362.25px;
+    padding-bottom: 21.75px;
+  }
+
   .occasion-card__title {
-    top: 66.75px;
-    left: 322.252px;
-    right: 19.5px;
+    max-width: 333.75px;
     font-size: 22.5px;
     line-height: 24.686px;
   }
 
-  .occasion-card__desc {
-    top: 105.413px;
-    left: 322.252px;
-    right: 19.5px;
-    max-width: 311.55px;
+  .occasion-card__desc,
+  .occasion-card__text,
+  .occasion-card__extra {
+    margin-top: 19.5px;
     font-size: 12px;
     line-height: 18.014px;
   }
 
-  .occasion-card--dark .occasion-card__desc {
+  .occasion-card .occasion-card__desc {
+    margin-top: 14.325px;
+  }
+
+  .occasion-card--events .occasion-card__desc {
+    max-width: 311.55px;
+  }
+
+  .occasion-card--events.occasion-card--dark .occasion-card__desc {
     max-width: 235.5px;
   }
 
-  .occasion-card__includes {
-    top: 173.468px;
-    left: 322.252px;
+  .occasion-card .occasion-card__note {
+    margin-top: 4.5px;
+    max-width: 334.275px;
+    font-size: 10.5px;
+    line-height: 14.678px;
+  }
+
+  .occasion-card .occasion-card__includes {
+    margin-top: 31.875px;
     font-size: 12px;
     line-height: 18.014px;
   }
 
   .occasion-card__list {
-    top: 196.155px;
-    left: 322.252px;
-    right: 19.5px;
     max-width: 334.275px;
+    margin: 4.65px 0 0;
     padding: 0 0 0 15.75px;
     font-size: 10.5px;
     line-height: 14.678px;
   }
 
   .occasion-card__rule {
-    top: 302.903px;
-    left: 322.252px;
-    right: 19.5px;
-    max-width: 308.241px;
     height: 1px;
   }
 
+  .occasion-card--events .occasion-card__rule {
+    max-width: 308.241px;
+  }
+
   .occasion-card__bottom {
-    left: 23.018px;
-    right: 18.015px;
-    bottom: 20.685px;
-    height: 38.697px;
+    row-gap: 9px;
+    min-height: 38.697px;
+    margin-top: 34.5px;
   }
 
   .occasion-card__foot {
-    flex: 0 1 170.1px;
-    margin: 12px 0 0;
+    left: 23.018px;
+    bottom: 22.725px;
+    max-width: 170.133px;
     font-size: 10.5px;
     line-height: 11.25px;
   }
 
-  .occasion-card--dark .occasion-card__foot {
-    flex-basis: 207px;
+  .occasion-card__foot--s {
+    max-width: 116.25px;
   }
 
-  .occasion-card__price {
-    padding-left: 12px;
+  .occasion-card__foot--m {
+    max-width: 207px;
+  }
+
+  .occasion-card__foot--l {
+    max-width: 231.75px;
+  }
+
+  .occasion-card .occasion-card__price {
+    min-width: 64.5px;
     font-size: 16.68px;
     line-height: 19.5px;
   }
 
-  .occasion-card__sep {
-    width: 1px;
-    height: 20.016px;
-    margin: 0 11.19px 0 11.558px;
-  }
-
-  .occasion-card__meta {
-    margin: 0 30px 0 0;
+  .occasion-card .occasion-card__meta {
+    flex: 1 1 45px;
+    max-width: 101.19px;
+    margin: 0 7.5px 0 11.558px;
+    padding-left: 11.19px;
+    border-left: 1px solid var(--c-wine-15);
     font-size: 10.5px;
     line-height: 11.342px;
   }
@@ -1470,20 +1522,24 @@
     --btn-fill-origin: calc(100% - 19.837px) 50%;
     min-width: 161.46px;
     height: 38.697px;
-    padding: 1px 46.5px 0 19.35px;
+    padding: 1px 42px 0 15.75px;
     font-size: 10.5px;
     line-height: 20.016px;
   }
 
+  .occasion-card--events .occasion-card__btn {
+    padding: 1px 46.5px 0 19.35px;
+  }
+
   .occasion-card__btn .btn__ring {
-    top: 2.925px;
+    top: calc(50% - 16.425px);
     right: 3.9px;
     width: 31.882px;
     height: 32.848px;
   }
 
   .occasion-card__btn .btn__arrow {
-    top: 15.592px;
+    top: calc(50% - 3.757px);
     right: 15.705px;
     width: 8.978px;
     height: 8.978px;
@@ -2277,8 +2333,11 @@
   }
 
   /* Footer (Figma 7243–9363; curved top overlaps the lessons by 128) */
+  /* --footer-lift: phones/small tablets pull the portrait and the contacts up
+     under the to-top circle (see ≤768 / ≤480); the footer gets as much shorter */
   .footer {
-    height: calc(2120px * var(--m));
+    --footer-lift: 0px;
+    height: calc(2120px * var(--m) - var(--footer-lift));
     margin-top: calc(-128px * var(--m));
     background: linear-gradient(180deg, transparent calc(128px * var(--m)), var(--c-black) calc(128px * var(--m)));
   }
@@ -2295,7 +2354,7 @@
   }
 
   .footer__portrait {
-    top: calc(885px * var(--m));
+    top: calc(885px * var(--m) - var(--footer-lift));
     left: calc(50% - 626px * var(--m));
     width: calc(1083px * var(--m));
     height: calc(1107px * var(--m));
@@ -2453,12 +2512,12 @@
   }
 
   .footer__contact--phone {
-    top: calc(1893px * var(--m));
+    top: calc(1893px * var(--m) - var(--footer-lift));
     left: calc(50% - 160px * var(--m));
   }
 
   .footer__contact--office {
-    top: calc(1970px * var(--m));
+    top: calc(1970px * var(--m) - var(--footer-lift));
     left: calc(50% - 160px * var(--m));
   }
 
@@ -2497,14 +2556,14 @@
   }
 
   .footer__divider {
-    top: calc(2045px * var(--m));
+    top: calc(2045px * var(--m) - var(--footer-lift));
     right: auto;
     left: calc(50% - 160px * var(--m));
     width: calc(320px * var(--m));
   }
 
   .footer__dev {
-    top: calc(2063px * var(--m));
+    top: calc(2063px * var(--m) - var(--footer-lift));
     right: auto;
     left: calc(50% - 160px * var(--m));
     gap: calc(13px * var(--m));
@@ -3453,6 +3512,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
   }
 
   .occasion__inner > * {
@@ -3499,43 +3559,17 @@
     margin-top: calc(22px * var(--m));
   }
 
+  /* The desktop arrows (wine / sand at the ends) at 49m */
   .occasion__arrow {
-    position: relative;
     width: calc(49px * var(--m));
     height: calc(49px * var(--m));
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: var(--c-wine);
-    cursor: pointer;
-    transition: background-color 0.3s var(--ease);
   }
 
   .occasion__arrow::before {
-    content: "";
-    position: absolute;
     top: calc(50% - 5.15px * var(--m));
     left: calc(50% - 5.15px * var(--m));
     width: calc(10.3px * var(--m));
     height: calc(10.3px * var(--m));
-    background: var(--c-white);
-    -webkit-mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
-    mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
-    transition: background-color 0.3s var(--ease);
-  }
-
-  .occasion__arrow--prev::before {
-    scale: -1 1;
-  }
-
-  /* At the first/last card: the pale circle of Figma's "back" arrow */
-  .occasion__arrow:disabled {
-    background: var(--c-sand);
-    cursor: default;
-  }
-
-  .occasion__arrow:disabled::before {
-    background: var(--c-red);
   }
 
   /* One 320m card at a time; swipe or arrows (initOccasionCards()) */
@@ -3545,6 +3579,7 @@
     grid-auto-flow: column;
     grid-template-columns: none;
     justify-content: start;
+    align-items: start; /* each card keeps its own height */
     column-gap: calc(20px * var(--m));
     width: calc(320px * var(--m));
     height: auto;
@@ -3565,15 +3600,23 @@
 
   /* Card (Figma 104:347, 320 × 630): polaroid | title + text, then the
      list, rule, price row, button and note in the flow */
-  .occasion-card {
+  .occasion-card,
+  .occasion-card--events {
     display: grid;
     grid-template-columns: calc(140px * var(--m)) minmax(0, 1fr);
     align-content: start;
+    min-height: 0;
     padding: calc(46px * var(--m)) calc(20px * var(--m)) calc(21px * var(--m));
-    scroll-snap-align: start;
   }
 
-  .occasion-card > * {
+  /* The text column wrapper drops out, so title and first paragraph sit
+     beside the polaroid and the rest runs full width below */
+  .occasion-card__body {
+    display: contents;
+  }
+
+  .occasion-card > *,
+  .occasion-card__body > * {
     position: static;
     grid-column: 1 / -1;
   }
@@ -3631,14 +3674,26 @@
     height: calc(114.66px * var(--m));
   }
 
-  .occasion-card > .occasion-card__title {
+  .occasion-card__body > .occasion-card__title {
     grid-column: 2;
     grid-row: 1;
     font-size: calc(21px * var(--m));
     line-height: calc(32.915px * var(--m));
   }
 
-  .occasion-card > .occasion-card__desc {
+  /* Figma's 32.9m line is a one-line title; longer titles (other cards and
+     languages) wrap at 25m, the first line kept in place by the padding.
+     Long words (RU "сопровождением") are hyphenated in the narrow column */
+  .occasion-card__body > .occasion-card__title {
+    max-width: none;
+    padding-top: calc(4px * var(--m));
+    line-height: calc(25px * var(--m));
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  .occasion-card .occasion-card__body > .occasion-card__desc {
     grid-column: 2;
     grid-row: 2;
     max-width: none;
@@ -3647,7 +3702,29 @@
     line-height: calc(18px * var(--m));
   }
 
-  .occasion-card__includes {
+  /* Further paragraphs, "Additional time" and the note (the Bridal and
+     Camera & Stage cards; not in the mobile Figma): the desc type, full
+     width under the polaroid */
+  .occasion-card__text,
+  .occasion-card .occasion-card__extra {
+    margin-top: calc(14px * var(--m));
+    font-size: calc(13px * var(--m));
+    line-height: calc(18px * var(--m));
+  }
+
+  .occasion-card__body > .occasion-card__text:nth-child(3),
+  .occasion-card__body > .occasion-card__extra:nth-child(3) {
+    margin-top: calc(28px * var(--m));
+  }
+
+  .occasion-card .occasion-card__note {
+    max-width: none;
+    margin-top: calc(6px * var(--m));
+    font-size: calc(12px * var(--m));
+    line-height: calc(16px * var(--m));
+  }
+
+  .occasion-card .occasion-card__includes {
     margin-top: calc(28px * var(--m));
     font-size: calc(15px * var(--m));
     line-height: calc(24.019px * var(--m));
@@ -3661,7 +3738,8 @@
     line-height: calc(18px * var(--m));
   }
 
-  .occasion-card__rule {
+  .occasion-card__rule,
+  .occasion-card--events .occasion-card__rule {
     max-width: none;
     margin-top: calc(30px * var(--m));
   }
@@ -3669,34 +3747,47 @@
   /* Price | per, then the full-width button, then the note */
   .occasion-card__bottom {
     flex-wrap: wrap;
+    row-gap: 0;
     height: auto;
+    min-height: 0;
     margin-top: calc(29px * var(--m));
   }
 
-  .occasion-card__price {
+  .occasion-card .occasion-card__price {
     order: 1;
+    min-width: 0;
     margin: 0;
     padding: 0;
+    text-align: left;
     font-size: calc(19px * var(--m));
     line-height: calc(24.019px * var(--m));
   }
 
   .occasion-card__sep {
+    display: block;
+    flex: none;
     order: 2;
+    width: 1px;
     height: calc(26.688px * var(--m));
     margin: 0 calc(15.9px * var(--m)) 0 calc(15.41px * var(--m));
   }
 
-  .occasion-card__meta {
+  .occasion-card .occasion-card__meta {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
     order: 3;
     margin: 0;
+    padding: 0;
+    border: 0;
     font-size: calc(13px * var(--m));
     line-height: calc(15.123px * var(--m));
   }
 
   /* 286 × 51m: 3m wider than the text column on each side, as in Figma;
      the desktop 51.6px button inside (the compact .btn is 65px) */
-  .occasion-card__btn {
+  .occasion-card__btn,
+  .occasion-card--events .occasion-card__btn {
     --btn-fill-origin: calc(100% - 26.45px) 50%;
     order: 4;
     height: auto;
@@ -3709,8 +3800,25 @@
     margin: calc(24.75px * var(--m)) calc(-3px * var(--m)) 0;
   }
 
+  /* The desktop ring and arrow, centred on the (possibly two-line) button;
+     the generated laptop copy (×0.75) would otherwise apply here */
+  .occasion-card__btn .btn__ring {
+    top: calc(50% - 21.9px);
+    right: 5.2px;
+    width: 42.509px;
+    height: 43.797px;
+  }
+
+  .occasion-card__btn .btn__arrow {
+    top: calc(50% - 5.01px);
+    right: 20.94px;
+    width: 11.97px;
+    height: 11.97px;
+  }
+
   .occasion-card__foot,
   .occasion-card--dark .occasion-card__foot {
+    position: static;
     order: 5;
     flex: 0 1 100%;
     max-width: calc(227px * var(--m));
@@ -3719,13 +3827,13 @@
     line-height: calc(15px * var(--m));
   }
 
-  /* From Brief to First Shot (Figma 104:383–104:414): 320 × 738m panel */
+  /* From Brief to First Shot (Figma ZujedjwZKzsfSKBsitE7Gr 104:383–104:411):
+     320 × 738m panel; heading at the top, arrows and the slider at the
+     bottom (arrows 374m, slides 440m from the top) */
   .steps {
     height: auto;
   }
 
-  /* Heading, slider, then the arrows (they come before the slider in the
-     markup) */
   .steps__panel {
     position: relative;
     inset: auto;
@@ -3760,7 +3868,7 @@
 
   .steps__heading {
     width: calc(275px * var(--m));
-    margin-left: calc(20px * var(--m));
+    margin: 0 0 calc(40px * var(--m)) calc(20px * var(--m));
     font-size: calc(45px * var(--m));
     line-height: calc(45px * var(--m));
   }
@@ -3768,19 +3876,32 @@
   .steps__slider {
     width: 100%;
     height: auto;
-    margin-top: calc(71px * var(--m));
+    margin-top: calc(17px * var(--m));
   }
 
+  /* Glass slide 271 × 278m; the white card fills its bottom-right corner
+     (220 × 227m, 51m from the top/left) and grows upwards with longer copy */
   .steps__slide {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
     width: calc(271px * var(--m));
-    height: calc(389.635px * var(--m));
+    height: auto;
+    min-height: calc(278px * var(--m));
+    padding: calc(51px * var(--m)) 0 0;
   }
 
+  /* Over the slide's 1px border on the right and bottom, as on desktop */
   .steps__card {
-    width: calc(194px * var(--m));
+    position: relative;
+    right: auto;
+    bottom: auto;
+    flex: none;
+    width: calc(220px * var(--m));
     height: auto;
-    min-height: calc(267px * var(--m));
-    padding: calc(17px * var(--m));
+    min-height: calc(227px * var(--m));
+    margin: 0 -1px -1px 0;
+    padding: calc(17px * var(--m)) calc(13px * var(--m)) calc(17px * var(--m)) calc(17px * var(--m));
   }
 
   .steps__icon {
@@ -3799,16 +3920,15 @@
   }
 
   .steps__card-text {
-    max-width: calc(166px * var(--m));
+    max-width: none;
     margin-top: calc(11px * var(--m));
     font-size: calc(13px * var(--m));
     line-height: calc(16px * var(--m));
   }
 
   .steps__nav {
-    order: 1;
     gap: calc(6px * var(--m));
-    margin: calc(53.4px * var(--m)) 0 0 calc(20px * var(--m));
+    margin: auto 0 0 calc(20px * var(--m));
   }
 
   .steps__arrow {
@@ -4114,7 +4234,6 @@
   .booking {
     height: auto;
     padding-bottom: calc(102px * var(--m));
-    overflow-x: clip; /* the full-width button starts its fade-left 100px past the screen edge */
   }
 
   .booking__inner {
@@ -4394,9 +4513,16 @@
     height: var(--portrait-h);
   }
 
-  /* 0.8 of the Figma crop (1083 × 1107m): bottom edge and face centre kept */
+  /* 0.8 of the Figma crop (1083 × 1107m): bottom edge and face centre kept
+     (phones ≤480: 0.68, see there). The zoomed-out photo starts lower, so
+     the portrait and the contacts move up 120m (≤480: 230m): the empty band
+     under the to-top circle was ≈270m / 380m (client, Oct 2026) */
+  .footer {
+    --footer-lift: calc(120px * var(--m));
+  }
+
   .footer__portrait {
-    top: calc(1106.4px * var(--m));
+    top: calc(1106.4px * var(--m) - var(--footer-lift));
     left: calc(50% - 517.7px * var(--m));
     width: calc(866.4px * var(--m));
     height: calc(885.6px * var(--m));
@@ -4492,6 +4618,20 @@
   :root {
     --m: 1;
     --spread: 1;
+  }
+
+  /* Footer portrait a little further out than on tablets: 0.68 of the Figma
+     crop (1083 × 1107m), bottom edge (1992m) and face centre (−84.5m from
+     the screen centre) kept. Still wider than the screen up to 480 */
+  .footer {
+    --footer-lift: calc(230px * var(--m));
+  }
+
+  .footer__portrait {
+    top: calc(1239.24px * var(--m) - var(--footer-lift));
+    left: calc(50% - 452.72px * var(--m));
+    width: calc(736.44px * var(--m));
+    height: calc(752.76px * var(--m));
   }
 }
 

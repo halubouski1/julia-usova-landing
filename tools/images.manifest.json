@@ -200,5 +200,47 @@
       736
     ],
     "avif": true
+  },
+  "occasion-soft-sunlight": {
+    "widths": [
+      400,
+      600
+    ],
+    "avif": true
+  },
+  "occasion-glam-curtains": {
+    "widths": [
+      400,
+      600
+    ],
+    "avif": true
+  },
+  "occasion-backstage": {
+    "widths": [
+      400,
+      600
+    ],
+    "avif": true
+  },
+  "occasion-business": {
+    "widths": [
+      400,
+      600
+    ],
+    "avif": true
+  },
+  "occasion-bride-warm": {
+    "widths": [
+      400,
+      600
+    ],
+    "avif": true
+  },
+  "occasion-microphone": {
+    "widths": [
+      400,
+      600
+    ],
+    "avif": true
   }
 }

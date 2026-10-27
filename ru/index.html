@@ -405,21 +405,19 @@
       </div>
     </section>
 
-    <!-- Your Occasion. Your Look. (Figma 97:450–97:518): four tabs; every tab
-         holds two cards (tabs 2–4 repeat the first pair until their copy
-         arrives). initTabs() in main.js -->
+    <!-- Your Occasion. Your Look. (Figma 97:450–97:518 + cards 2002:5): three
+         tabs (Bridal first, client); each panel is a row of cards that scrolls sideways (two visible
+         on desktop, one on ≤1279). initTabs() / initOccasionCards() in main.js -->
     <section class="occasion" id="occasion">
       <div class="container occasion__inner">
         <h2 class="occasion__heading">Ваш повод. Ваш образ.</h2>
         <div class="occasion__tabs" role="tablist" aria-label="Поводы" data-tabs>
           <span class="occasion__tab-pill" aria-hidden="true" data-tab-pill></span>
-          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-1" aria-controls="occasion-panel-1" aria-selected="true" data-tab><span>Макияж и укладка</span></button>
-          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-2" aria-controls="occasion-panel-2" aria-selected="false" tabindex="-1" data-tab><span>Ваш особый день</span></button>
-          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-3" aria-controls="occasion-panel-3" aria-selected="false" tabindex="-1" data-tab><span>Профессиональное обучение</span></button>
-          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-4" aria-controls="occasion-panel-4" aria-selected="false" tabindex="-1" data-tab><span>Понятная техника</span></button>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-1" aria-controls="occasion-panel-1" aria-selected="true" data-tab><span>Свадебный образ</span></button>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-2" aria-controls="occasion-panel-2" aria-selected="false" tabindex="-1" data-tab><span>Частные мероприятия</span></button>
+          <button class="occasion__tab" type="button" role="tab" id="occasion-tab-3" aria-controls="occasion-panel-3" aria-selected="false" tabindex="-1" data-tab><span>Камера и сцена</span></button>
         </div>
-        <!-- ≤1279 only: one card at a time; the arrows step through the cards
-             and on into the next/previous tab (initOccasionCards() in main.js) -->
+        <!-- The arrows step through the cards and on into the next/previous tab -->
         <div class="occasion__nav">
           <button class="occasion__arrow occasion__arrow--prev" type="button" aria-label="Предыдущая услуга" data-cards-prev></button>
           <button class="occasion__arrow occasion__arrow--next" type="button" aria-label="Следующая услуга" data-cards-next></button>
@@ -427,71 +425,91 @@
         <div class="occasion__panel" id="occasion-panel-1" role="tabpanel" aria-labelledby="occasion-tab-1" data-tab-panel>
           <article class="occasion-card occasion-card--light">
             <span class="occasion-card__num">001</span>
-            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж для мероприятия</h3>
-            <p class="occasion-card__desc">Индивидуальный макияж с учётом вашей кожи, освещения, наряда и впечатления, которое вы хотите произвести.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
-                <li>Консультация о ваших пожеланиях и желаемом образе.</li>
-                <li>Подготовка кожи, тон, брови, глаза и губы.</li>
-                <li>Ленточные или пучковые ресницы, если это уместно.</li>
-                <li>Фиксация макияжа и финальная проверка при профессиональном свете.</li>
-            </ul>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-glam-curtains-400.avif 400w, ../assets/images/occasion-glam-curtains-600.avif 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px"><img class="occasion-card__img occasion-card__img--glam" src="../assets/images/occasion-glam-curtains-600.webp" srcset="../assets/images/occasion-glam-curtains-400.webp 400w, ../assets/images/occasion-glam-curtains-600.webp 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Свадебный макияж и причёска</h3>
+              <p class="occasion-card__desc">Консультация перед свадьбой, подготовка кожи, макияж, ресницы и причёска. Крепление фаты и аксессуаров для волос, финальная коррекция перед выходом.</p>
+              <p class="occasion-card__text">Одна встреча по одному адресу. Пробный образ и сопровождение после основной подготовки — за дополнительную плату.</p>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Укладка и коррекция во время мероприятия не включены.</p>
-              <p class="occasion-card__price">R$ 1,500</p>
+              <p class="occasion-card__price">R$ 3,200</p>
               <span class="occasion-card__sep" aria-hidden="true"></span>
-              <p class="occasion-card__meta">· Один человек<br>· До 2 часов</p>
+              <p class="occasion-card__meta">· Одна персона<br>· До 3 часов в день свадьбы</p>
               <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-                <span class="btn__text">Записаться на макияж</span>
+                <span class="btn__text">Записаться на свадебный образ</span>
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
+            </div>
           </article>
           <article class="occasion-card occasion-card--dark">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж и укладка</h3>
-            <p class="occasion-card__desc">Цельный, согласованный образ: макияж и укладку делает один мастер.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
-                <li>Всё, что входит в макияж для мероприятия.</li>
-                <li>Укладка или прическа по согласованному референсу.</li>
-                <li>Форма и объём с учётом наряда, украшений и волос.</li>
-                <li>Крепление ваших аксессуаров для волос и финальная фиксация.</li>
-            </ul>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-soft-sunlight-400.avif 400w, ../assets/images/occasion-soft-sunlight-600.avif 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px"><img class="occasion-card__img occasion-card__img--sunlight" src="../assets/images/occasion-soft-sunlight-600.webp" srcset="../assets/images/occasion-soft-sunlight-400.webp 400w, ../assets/images/occasion-soft-sunlight-600.webp 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Свадебный макияж и причёска с пробным образом</h3>
+              <p class="occasion-card__desc">Отдельная пробная встреча: выбираем итоговый образ, обсуждаем детали и согласуем расписание утра свадьбы.</p>
+              <p class="occasion-card__includes">Включено:</p>
+              <ul class="occasion-card__list">
+                <li>Пробный макияж и причёска — до 3 часов.</li>
+                <li>Фиксация согласованного образа.</li>
+                <li>Свадебный макияж и причёска — до 3 часов в день свадьбы.</li>
+                <li>Выезд в пределах Рио-де-Жанейро на обе встречи.</li>
+              </ul>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Включает один согласованный образ. Коррекцию во время мероприятия можно заказать отдельно.</p>
-              <p class="occasion-card__price">R$ 2,200</p>
+              <p class="occasion-card__price">R$ 4,800</p>
               <span class="occasion-card__sep" aria-hidden="true"></span>
-              <p class="occasion-card__meta">· Один человек<br>· До 3 часов</p>
+              <p class="occasion-card__meta">· Одна персона<br>· 2 встречи</p>
               <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-                <span class="btn__text">Записаться на макияж и укладку</span>
+                <span class="btn__text">Записаться на свадебный образ</span>
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
+            </div>
+          </article>
+          <article class="occasion-card occasion-card--dark">
+            <span class="occasion-card__num">003</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-bride-warm-400.avif 400w, ../assets/images/occasion-bride-warm-600.avif 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px"><img class="occasion-card__img occasion-card__img--bride" src="../assets/images/occasion-bride-warm-600.webp" srcset="../assets/images/occasion-bride-warm-400.webp 400w, ../assets/images/occasion-bride-warm-600.webp 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Свадебный образ с сопровождением в день свадьбы</h3>
+              <p class="occasion-card__desc">Всё, что входит в пакет с пробным образом, плюс личное сопровождение в день свадьбы: коррекция макияжа и причёски, помощь с фатой и одна заранее согласованная смена причёски. 6 часов включают основную подготовку и переезды между локациями.</p>
+              <p class="occasion-card__extra">Дополнительное время: R$ 700 в час.</p>
+              <p class="occasion-card__note">Все свадебные пакеты рассчитаны на одного человека. Услуги для мам, подружек невесты и других гостей бронируются отдельно.</p>
+            </div>
+            <span class="occasion-card__rule" aria-hidden="true"></span>
+            <div class="occasion-card__bottom">
+              <p class="occasion-card__price">R$ 6,500</p>
+              <span class="occasion-card__sep" aria-hidden="true"></span>
+              <p class="occasion-card__meta">· Одна персона<br>· Проба + до 6 часов подряд в день свадьбы</p>
+              <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
+                <span class="btn__text">Записаться на сопровождение</span>
+                <span class="btn__ring" aria-hidden="true"></span>
+                <span class="btn__arrow" aria-hidden="true"></span>
+              </a>
+            </div>
           </article>
         </div>
         <div class="occasion__panel" id="occasion-panel-2" role="tabpanel" aria-labelledby="occasion-tab-2" hidden data-tab-panel>
-          <article class="occasion-card occasion-card--light">
+          <article class="occasion-card occasion-card--light occasion-card--events">
             <span class="occasion-card__num">001</span>
-            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
             <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж для мероприятия</h3>
-            <p class="occasion-card__desc">Индивидуальный макияж с учётом вашей кожи, освещения, наряда и впечатления, которое вы хотите произвести.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Макияж для мероприятия</h3>
+              <p class="occasion-card__desc">Индивидуальный макияж с учётом вашей кожи, освещения, наряда и впечатления, которое вы хотите произвести.</p>
+              <p class="occasion-card__includes">Включено:</p>
+              <ul class="occasion-card__list">
                 <li>Консультация о ваших пожеланиях и желаемом образе.</li>
                 <li>Подготовка кожи, тон, брови, глаза и губы.</li>
                 <li>Ленточные или пучковые ресницы, если это уместно.</li>
                 <li>Фиксация макияжа и финальная проверка при профессиональном свете.</li>
-            </ul>
+              </ul>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
               <p class="occasion-card__foot">Укладка и коррекция во время мероприятия не включены.</p>
@@ -503,24 +521,26 @@
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
+            </div>
           </article>
-          <article class="occasion-card occasion-card--dark">
+          <article class="occasion-card occasion-card--dark occasion-card--events">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
             <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж и укладка</h3>
-            <p class="occasion-card__desc">Цельный, согласованный образ: макияж и укладку делает один мастер.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Макияж и укладка</h3>
+              <p class="occasion-card__desc">Цельный, согласованный образ: макияж и укладку делает один мастер.</p>
+              <p class="occasion-card__includes">Включено:</p>
+              <ul class="occasion-card__list">
                 <li>Всё, что входит в макияж для мероприятия.</li>
                 <li>Укладка или прическа по согласованному референсу.</li>
                 <li>Форма и объём с учётом наряда, украшений и волос.</li>
                 <li>Крепление ваших аксессуаров для волос и финальная фиксация.</li>
-            </ul>
+              </ul>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Включает один согласованный образ. Коррекцию во время мероприятия можно заказать отдельно.</p>
+              <p class="occasion-card__foot occasion-card__foot--m">Включает один согласованный образ. Коррекцию во время мероприятия можно заказать отдельно.</p>
               <p class="occasion-card__price">R$ 2,200</p>
               <span class="occasion-card__sep" aria-hidden="true"></span>
               <p class="occasion-card__meta">· Один человек<br>· До 3 часов</p>
@@ -529,115 +549,78 @@
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
+            </div>
           </article>
         </div>
         <div class="occasion__panel" id="occasion-panel-3" role="tabpanel" aria-labelledby="occasion-tab-3" hidden data-tab-panel>
           <article class="occasion-card occasion-card--light">
             <span class="occasion-card__num">001</span>
-            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж для мероприятия</h3>
-            <p class="occasion-card__desc">Индивидуальный макияж с учётом вашей кожи, освещения, наряда и впечатления, которое вы хотите произвести.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
-                <li>Консультация о ваших пожеланиях и желаемом образе.</li>
-                <li>Подготовка кожи, тон, брови, глаза и губы.</li>
-                <li>Ленточные или пучковые ресницы, если это уместно.</li>
-                <li>Фиксация макияжа и финальная проверка при профессиональном свете.</li>
-            </ul>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-backstage-400.avif 400w, ../assets/images/occasion-backstage-600.avif 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px"><img class="occasion-card__img occasion-card__img--backstage" src="../assets/images/occasion-backstage-600.webp" srcset="../assets/images/occasion-backstage-400.webp 400w, ../assets/images/occasion-backstage-600.webp 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Подготовка к ТВ-интервью и публичным выступлениям</h3>
+              <p class="occasion-card__desc">Подготовка кожи, выравнивание тона, точечная коррекция покраснений и блеска, оформление бровей и губ, лёгкая укладка или поправка волос.</p>
+              <p class="occasion-card__text">Финальная проверка образа перед записью или выходом на сцену. Если есть доступ, образ проверяется при свете площадки.</p>
+              <p class="occasion-card__text">Подходит для телевидения, видеоподкастов, пресс-конференций и деловых презентаций.</p>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Укладка и коррекция во время мероприятия не включены.</p>
-              <p class="occasion-card__price">R$ 1,500</p>
+              <p class="occasion-card__foot">Сложные причёски и присутствие во время записи не входят.</p>
+              <p class="occasion-card__price">R$ 1,800</p>
               <span class="occasion-card__sep" aria-hidden="true"></span>
-              <p class="occasion-card__meta">· Один человек<br>· До 2 часов</p>
+              <p class="occasion-card__meta">· Одна персона<br>· До 2 часов</p>
               <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-                <span class="btn__text">Записаться на макияж</span>
+                <span class="btn__text">Записаться на подготовку</span>
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
+            </div>
           </article>
           <article class="occasion-card occasion-card--dark">
             <span class="occasion-card__num">002</span>
             <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж и укладка</h3>
-            <p class="occasion-card__desc">Цельный, согласованный образ: макияж и укладку делает один мастер.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
-                <li>Всё, что входит в макияж для мероприятия.</li>
-                <li>Укладка или прическа по согласованному референсу.</li>
-                <li>Форма и объём с учётом наряда, украшений и волос.</li>
-                <li>Крепление ваших аксессуаров для волос и финальная фиксация.</li>
-            </ul>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-business-400.avif 400w, ../assets/images/occasion-business-600.avif 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px"><img class="occasion-card__img occasion-card__img--business" src="../assets/images/occasion-business-600.webp" srcset="../assets/images/occasion-business-400.webp 400w, ../assets/images/occasion-business-600.webp 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Макияж и причёска на съёмке — 4 часа</h3>
+              <p class="occasion-card__desc">Макияж и причёска по брифу съёмки, подготовка к первому кадру и коррекция между дублями, чтобы образ оставался согласованным.</p>
+              <p class="occasion-card__text">Для студийных портретов, редакционных съёмок, рекламного контента и интервью.</p>
+              <p class="occasion-card__text">Бронь — до 4 часов подряд, включая подготовку, ожидание и коррекцию.</p>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Включает один согласованный образ. Коррекцию во время мероприятия можно заказать отдельно.</p>
-              <p class="occasion-card__price">R$ 2,200</p>
+              <p class="occasion-card__foot occasion-card__foot--s">Небольшие правки образа включены.</p>
+              <p class="occasion-card__price">R$ 3,500</p>
               <span class="occasion-card__sep" aria-hidden="true"></span>
-              <p class="occasion-card__meta">· Один человек<br>· До 3 часов</p>
+              <p class="occasion-card__meta">· Одна персона<br>· Один основной образ</p>
               <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-                <span class="btn__text">Записаться на макияж и укладку</span>
+                <span class="btn__text">Забронировать 4 часа</span>
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
-          </article>
-        </div>
-        <div class="occasion__panel" id="occasion-panel-4" role="tabpanel" aria-labelledby="occasion-tab-4" hidden data-tab-panel>
-          <article class="occasion-card occasion-card--light">
-            <span class="occasion-card__num">001</span>
-            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-silver-dress-670.avif 670w, ../assets/images/occasion-silver-dress-890.avif 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px"><img class="occasion-card__img occasion-card__img--dress" src="../assets/images/occasion-silver-dress-890.webp" srcset="../assets/images/occasion-silver-dress-670.webp 670w, ../assets/images/occasion-silver-dress-890.webp 890w" sizes="(max-width: 359px) 172px, (max-width: 480px) 193px, (max-width: 768px) 232px, (max-width: 1279px) 261px, (max-width: 1919px) 333px, 444px" width="1672" height="941" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж для мероприятия</h3>
-            <p class="occasion-card__desc">Индивидуальный макияж с учётом вашей кожи, освещения, наряда и впечатления, которое вы хотите произвести.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
-                <li>Консультация о ваших пожеланиях и желаемом образе.</li>
-                <li>Подготовка кожи, тон, брови, глаза и губы.</li>
-                <li>Ленточные или пучковые ресницы, если это уместно.</li>
-                <li>Фиксация макияжа и финальная проверка при профессиональном свете.</li>
-            </ul>
-            <span class="occasion-card__rule" aria-hidden="true"></span>
-            <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Укладка и коррекция во время мероприятия не включены.</p>
-              <p class="occasion-card__price">R$ 1,500</p>
-              <span class="occasion-card__sep" aria-hidden="true"></span>
-              <p class="occasion-card__meta">· Один человек<br>· До 2 часов</p>
-              <a class="btn btn--wine btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-                <span class="btn__text">Записаться на макияж</span>
-                <span class="btn__ring" aria-hidden="true"></span>
-                <span class="btn__arrow" aria-hidden="true"></span>
-              </a>
-              </div>
+            </div>
           </article>
           <article class="occasion-card occasion-card--dark">
-            <span class="occasion-card__num">002</span>
-            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
-            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-beige-portrait-400.avif 400w, ../assets/images/occasion-beige-portrait-530.avif 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px"><img class="occasion-card__img occasion-card__img--beige" src="../assets/images/occasion-beige-portrait-530.webp" srcset="../assets/images/occasion-beige-portrait-400.webp 400w, ../assets/images/occasion-beige-portrait-530.webp 530w" sizes="(max-width: 359px) 102px, (max-width: 480px) 115px, (max-width: 768px) 138px, (max-width: 1279px) 155px, (max-width: 1919px) 198px, 264px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
-            <h3 class="occasion-card__title">Макияж и укладка</h3>
-            <p class="occasion-card__desc">Цельный, согласованный образ: макияж и укладку делает один мастер.</p>
-            <p class="occasion-card__includes">Включено:</p>
-            <ul class="occasion-card__list">
-                <li>Всё, что входит в макияж для мероприятия.</li>
-                <li>Укладка или прическа по согласованному референсу.</li>
-                <li>Форма и объём с учётом наряда, украшений и волос.</li>
-                <li>Крепление ваших аксессуаров для волос и финальная фиксация.</li>
-            </ul>
+            <span class="occasion-card__num">003</span>
+            <span class="occasion-card__dots" aria-hidden="true"><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot is-on"></span><span class="occasion-card__dot"></span><span class="occasion-card__dot"></span></span>
+            <div class="occasion-card__snap" aria-hidden="true"><div class="occasion-card__photo"><picture><source type="image/avif" srcset="../assets/images/occasion-microphone-400.avif 400w, ../assets/images/occasion-microphone-600.avif 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px"><img class="occasion-card__img occasion-card__img--microphone" src="../assets/images/occasion-microphone-600.webp" srcset="../assets/images/occasion-microphone-400.webp 400w, ../assets/images/occasion-microphone-600.webp 600w" sizes="(max-width: 359px) 110px, (max-width: 480px) 123px, (max-width: 768px) 148px, (max-width: 1279px) 166px, (max-width: 1919px) 212px, 283px" width="1254" height="1254" alt="" loading="lazy" decoding="async"></picture></div></div>
+            <div class="occasion-card__body">
+              <h3 class="occasion-card__title">Макияж и причёска на съёмке — 8 часов</h3>
+              <p class="occasion-card__desc">Всё, что входит в услугу на 4 часа, и до 8 часов подряд, зарезервированных за вашей съёмкой.</p>
+              <p class="occasion-card__text">Макияж и причёска поддерживаются в течение всего согласованного графика. Подготовка и ожидание входят в бронь.</p>
+              <p class="occasion-card__extra">Дополнительное время: R$ 700 в час.</p>
+            </div>
             <span class="occasion-card__rule" aria-hidden="true"></span>
             <div class="occasion-card__bottom">
-              <p class="occasion-card__foot">Включает один согласованный образ. Коррекцию во время мероприятия можно заказать отдельно.</p>
-              <p class="occasion-card__price">R$ 2,200</p>
+              <p class="occasion-card__foot occasion-card__foot--l">Полная смена образа, дополнительные люди и другие специалисты рассчитываются по брифу.</p>
+              <p class="occasion-card__price">R$ 6,000</p>
               <span class="occasion-card__sep" aria-hidden="true"></span>
-              <p class="occasion-card__meta">· Один человек<br>· До 3 часов</p>
+              <p class="occasion-card__meta">· Одна персона<br>· Полный съёмочный день</p>
               <a class="btn btn--white btn--ring occasion-card__btn" href="#contact" aria-haspopup="dialog" data-popup-open>
-                <span class="btn__text">Записаться на макияж и укладку</span>
+                <span class="btn__text">Забронировать 8 часов</span>
                 <span class="btn__ring" aria-hidden="true"></span>
                 <span class="btn__arrow" aria-hidden="true"></span>
               </a>
-              </div>
+            </div>
           </article>
         </div>
       </div>

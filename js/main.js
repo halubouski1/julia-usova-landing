@@ -34,7 +34,7 @@
     { selector: '.prices__item', effect: 'fade-up', stagger: 100, staggerGroup: 5 },
     { selector: '.prices__num--btn, .prices__btn', effect: 'fade-up', delay: 400, stagger: 100 },
 
-    { selector: '.occasion__heading, .occasion__tabs', effect: 'fade-up', stagger: 150 },
+    { selector: '.occasion__heading, .occasion__tabs, .occasion__nav', effect: 'fade-up', stagger: 150 },
     { selector: '.occasion-card', effect: 'reveal', duration: 1200, stagger: 150, staggerGroup: 2 },
 
     { selector: '.steps__heading', effect: 'fade-right', duration: 1200 },
@@ -1166,28 +1166,36 @@
       return tabs.indexOf(section.querySelector('[data-tab][aria-selected="true"]'));
     }
 
+    // Two cards are in view on desktop, one on ≤1279: the row's start and
+    // end are scroll positions, not the first/last card
+    function atStart(panel) {
+      return panel.scrollLeft <= 1;
+    }
+
+    function atEnd(panel) {
+      return panel.scrollLeft >= panel.scrollWidth - panel.clientWidth - 1;
+    }
+
     function update() {
       var panel = activePanel();
       if (!panel) return;
-      var index = cardIndex(panel);
       var tab = tabIndex();
-      prev.disabled = tab <= 0 && index <= 0;
-      next.disabled = tab >= tabs.length - 1 && index >= panel.children.length - 1;
+      prev.disabled = tab <= 0 && atStart(panel);
+      next.disabled = tab >= tabs.length - 1 && atEnd(panel);
     }
 
     function step(direction) {
       var panel = activePanel();
       if (!panel) return;
-      var index = cardIndex(panel) + direction;
-      if (index >= 0 && index < panel.children.length) {
-        scrollToCard(panel, index, false);
+      if (direction > 0 ? !atEnd(panel) : !atStart(panel)) {
+        scrollToCard(panel, Math.max(0, Math.min(panel.children.length - 1, cardIndex(panel) + direction)), false);
         return;
       }
       var tab = tabs[tabIndex() + direction];
       if (!tab) return;
       tab.click();
       panel = activePanel();
-      if (panel) scrollToCard(panel, direction > 0 ? 0 : panel.children.length - 1, true);
+      if (panel) panel.scrollTo({ left: direction > 0 ? 0 : panel.scrollWidth, behavior: 'auto' });
       update();
     }
 

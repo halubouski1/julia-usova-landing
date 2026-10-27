@@ -127,6 +127,30 @@
     ],
     "booking-chair": [
       736
+    ],
+    "occasion-soft-sunlight": [
+      400,
+      600
+    ],
+    "occasion-glam-curtains": [
+      400,
+      600
+    ],
+    "occasion-backstage": [
+      400,
+      600
+    ],
+    "occasion-business": [
+      400,
+      600
+    ],
+    "occasion-bride-warm": [
+      400,
+      600
+    ],
+    "occasion-microphone": [
+      400,
+      600
     ]
   }
 }

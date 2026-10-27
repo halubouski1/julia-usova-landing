@@ -2159,16 +2159,23 @@ a.menu__contact-value:focus-visible {
   text-align: center;
 }
 
-/* Your Occasion. Your Look. (Figma 97:450–97:518, y 8660–9852)
+/* Your Occasion. Your Look. (Figma 97:450–97:518, y 8660–9852; cards from
+   2002:5). Heading, tabs and arrows are placed on the container; the panel
+   is in the flow (cards grow with longer copy, the section with them)
    ========================================================================== */
 
 .occasion {
   position: relative;
-  height: 1192px;
   color: var(--c-wine);
 }
 
-.occasion__inner > * {
+.occasion__inner {
+  padding: 543px 37px 119.7px 38px;
+}
+
+.occasion__heading,
+.occasion__tabs,
+.occasion__nav {
   position: absolute;
 }
 
@@ -2184,23 +2191,14 @@ a.menu__contact-value:focus-visible {
   text-transform: uppercase;
 }
 
-/* Card arrows: ≤1279 only (one card at a time there) */
-.occasion__nav {
-  display: none;
-}
-
-/* Tabs: the wine pill slides to the active tab (initTabs()) */
+/* Tabs (1653 × 49, three equal tabs): the wine pill slides to the active
+   tab (initTabs()) */
 .occasion__tabs {
   top: 394px;
-  left: 0;
-  right: 0;
+  left: 38px;
+  right: 229px;
   display: flex;
-  justify-content: space-between;
-  width: max-content;
-  min-width: 1077px;
   height: 49px;
-  margin: 0 auto;
-  translate: 3.5px 0; /* Figma centre x 963.5 */
   border-radius: 45px;
   background: var(--c-sand);
 }
@@ -2218,6 +2216,7 @@ a.menu__contact-value:focus-visible {
 
 .occasion__tab {
   position: relative;
+  flex: 1 1 0;
   height: 49px;
   padding: 0 28px;
   border: 0;
@@ -2247,14 +2246,76 @@ a.menu__contact-value:focus-visible {
   background: var(--c-wine);
 }
 
-.occasion__panel {
-  top: 543px;
-  left: 38px;
+/* Card arrows (Figma 104:8 / 104:9): 62px circles right of the tabs; wine,
+   or sand with a red arrow at the first/last card (initOccasionCards()) */
+.occasion__nav {
+  top: 388px;
   right: 37px;
+  display: flex;
+  gap: 13px;
+}
+
+.occasion__arrow {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--c-wine);
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease);
+}
+
+.occasion__arrow::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 6.5px);
+  left: calc(50% - 6.5px);
+  width: 13px;
+  height: 13px;
+  background: var(--c-white);
+  -webkit-mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
+  mask: url("../assets/icons/slider-arrow.png") center / 100% 100% no-repeat;
+  transition: background-color 0.3s var(--ease), translate 0.35s var(--ease);
+}
+
+.occasion__arrow--prev::before {
+  scale: -1 1;
+}
+
+.occasion__arrow--next:not(:disabled):hover::before {
+  translate: 3px 0;
+}
+
+.occasion__arrow--prev:not(:disabled):hover::before {
+  translate: -3px 0;
+}
+
+.occasion__arrow:disabled {
+  background: var(--c-sand);
+  cursor: default;
+}
+
+.occasion__arrow:disabled::before {
+  background: var(--c-red);
+}
+
+/* A row of cards, two in view, 10.67 apart; scrolls sideways (swipe,
+   trackpad or the arrows) */
+.occasion__panel {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 917.162px));
-  justify-content: space-between;
-  height: 529.303px;
+  grid-auto-columns: calc((100% - 10.67px) / 2);
+  grid-auto-flow: column;
+  column-gap: 10.67px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.occasion__panel::-webkit-scrollbar {
+  display: none;
 }
 
 .occasion__panel[hidden] {
@@ -2269,21 +2330,39 @@ a.menu__contact-value:focus-visible {
   from { opacity: 0; translate: 0 16px; }
 }
 
+/* Card 917 × 529 (at least): number, dots and polaroid are placed; the text
+   column (body, rule, price row) is in the flow from x 399 (Private Events:
+   429.67), so the rule and the price row move down with longer copy */
 .occasion-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 529.303px;
+  padding: 89px 24px 27.3px 399px;
   overflow: hidden;
   background: var(--c-sand);
   color: var(--c-wine);
+  scroll-snap-align: start;
 }
 
-.occasion-card > * {
-  position: absolute;
-  margin: 0;
+.occasion-card--events {
+  padding-left: 429.67px;
 }
 
 .occasion-card--dark {
   background: var(--c-wine);
   color: var(--c-white);
+}
+
+.occasion-card__body > *,
+.occasion-card__bottom > * {
+  margin: 0;
+}
+
+.occasion-card__num,
+.occasion-card__dots,
+.occasion-card__snap {
+  position: absolute;
 }
 
 .occasion-card__num {
@@ -2373,33 +2452,95 @@ a.menu__contact-value:focus-visible {
   height: 263.285px;
 }
 
+/* Square photos of the Bridal / Camera & Stage cards, in % of the window
+   (249.24 × 242.94), so they need no laptop or compact values. Solved from
+   the Figma wrappers: centre offset turned back by the -6.18° tilt */
+.occasion-card__img--glam,
+.occasion-card__img--sunlight,
+.occasion-card__img--bride,
+.occasion-card__img--backstage,
+.occasion-card__img--business,
+.occasion-card__img--microphone {
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.occasion-card__img--glam { top: 0; left: -2.213%; width: 106.53%; }
+.occasion-card__img--sunlight { top: -0.096%; left: -3.352%; width: 108.665%; }
+.occasion-card__img--bride { top: -3.518%; left: -1.721%; width: 102.914%; }
+.occasion-card__img--backstage { top: -2.856%; left: -0.543%; width: 101.613%; }
+.occasion-card__img--business { top: -1.825%; left: -4.804%; width: 106.997%; }
+.occasion-card__img--microphone { top: -1.244%; left: -4.931%; width: 113.401%; }
+
+/* Text column: title, then paragraphs 26 apart (19 below the title), the
+   "Includes:" list, the medium "Additional time" line and a small note */
+.occasion-card__body {
+  max-width: 483px;
+  padding-bottom: 29px;
+}
+
 .occasion-card__title {
-  top: 89px;
-  left: 429.67px;
-  right: 26px;
+  max-width: 445px;
+  margin: 0;
   font-size: 30px;
   font-weight: var(--fw-medium);
   line-height: 32.915px;
 }
 
-.occasion-card__desc {
-  top: 140.55px;
-  left: 429.67px;
-  right: 26px;
-  max-width: 415.4px;
+/* A hyphenated phrase that should not break ("On-the-Day") */
+.occasion-card__keep {
+  white-space: nowrap;
+}
+
+.occasion-card__desc,
+.occasion-card__text,
+.occasion-card__extra {
+  margin-top: 26px;
   font-size: 16px;
   line-height: 24.019px;
   color: var(--c-wine-35);
 }
 
-.occasion-card--dark .occasion-card__desc {
+.occasion-card .occasion-card__desc {
+  margin-top: 19.1px;
+}
+
+.occasion-card--events .occasion-card__desc {
+  max-width: 415.4px;
+}
+
+.occasion-card--events.occasion-card--dark .occasion-card__desc {
   max-width: 314px;
+}
+
+.occasion-card--dark .occasion-card__desc,
+.occasion-card--dark .occasion-card__text {
   color: var(--c-mist);
 }
 
-.occasion-card__includes {
-  top: 231.29px;
-  left: 429.67px;
+.occasion-card .occasion-card__extra {
+  font-weight: var(--fw-medium);
+  color: var(--c-wine-75);
+}
+
+.occasion-card--dark .occasion-card__extra {
+  color: var(--c-mist);
+}
+
+.occasion-card .occasion-card__note {
+  margin-top: 6px;
+  max-width: 445.7px;
+  font-size: 14px;
+  line-height: 19.571px;
+  color: var(--c-wine-35);
+}
+
+.occasion-card--dark .occasion-card__note {
+  color: var(--c-mist);
+}
+
+.occasion-card .occasion-card__includes {
+  margin-top: 42.5px;
   font-size: 16px;
   font-weight: var(--fw-medium);
   line-height: 24.019px;
@@ -2411,10 +2552,8 @@ a.menu__contact-value:focus-visible {
 }
 
 .occasion-card__list {
-  top: 261.54px;
-  left: 429.67px;
-  right: 26px;
   max-width: 445.7px;
+  margin: 6.2px 0 0;
   padding: 0 0 0 21px;
   list-style: disc;
   font-size: 14px;
@@ -2426,88 +2565,114 @@ a.menu__contact-value:focus-visible {
   color: var(--c-white);
 }
 
+/* Rule at y 404 of a 529 card (or lower with longer copy) */
 .occasion-card__rule {
-  top: 403.87px;
-  left: 429.67px;
-  right: 26px;
-  max-width: 410.988px;
+  flex: none;
+  width: 100%;
   height: 1px;
+  margin-top: auto;
   background: var(--c-wine-15);
+}
+
+.occasion-card--events .occasion-card__rule {
+  max-width: 410.988px;
 }
 
 .occasion-card--dark .occasion-card__rule {
   background: var(--c-white-25);
 }
 
-/* Bottom row: note · price | per · button. Flex, so it narrows on laptops */
+/* Price row: price | per, button on the right; the note sits bottom-left
+   under the polaroid */
 .occasion-card__bottom {
-  left: 30.69px;
-  right: 24.02px;
-  bottom: 27.58px;
   display: flex;
+  flex-wrap: wrap; /* narrow laptop cards: the button moves to its own line */
+  row-gap: 12px;
   align-items: center;
-  height: 51.596px;
+  min-height: 51.596px;
+  margin-top: 46px;
 }
 
 .occasion-card__foot {
-  flex: 0 1 226.8px;
-  margin: 16px 0 0;
+  position: absolute;
+  left: 30.69px;
+  bottom: 30.3px;
+  max-width: 226.844px;
   font-size: 14px;
   line-height: 15px;
   color: var(--c-wine-35);
 }
 
+.occasion-card__foot--s {
+  max-width: 155px;
+}
+
+.occasion-card__foot--m {
+  max-width: 276px;
+}
+
+.occasion-card__foot--l {
+  max-width: 309px;
+}
+
 .occasion-card--dark .occasion-card__foot {
-  flex-basis: 276px;
   color: var(--c-white-55);
 }
 
-.occasion-card__price {
-  margin: 0 0 0 auto;
-  padding-left: 16px;
+/* The price is right-aligned in an 86px box, as in Figma */
+.occasion-card .occasion-card__price {
+  flex: none;
+  min-width: 86px;
   font-size: 22.24px;
   font-weight: var(--fw-medium);
   line-height: 26px;
+  text-align: right;
   white-space: nowrap;
 }
 
+/* The divider is as tall as the per-person lines (Figma 27 / 44 / 55px),
+   so on desktop it is the meta's left border; ≤1279 uses the span */
 .occasion-card__sep {
-  flex: none;
-  width: 1px;
-  height: 26.688px;
-  margin: 0 14.92px 0 15.41px;
-  background: var(--c-wine-15);
+  display: none;
 }
 
-.occasion-card--dark .occasion-card__sep {
-  background: var(--c-white-25);
-}
-
-.occasion-card__meta {
-  margin: 0 40px 0 0;
+/* Starts narrow and grows to Figma's 119px box (+ divider), so the button
+   only wraps onto its own line when the row really is too narrow */
+.occasion-card .occasion-card__meta {
+  flex: 1 1 60px;
+  max-width: 134.92px;
+  margin: 0 10px 0 15.41px;
+  padding-left: 14.92px;
+  border-left: 1px solid var(--c-wine-15);
   font-size: 14px;
   line-height: 15.123px;
   color: var(--c-wine-55);
-  white-space: nowrap;
 }
 
 .occasion-card--dark .occasion-card__meta {
+  border-left-color: var(--c-white-25);
   color: var(--c-white-55);
 }
 
-/* 215 × 51.6 (Figma), ring 42.5 × 43.8 */
+/* 215+ × 51.6 (Figma), ring 42.5 × 43.8 centred on the button's height */
 .occasion-card__btn {
   --btn-fill-origin: calc(100% - 26.45px) 50%;
   flex: none;
   min-width: 215.28px;
   height: 51.596px;
-  padding: 1px 62px 0 25.8px;
+  margin-left: auto;
+  padding: 1px 56px 0 21px;
   font-size: 14px;
   line-height: 26.688px;
 }
 
+/* Private Events (Figma 97:473): the label 25.8 from the left */
+.occasion-card--events .occasion-card__btn {
+  padding: 1px 62px 0 25.8px;
+}
+
 .occasion-card__btn .btn__ring {
-  top: 3.9px;
+  top: calc(50% - 21.9px);
   right: 5.2px;
   width: 42.509px;
   height: 43.797px;
@@ -2516,7 +2681,7 @@ a.menu__contact-value:focus-visible {
 }
 
 .occasion-card__btn .btn__arrow {
-  top: 20.79px;
+  top: calc(50% - 5.01px);
   right: 20.94px;
   width: 11.97px;
   height: 11.97px;
@@ -3083,6 +3248,7 @@ a.menu__contact-value:focus-visible {
 .booking {
   position: relative;
   height: 1484px;
+  overflow-x: clip; /* the button's fade-left starts 100px past the screen edge */
   color: var(--c-wine);
 }
 
