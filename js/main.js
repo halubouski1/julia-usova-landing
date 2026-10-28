@@ -586,7 +586,8 @@
     'phone-invalid': 'Check the number',
     'email-empty': 'Enter your email',
     'email-invalid': 'Check the email',
-    sent: 'Thank you! Your enquiry has been sent. Julia will get back to you to confirm the date.'
+    sent: 'Thank you! Your enquiry has been sent. Julia will get back to you to confirm the date.',
+    error: 'The enquiry could not be sent. Please try again or call us.'
   };
 
   // Every [data-booking-form] (footer, menu) gets the same validation
@@ -670,13 +671,40 @@
         return;
       }
 
-      // No backend yet: confirm and reset (see CLAUDE.md → Content flagged)
+      // [data-endpoint] (the WordPress theme): post the form and confirm only
+      // when the server accepted it. Without it (the static site) there is no
+      // backend, so the form confirms straight away (see CLAUDE.md → Content flagged)
+      var endpoint = form.getAttribute('data-endpoint');
+      if (!endpoint) {
+        sent();
+        return;
+      }
+      if (form.classList.contains('is-sending')) return;
+
+      var button = form.querySelector('[type="submit"]');
+      form.classList.add('is-sending');
+      if (button) button.disabled = true;
+
+      fetch(endpoint, { method: 'POST', body: new FormData(form), credentials: 'same-origin' })
+        .then(function (response) { return response.json(); })
+        .then(function (result) {
+          if (result && result.success) sent();
+          else setStatus((result && result.data && result.data.message) || text('error'));
+        })
+        .catch(function () { setStatus(text('error')); })
+        .then(function () {
+          form.classList.remove('is-sending');
+          if (button) button.disabled = false;
+        });
+    });
+
+    function sent() {
       form.reset();
       submitted = false;
       fields.forEach(function (field) { field.removeAttribute('aria-invalid'); });
       setStatus(text('sent'));
       form.dispatchEvent(new CustomEvent('booking:sent'));
-    });
+    }
   }
 
   // Language switcher ([data-lang-link]): remembers the choice (the inline <head>

@@ -115,6 +115,14 @@ tools/build-html.mjs           (builds the 4 language pages from src/index.html 
   - Safari: ignores `ascent-override` (known, see Typography); scroll p50 17 ms at 60 Hz; its LCP entry is the hero glow (the 0.01-opacity title is skipped).
   - Firefox: applies `ascent-override`; scroll p50 8.3 ms at 120 Hz with one 42 ms frame (probably an image decode); LCP is the hero portrait.
 
+### WordPress version (`../julia-usova-wp`, Oct 2026)
+
+- A WordPress theme (`../julia-usova-wp/theme`, see its README) renders this site's markup with every text, card, table, photo, menu and contact editable: ACF PRO (home page fields per language + "Настройки сайта"), Polylang (`/`, `/pt/`, `/es/`, `/ru/`), Gravity Forms (entries of the three forms).
+- **This project stays the design source.** CSS/JS/images/translations reach the theme through `../julia-usova-wp/tools/sync-from-static.sh` (after `npm run build`). A **markup** change must be made in both `src/index.html` and the theme's `header.php` / `front-page.php` / `footer.php`.
+- The theme's defaults and its installer seed come from `i18n/*.json`: a new text key needs its ACF field too (flat keys get one automatically from `ju_flat_keys()`; repeater rows are built in `inc/content.php`).
+- Forms: `initForm` posts to `data-endpoint` when the form has it (only in WordPress: `admin-ajax.php`, action `ju_form`) and confirms only after `{success: true}`; otherwise (this static site) it confirms straight away as before. Failures show `data-msg-error` in the status line.
+- Checked: WordPress = static in all four languages at 1920/1440/1024/390 (same page height and element positions), no overflow 320–1279, all three forms create Gravity Forms entries.
+
 ### Deploy (Vercel)
 
 - GitHub `halubouski1/julia-usova-landing`, branch `main` → Vercel. **No build on Vercel:** `vercel.json` sets `framework: null`, `installCommand: ""`, `buildCommand: ""`, `outputDirectory: "."`, so the repo root is served as-is. Without it Vercel runs `npm run build` and then fails with `STATIC_BUILD_NO_OUT_DIR` (it expects `public/`).
@@ -275,7 +283,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
     - Checked 10 widths × 4 languages: opens on top, nothing clipped by the footer or the screen, options never overflow, keyboard/Esc/outside click/reset work. Safari 390 the same.
   - Validation (`initBookingForm()`, rules in `VALIDATORS`, picked by `data-validate="name|phone|email"`): name ≥ 2 letters, phone 7–15 digits (letters are stripped while typing), email `x@y.zz`. The error appears on blur (if something was typed) or on submit, clears live while fixing, and the first invalid field gets focus.
   - Error UI: `.field-wrap.is-invalid` → red border (`--c-error`, not in Figma) + `.field-error` text inside the field on the right (linked via `aria-describedby`, `aria-invalid`).
-  - Success: no backend yet. The form resets and `[data-form-status]` (`role="status"`) shows a thank-you line for 6 s. Replace this branch with a real submit when an endpoint exists.
+  - Success: the static site has no backend: the form resets and `[data-form-status]` (`role="status"`) shows a thank-you line for 6 s. With `data-endpoint` (the WordPress theme) the form is posted first and confirms only on `{success: true}`.
 - **Hovers** (all ~0.3–0.55s, `--ease`): nav links get an underline drawn from the left; the burger lines shorten to a right-aligned staggered stack; fields brighten their border/background; footer links, the phone and "Privacy Terms" turn white; "Website development" dims; the to-top circle lifts and glows.
   - **Rule:** hover transitions never go on an element with `data-aos` (aos.css overrides its `transition-property/duration/delay`). Put them on children or pseudo-elements (`.btn::before`, `.to-top__inner`, `.footer__dev > *`, `.field` inside `.field-wrap`).
   - No `translate`/transforms on children of `background-clip: text` gradients (footer links): a transformed child can drop out of the clip.
@@ -450,7 +458,7 @@ Inside a section, children are positioned with section-relative px (`top = figma
   - The lessons label reads "{ MAKEUP SERVICES }" and its button "Enquire About a Service" (copy-paste from services) → kept "{ Individual makeup lessons }" / "Enquire About Lessons".
   - No stat cards and no "Booking Enquiries" button in the mobile hero (hidden ≤1279).
 
-- Phone updated to Julia's number `+55 (21) 97777-3333` (`tel:+5521977773333`, also the WhatsApp number in `i18n/config.json`). The address "Viige 11, 13516" still looks like a Tallinn placeholder.
+- Phone updated to Julia's number `+55 (21) 97777-3333` (`tel:+5521977773333`, also the WhatsApp number in `i18n/config.json`). Address (client, Oct 2026): "Av. das Américas, 3900 - Barra da Tijuca, Rio de Janeiro - RJ, 22640-102" — burger menu on two lines at every width (one line ran under the form on desktop); footer one line on desktop, on ≤1279 16m type on two lines (`br-compact` after "Tijuca,") with the phone/office blocks 12m higher (1881/1958m) so it clears the divider.
 - Footer "Pages": PRODUCTS / CLASSES / ONLINE / DEVICES look like template leftovers. Real pages and URLs are needed.
 - Instagram (the only social link), "Privacy Terms", "Website development" have no URLs (`href="#"`). Julia's Instagram handle is needed.
 - Header nav "INDUSTRIES" → currently anchors to the services section. Confirm the label and target.

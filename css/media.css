@@ -2512,12 +2512,12 @@
   }
 
   .footer__contact--phone {
-    top: calc(1893px * var(--m) - var(--footer-lift));
+    top: calc(1881px * var(--m) - var(--footer-lift));
     left: calc(50% - 160px * var(--m));
   }
 
   .footer__contact--office {
-    top: calc(1970px * var(--m) - var(--footer-lift));
+    top: calc(1958px * var(--m) - var(--footer-lift));
     left: calc(50% - 160px * var(--m));
   }
 
@@ -2551,7 +2551,15 @@
     background-image: linear-gradient(18.07deg, #6e6e6e 9.694%, #fff 77.231%);
   }
 
+  /* The address (Av. das Américas, 3900 – Barra da Tijuca, Rio de Janeiro…)
+     is too long for one 21m line: 16m on the two lines of its br-compact,
+     and both contacts sit 12m higher (Figma 1893/1970) so it keeps its gap
+     above the divider */
   .footer__contact-value--address {
+    max-width: calc(320px * var(--m));
+    font-size: calc(16px * var(--m));
+    line-height: calc(22px * var(--m));
+    white-space: normal;
     background-image: linear-gradient(12.98deg, #6e6e6e 9.694%, #fff 77.231%);
   }
 
